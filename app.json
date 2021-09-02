@@ -1,0 +1,162 @@
+{
+    "name": "Bottus",
+    "description": " Whatsapp user bot.",
+    "keywords": [
+        "whatsapp",
+        "bot"
+    ],
+    "stack": "container",
+    "env": {
+        "ASENA_SESSION": {
+            "description": "Enter whatsapp web session.",
+            "required": true
+        },
+        "SUDO": {
+            "description": "Sudo mode, Your number must be an international number. So you should have your number after the country code. Example: 919876543210 (IN)",
+            "required": false
+        },
+        "HANDLERS": {
+            "description": "enter handlers.",
+            "required": true,
+            "value": "^[.]"
+        },
+        "SEND_READ": {
+            "description": "send read receipt.",
+            "required": false,
+            "value": "true"
+        },
+        "HEROKU": {
+            "description": "Enable heroku features",
+            "required": true,
+            "value": "true"
+        },
+        "HEROKU_API_KEY": {
+            "description": "Enter Heroku API Key.",
+            "required": true
+        },
+        "HEROKU_APP_NAME": {
+            "description": "Enter Heroku APP Name.",
+            "required": true
+        },
+        "DEBUG": {
+            "description": "debug",
+            "required": false,
+            "value": "false"
+        },
+        "AUTO_REMOVE_FAKE": {
+            "description": "Remove fake number if welcome msg enabled.",
+            "required": false,
+            "value": "false"
+        },
+        "EXT": {
+            "description": "Enter xteam api",
+            "required": false,
+            "value": "false"
+        },
+        "CLR_SESSION": {
+            "description": "Enter true to delete old session.",
+            "required": false,
+            "value": "false"
+        },
+        "NO_ONLINE": {
+            "description": "set true to hide online.",
+            "required": false,
+            "value": "true"
+        },
+        "WELCOME": {
+            "description": "links separeted by ,",
+            "required": false,
+            "value": "false"
+        },
+        "GOODBYE": {
+            "description": "links separeted by ,",
+            "required": false,
+            "value": "false"
+        },
+        "BANBYE": {
+            "description": "links separeted by ,",
+            "required": false,
+            "value": "false"
+        },
+        "WELCOME_JID": {
+            "description": "jid,jid,jid...",
+            "required": false,
+            "value": "false"
+        },
+        "BANBYE_JID": {
+            "description": "jid,jid,jid...",
+            "required": false,
+            "value": "false"
+        },
+        "GOODBYE_JID": {
+            "description": "jid,jid,jid...",
+            "required": false,
+            "value": "false"
+        },
+        "ALIVE_MSG": {
+            "description": "alive command reply message.",
+            "required": false,
+            "value": "false"
+        },
+        "AUTO_MUTE": {
+            "description": "Enable Group auto mute/unmute feature.",
+            "required": false,
+            "value": "false"
+        },
+        "AUTO_MUTE_JID": {
+            "description": "Enter jid for AUTO_MUTE seprated with ,",
+            "required": false,
+            "value": "false"
+        },
+        "START_MINUTE": {
+            "description": "Enter start min for mute seprated with ,",
+            "required": false,
+            "value": "false"
+        },
+        "START_HOUR": {
+            "description": "Enter start hr for mute seprated with ,",
+            "required": false,
+            "value": "false"
+        },
+        "STOP_HOUR": {
+            "description": "Enter stop hr for unmute seprated with ,",
+            "required": false,
+            "value": "false"
+        },
+        "STOP_MINUTE": {
+            "description": "Enter stop min for unmute seprated with ,",
+            "required": false,
+            "value": "false"
+        },
+        "START_MSG": {
+            "description": "Enter mute msg seprated with ,",
+            "required": false,
+            "value": "false"
+        },
+        "STOP_MSG": {
+            "description": "Enter unmute msg seprated with ,",
+            "required": false,
+            "value": "false"
+        },
+        "REMOVEBG_KEY": {
+            "description": "Get your key from remove.bg",
+            "required": false,
+            "value": "false"
+        },
+        "LANGUAGE": {
+            "description": "Enter language (only effect trt , tts ,...)",
+            "required": false,
+            "value": "en"
+        }
+    },
+    "addons": [
+        {
+            "plan": "heroku-postgresql"
+        }
+    ],
+    "buildpacks": [
+        {
+            "url": "heroku-community/apt"
+        }
+    ]
+}
