@@ -11,6 +11,6 @@ Asena.addCommand({ pattern: 'fb ?(.*)', fromMe: fm, desc: "Download facebook vid
 	let links = await downVideo(match);
 	if (links.length == 0) return await message.sendMessage('*Not found*');
 	let { buffer, size } = await getBuffer(links[0]);
-	if (size > 90) return await message.sendMessage(`*Video size is ${size} MB*\n*sd link :* ${links[0]}\n\n*HD link :* ${links[1]}`);
+	if (size > 100) return await message.sendMessage(`*Video size is ${size} MB*\n*sd link :* ${links[0]}\n\n*HD link :* ${links[1]}`);
 	return await message.sendMessage(buffer, { quoted: message.quoted, caption: `*hd link :* ${links[1] || ''}` }, MessageType.video);
 }));
