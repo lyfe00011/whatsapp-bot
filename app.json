@@ -146,7 +146,7 @@
         "LANGUAGE": {
             "description": "Enter language (only effect trt , tts ,...)",
             "required": false,
-            "value": "en"
+            "value": "EN"
         }
     },
     "addons": [
