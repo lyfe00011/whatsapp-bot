@@ -97,7 +97,7 @@ Asena.addCommand({ pattern: 'pdf ?(.*)', fromMe: fm, desc: 'Convert images to pd
         fs.mkdirSync('./pdf');
     }
     let length = fs.readdirSync('./pdf').length;
-    if (length == 0) return await message.sendMessage('*Add pages in order with* _page_ *command.*');
+    if (length == 0) return await message.sendMessage('```Add pages in order with``` _page_ *command.*');
     let pages = [];
     let i = 1;
     while (i <= length) {
@@ -128,7 +128,7 @@ Asena.addCommand({ pattern: 'merge ?(.*)', fromMe: true, desc: 'Merge videos' },
     }
     if (isNaN(match)) {
         let length = fs.readdirSync('./media/merge').length;
-        if (!(length > 0)) return await message.sendMessage('*Add videos in order.*\n*Example .merge 1*');
+        if (!(length > 0)) return await message.sendMessage('```Add videos in order.```\n*Example .merge 1*');
         await message.sendMessage('```Merging ' + length + ' videos...```');
         let buffer = await mergeVideo(length);
         return await message.sendMessage(buffer, { mimetype: Mimetype.mp4, }, MessageType.video);

@@ -15,8 +15,8 @@ const Lang = Language.getString('removebg');
 let fm = true
 
 Asena.addCommand({ pattern: 'removebg', fromMe: fm, desc: Lang.REMOVEBG_DESC }, (async (message, match) => {
-    if (config.REMOVEBG == "false") return await message.sendMessage('Set you remove.bg key in HEROKU')
-        let location = await message.reply_message.downloadMediaMessage();
+    if (config.REMOVEBG == "false") return await message.sendMessage("```Set Your remove.bg key in HEROKU```")
+    let location = await message.reply_message.downloadMediaMessage();
     let buffer = await removeBg(location, config.REMOVEBG);
     if (typeof buffer == 'string') {
         if (buffer.includes('403')) return await message.sendMessage('*Wrong key.*');

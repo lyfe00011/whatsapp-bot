@@ -173,7 +173,7 @@ Asena.addCommand({ pattern: 'join ?(.*)', fromMe: true, desc: 'Join Groups.' }, 
     let [_, code] = message.message.match(wa) || [];
     if (!code) return await message.sendMessage('*Invalid invite link*');
     await message.client.acceptInvite(code)
-    return await message.sendMessage('*Joined*');
+    return await message.sendMessage('```Joined```');
 }));
 
 Asena.addCommand({ pattern: 'revoke', fromMe: true, onlyGroup: true, desc: 'Revoke invite link.' }, (async (message, match) => {
@@ -181,5 +181,5 @@ Asena.addCommand({ pattern: 'revoke', fromMe: true, onlyGroup: true, desc: 'Revo
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
     await message.client.revokeInvite(message.jid)
-    return await message.sendMessage('*Revoked Group link*');
+    return await message.sendMessage('```Revoked Group link```');
 }));
