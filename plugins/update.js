@@ -6,20 +6,16 @@ const Heroku = require('heroku-client');
 const heroku = new Heroku({ token: Config.HEROKU.API_KEY })
 
 async function updateChecker() {
-    try {
-        await git.fetch();
-        let commits = await git.log([Config.BRANCH + '..origin/' + Config.BRANCH]);
-        if (commits.total === 0) return false
-        let newcommits = ''
-        commits['all'].map(
-            (commit) => {
-                newcommits += '🔹 [' + commit.date.substring(0, 10) + ']: ' + commit.message + ' <' + commit.author_name + '>\n';
-            }
-        );
-        return newcommits
-    } catch (error) {
-        console.log(error.message)
-    }
+    await git.fetch();
+    let commits = await git.log([Config.BRANCH + '..origin/' + Config.BRANCH]);
+    if (commits.total === 0) return false
+    let newcommits = ''
+    commits['all'].map(
+        (commit) => {
+            newcommits += '🔹 [' + commit.date.substring(0, 10) + ']: ' + commit.message + ' <' + commit.author_name + '>\n';
+        }
+    );
+    return newcommits
 }
 
 Asena.addCommand({ pattern: 'update$', fromMe: true, desc: "Check Bot Update." }, (async (message, match) => {

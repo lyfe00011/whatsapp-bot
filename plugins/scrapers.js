@@ -19,6 +19,7 @@ const { SpeachToText } = require('../Utilis/Misc');
 const ytdl = require('ytdl-core');
 const ffmpeg = require('fluent-ffmpeg');
 const yts = require('yt-search')
+const ytid = /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/
 //=====================================================================================
 const Language = require('../language');
 const Lang = Language.getString('scrapers');
@@ -87,29 +88,27 @@ Asena.addCommand({ pattern: 'song ?(.*)', fromMe: true, desc: Lang.SONG_DESC }, 
 
 Asena.addCommand({ pattern: 'video ?(.*)', fromMe: fm, desc: Lang.VIDEO_DESC }, (async (message, match) => {
     match = match === '' ? message.reply_message.text : match
-    if (match === '' && !message.reply_message.txt) return await message.sendMessage(Lang.NEED_VIDEO, { detectLinks: false, quoted: message.data });
+    let vid = ytid.exec(match)
+    if (match === '' || !vid) return await message.sendMessage(Lang.NEED_VIDEO);
     try {
-        var arama = await yts({ videoId: ytdl.getURLVideoID(txt) });
-        let second = arama.seconds;
-        if (second === 0) return await message.sendMessage(Lang.NO_SONG, { quoted: message.data });
+        let arama = await yts({ videoId: vid[1] });
+        if (arama.seconds === 0) return await message.sendMessage(Lang.NO_SONG, { quoted: message.data });
+        await message.sendMessage(Lang.DOWNLOADING_VIDEO);
+        let yt = ytdl(arama.videoId, { filter: format => format.container === 'mp4' && ['720p', '480p', '360p', '240p', '144p'].map(() => true) });
+        yt.pipe(fs.createWriteStream('./' + arama.videoId + '.mp4'));
+        yt.on('end', async () => {
+            return await message.sendMessage(fs.readFileSync('./' + arama.videoId + '.mp4'), { mimetype: Mimetype.mp4, quoted: message.quoted }, MessageType.video);
+        });
     } catch {
         return await message.sendMessage(Lang.NO_RESULT);
     }
-    await message.sendMessage(Lang.DOWNLOADING_VIDEO);
-    var yt = ytdl(arama.videoId, { filter: format => format.container === 'mp4' && ['720p', '480p', '360p', '240p', '144p'].map(() => true) });
-    yt.pipe(fs.createWriteStream('./' + arama.videoId + '.mp4'));
-    yt.on('end', async () => {
-        return await message.sendMessage(fs.readFileSync('./' + arama.videoId + '.mp4'), { mimetype: Mimetype.mp4, quoted: message.quoted }, MessageType.video);
-    });
 }));
 
 Asena.addCommand({ pattern: 'yt ?(.*)', fromMe: true, desc: Lang.YT_DESC }, (async (message, match) => {
     if (match === '') return await message.sendMessage(Lang.NEED_WORDS);
-
     try {
         var arama = await yts(match);
     } catch {
-        x
         return await message.sendMessage(Lang.NOT_FOUND);
     }
     let mesaj = '';
