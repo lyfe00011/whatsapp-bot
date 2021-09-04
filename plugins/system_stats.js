@@ -10,7 +10,8 @@ const Asena = require("../Utilis/events");
 const { spawnSync } = require("child_process");
 const Config = require("../config");
 const Language = require("../language");
-const { checkImAdmin, warn } = require("../Utilis/Misc");
+const { checkImAdmin } = require("../Utilis/Misc");
+const { warn } = require("../Utilis/warn");
 const Lang = Language.getString("system_stats");
 let fm = true;
 
@@ -39,10 +40,10 @@ Asena.addCommand(
     if (reason == "reset") {
       return await message.sendMessage(
         "```" +
-          `WARN RESET
+        `WARN RESET
 User      : @${user.split("@")[0]}
 Remaining : ${Config.WARN_COUNT - count}` +
-          "```",
+        "```",
         { quoted, contextInfo: { mentionedJid: [user] } }
       );
     }
@@ -57,11 +58,11 @@ Remaining : ${Config.WARN_COUNT - count}` +
     }
     return await message.sendMessage(
       "```" +
-        `⚠️WARNING⚠️
+      `⚠️WARNING⚠️
 User      : @${user.split("@")[0]}
 Reason    : ${reason}
 Remaining : ${Config.WARN_COUNT - count} ` +
-        "```",
+      "```",
       { quoted, contextInfo: { mentionedJid: [user] } }
     );
   }

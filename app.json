@@ -142,6 +142,17 @@
             "description": "Message send while kicking.",
             "required": false,
             "value": "OK bie"
+        },
+        "ALIVE_MSG": {
+            "description": "alive command reply message.",
+            "required": false,
+            "value": "false"
+        },
+        "REMOVEBG_KEY": {
+            "description": "Get your key from remove.bg"
+        },
+        "LANGUAGE": {
+            "description": "Enter language (only effect trt , tts ,...)"
         }
     },
     "addons": [
