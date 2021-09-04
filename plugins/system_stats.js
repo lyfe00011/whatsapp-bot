@@ -10,6 +10,7 @@ const Asena = require("../Utilis/events");
 const { spawnSync } = require("child_process");
 const Config = require("../config");
 const Language = require("../language");
+const { checkImAdmin, warn } = require("../Utilis/Misc");
 const Lang = Language.getString("system_stats");
 let fm = true;
 
@@ -25,5 +26,43 @@ Asena.addCommand(
   async (message, match) => {
     const child = spawnSync("neofetch", ["--stdout"]).stdout.toString("utf-8");
     await message.sendMessage("```" + child + "```");
+  }
+);
+
+Asena.addCommand(
+  { pattern: "warn ?(.*)", fromMe: fm, desc: "To warn", onlyGroup: true },
+  async (message, match) => {
+    if (!message.reply_message && !message.mention)
+      return await message.sendMessage("*Give me a User*");
+    let quoted = !message.reply_message ? undefined : message.quoted;
+    let { user, count, reason } = await warn(message, match);
+    if (reason == "reset") {
+      return await message.sendMessage(
+        "```" +
+          `WARN RESET
+User      : @${user.split("@")[0]}
+Remaining : ${Config.WARN_COUNT - count}` +
+          "```",
+        { quoted, contextInfo: { mentionedJid: [user] } }
+      );
+    }
+    if (count > Config.WARN_COUNT) {
+      let participants = await message.groupMetadata(message.jid);
+      let im = await checkImAdmin(participants, message.client.user.jid);
+      if (!im) return await message.sendMessage("*I am Not ADMIN*");
+      let us = await checkImAdmin(participants, user);
+      if (us) return await message.sendMessage("*User is ADMIN*");
+      await message.sendMessage(Config.WARN_MSG, { quoted });
+      return await message.groupRemove(message.jid, user);
+    }
+    return await message.sendMessage(
+      "```" +
+        `⚠️WARNING⚠️
+User      : @${user.split("@")[0]}
+Reason    : ${reason}
+Remaining : ${Config.WARN_COUNT - count} ` +
+        "```",
+      { quoted, contextInfo: { mentionedJid: [user] } }
+    );
   }
 );

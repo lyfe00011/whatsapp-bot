@@ -1,6 +1,6 @@
 {
     "name": "Bottus",
-    "description": " Whatsapp user bot.",
+    "description": " Whatsapp bot.",
     "keywords": [
         "whatsapp",
         "bot"
@@ -93,11 +93,6 @@
             "required": false,
             "value": "false"
         },
-        "ALIVE_MSG": {
-            "description": "alive command reply message.",
-            "required": false,
-            "value": "false"
-        },
         "AUTO_MUTE": {
             "description": "Enable Group auto mute/unmute feature.",
             "required": false,
@@ -138,15 +133,15 @@
             "required": false,
             "value": "false"
         },
-        "REMOVEBG_KEY": {
-            "description": "Get your key from remove.bg",
+        "WARN_COUNT": {
+            "description": "Maximum no of warns",
             "required": false,
-            "value": "false"
+            "value": "3"
         },
-        "LANGUAGE": {
-            "description": "Enter language (only effect trt , tts ,...)",
+        "WARN_MSG": {
+            "description": "Message send while kicking.",
             "required": false,
-            "value": "EN"
+            "value": "OK bie"
         }
     },
     "addons": [

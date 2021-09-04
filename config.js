@@ -17,10 +17,10 @@ DATABASE_URL = process.env.DATABASE_URL === undefined ? './whatsasena.db' : proc
 DEBUG = process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBUG);
 
 module.exports = {
-    VERSION: 'v1.0.1',
+    VERSION: 'v1.0.0',
     SESSION: process.env.ASENA_SESSION === undefined ? '' : process.env.ASENA_SESSION,
     EXT: process.env.EXT === undefined ? undefined : process.env.EXT,
-    LANG: process.env.LANGUAGE === undefined ? 'EN' : process.env.LANGUAGE.toUpperCase(),
+    LANG: process.env.LANGUAGE === undefined, 'en': process.env.LANGUAGE,
     HANDLERS: process.env.HANDLERS === undefined ? '^[.]' : process.env.HANDLERS,
     SEND_READ: process.env.SEND_READ === undefined ? false : convertToBool(process.env.SEND_READ),
     BRANCH: 'master',
@@ -57,6 +57,7 @@ module.exports = {
     STOP_MSG: process.env.STOP_MSG === undefined ? '' : process.env.STOP_MSG,
     AUTO_MUTE_JID: process.env.AUTO_MUTE_JID === undefined ? '' : process.env.AUTO_MUTE_JID,
     ALIVE: process.env.ALIVE_MSG === 'false' ? '*Hey I am HERE*' : process.env.ALIVE_MSG,
-    REMOVEBG: process.env.REMOVEBG_KEY === 'false' ? "false" : process.env.REMOVEBG_KEY,
-    SUPPORT: ''
+    REMOVEBG: process.env.REMOVEBG_KEY === undefined ? "false" : process.env.REMOVEBG_KEY,
+    WARN_COUNT: process.env.WARN_COUNT === undefined ? 3 : process.env.WARN_COUNT,
+    WARN_MSG: process.env.WARN_MSG === undefined ? "Ok bie" : process.env.WARN_MSG
 };
