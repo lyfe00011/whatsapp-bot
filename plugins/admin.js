@@ -16,7 +16,7 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid);
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
-    if (match.startsWith("all")) {
+    if (!message.reply_message && match.startsWith("all")) {
       await message.sendMessage("```" + "Removing everyone from here." + "```");
       await new Promise((r) => setTimeout(r, 10 * 1000));
       let users = participants.filter((member) => !member.isAdmin == true);
@@ -34,8 +34,8 @@ Asena.addCommand(
     if (message.reply_message != false) {
       await message.sendMessage(
         "```" +
-          `@${message.reply_message.jid.split("@")[0]} ${Lang.BANNED}` +
-          "```",
+        `@${message.reply_message.jid.split("@")[0]} ${Lang.BANNED}` +
+        "```",
         { contextInfo: { mentionedJid: [message.reply_message.jid] } }
       );
       return await message.groupRemove(message.jid, message.reply_message.jid);
@@ -44,7 +44,7 @@ Asena.addCommand(
         "```" + `${message.mention[0].split("@")[0]} ${Lang.BANNED}` + "```",
         { contextInfo: { mentionedJid: message.mention } }
       );
-      return await message.groupRemove(message.jid, message.mention[0]);
+   //   return await message.groupRemove(message.jid, message.mention[0]);
     } else {
       return await message.sendMessage(Lang.GIVE_ME_USER);
     }

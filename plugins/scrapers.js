@@ -13,7 +13,7 @@ const config = require("../config");
 //============================== TTS ==================================================
 const fs = require("fs");
 const { getBuffer } = require("../Utilis/download");
-const { SpeachToText } = require("../Utilis/Misc");
+const { SpeachToText, generateListMessage } = require("../Utilis/Misc");
 //=====================================================================================
 //============================== YOUTUBE ==============================================
 const ytdl = require("ytdl-core");
@@ -51,8 +51,8 @@ Asena.addCommand(
     if ("text" in ceviri) {
       return await message.sendMessage(
         "```" +
-          `Translated from ${match1} to ${match2}\n\n${ceviri.text}` +
-          "```",
+        `Translated from ${match1} to ${match2}\n\n${ceviri.text}` +
+        "```",
         { quoted: message.quoted }
       );
     } else {
@@ -86,6 +86,13 @@ Asena.addCommand(
       return await message.sendMessage(Lang.NEED_TEXT_SONG, {
         quoted: message.data,
       });
+    if (!ytid.test(match)) {
+      let arama = await yts(match);
+      arama = arama.all;
+      if (arama.length < 1) return await message.sendMessage('```' + `${match} not found.` + '```', { quoted: message.data });
+      let msg = await generateListMessage(arama)
+      return await message.sendMessage(msg, {}, MessageType.listMessage)
+    }
     let bit = 192;
     if (
       (matched = match.match(
@@ -96,21 +103,9 @@ Asena.addCommand(
       match = match.replace(matched[0], "").trim();
     }
     try {
-      let arama = await yts(match);
-      arama = arama.all;
-      if (arama.length < 1)
-        return await message.sendMessage(
-          "```" + `${match} not found.` + "```",
-          { quoted: message.data }
-        );
-      arama = arama[0];
-      if (arama.type !== "video")
-        return await message.sendMessage(
-          "```" + `${match} not found.` + "```",
-          { quoted: message.data }
-        );
+      let vid = ytid.exec(match)[1]
       await message.sendMessage(Lang.DOWNLOADING_SONG);
-      let stream = ytdl(arama.videoId, {
+      let stream = ytdl(vid, {
         quality: "highestaudio",
       });
       let songname = new Date().getTime() + ".mp3";
