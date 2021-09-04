@@ -82,7 +82,7 @@ Asena.addCommand(
       "photo"
     );
     let buffer = await getFfmpegBuffer(location, "photo.png", "photo");
-    return await message.sendMessage(buffer, MessageType.image);
+    return await message.sendMessage(buffer, {}, MessageType.image);
   }
 );
 
@@ -280,7 +280,7 @@ Asena.addCommand(
       "compress"
     );
     let buffer = await getFfmpegBuffer(location, "ocompress.mp4", "compress");
-    return await message.sendMessage(buffer, MessageType.video);
+    return await message.sendMessage(buffer, {}, MessageType.video);
   }
 );
 Asena.addCommand(
