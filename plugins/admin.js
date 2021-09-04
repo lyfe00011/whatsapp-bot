@@ -44,7 +44,7 @@ Asena.addCommand(
         "```" + `${message.mention[0].split("@")[0]} ${Lang.BANNED}` + "```",
         { contextInfo: { mentionedJid: message.mention } }
       );
-   //   return await message.groupRemove(message.jid, message.mention[0]);
+     return await message.groupRemove(message.jid, message.mention[0]);
     } else {
       return await message.sendMessage(Lang.GIVE_ME_USER);
     }
