@@ -197,7 +197,7 @@ Asena.addCommand(
     let { buffer } = await getBuffer(
       `https://api.xteam.xyz/attp?file&text=${encodeURIComponent(match)}`
     );
-    if (!buffer)
+    if (buffer !== false)
       await message.sendMessage(
         buffer,
         { mimetype: Mimetype.webp },

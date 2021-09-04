@@ -4,21 +4,16 @@ const Asena = require("../Utilis/events");
 const Config = require("../config");
 const Heroku = require("heroku-client");
 const heroku = new Heroku({ token: Config.HEROKU.API_KEY });
-
+const sss = "```";
 async function updateChecker() {
   await git.fetch();
   let commits = await git.log([Config.BRANCH + "..origin/" + Config.BRANCH]);
   if (commits.total === 0) return false;
   let newcommits = "";
   commits["all"].map((commit) => {
-    newcommits +=
-      "🔹 [" +
-      commit.date.substring(0, 10) +
-      "]: " +
-      commit.message +
-      " <" +
-      commit.author_name +
-      ">\n";
+    newcommits += `🔹 *[${commit.date.substring(0, 10)}] :* ${sss}${
+      commit.message
+    }${sss} <_*${commit.author_name}*_>\n`;
   });
   return newcommits;
 }

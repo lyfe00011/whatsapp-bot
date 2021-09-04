@@ -1,6 +1,6 @@
 const Asena = require("../Utilis/events");
 const { MessageType } = require("@adiwajshing/baileys");
-const { getJson } = require("../Utilis/download");
+const { getJson, TiktokDownloader } = require("../Utilis/download");
 const { UploadToImgur, wallpaper, forward } = require("../Utilis/Misc");
 
 Asena.addCommand(
