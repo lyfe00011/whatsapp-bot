@@ -93,45 +93,11 @@
             "required": false,
             "value": "false"
         },
-        "AUTO_MUTE": {
-            "description": "Enable Group auto mute/unmute feature.",
-            "required": false,
-            "value": "false"
-        },
-        "AUTO_MUTE_JID": {
-            "description": "Enter jid for AUTO_MUTE seprated with ,",
-            "required": false,
-            "value": "false"
-        },
         "START_MINUTE": {
             "description": "Enter start min for mute seprated with ,",
             "required": false,
             "value": "false"
-        },
-        "START_HOUR": {
-            "description": "Enter start hr for mute seprated with ,",
-            "required": false,
-            "value": "false"
-        },
-        "STOP_HOUR": {
-            "description": "Enter stop hr for unmute seprated with ,",
-            "required": false,
-            "value": "false"
-        },
-        "STOP_MINUTE": {
-            "description": "Enter stop min for unmute seprated with ,",
-            "required": false,
-            "value": "false"
-        },
-        "START_MSG": {
-            "description": "Enter mute msg seprated with ,",
-            "required": false,
-            "value": "false"
-        },
-        "STOP_MSG": {
-            "description": "Enter unmute msg seprated with ,",
-            "required": false,
-            "value": "false"
+        
         },
         "WARN_COUNT": {
             "description": "Maximum no of warns",

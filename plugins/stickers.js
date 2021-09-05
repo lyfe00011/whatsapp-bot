@@ -34,7 +34,7 @@ Asena.addCommand(
       let buffer = await sticker("animatedsticker", location, 2);
       return await message.sendMessage(
         buffer,
-        { mimetype: Mimetype.webp, quoted: message.quoted },
+        { mimetype: Mimetype.webp, isAnimated: true, quoted: message.quoted },
         MessageType.sticker
       );
     }

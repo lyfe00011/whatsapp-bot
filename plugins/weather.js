@@ -52,18 +52,18 @@ Asena.addCommand(
       (json.wind.deg < 23
         ? "N"
         : json.wind.deg < 68
-        ? "NE"
-        : json.wind.deg < 113
-        ? "E"
-        : json.wind.deg < 158
-        ? "SE"
-        : json.wind.deg < 203
-        ? "S"
-        : json.wind.deg < 248
-        ? "SW"
-        : json.wind.deg < 293
-        ? "W"
-        : "NW") +
+          ? "NE"
+          : json.wind.deg < 113
+            ? "E"
+            : json.wind.deg < 158
+              ? "SE"
+              : json.wind.deg < 203
+                ? "S"
+                : json.wind.deg < 248
+                  ? "SW"
+                  : json.wind.deg < 293
+                    ? "W"
+                    : "NW") +
       "\n";
     weather += Lang.CLOUD + "       : " + json.clouds.all + "%\n";
     weather += Lang.VISI + "  : " + json.visibility + "m\n";
@@ -85,15 +85,13 @@ Asena.addCommand(
       return await message.sendMessage("*Give me a yt link*");
     if (/^[0-9]+/.test(match)) {
       await message.sendMessage("```Downloading video...```");
-      let yt = await dlY2mate(match);
-      let { buffer, size, emessage } = await getBuffer(yt);
-      if (!buffer && !emessage !== true)
+      let url = await dlY2mate(match);
+      let { buffer, size, emessage } = await getBuffer(url);
+      if (emessage)
         return message.sendMessage(emessage, { quoted: message.data });
       else if (!buffer)
         return await message.sendMessage(
-          "```" + `Video is size ${size} MB, I can't upload it.` + "```",
-          { quoted: message.data }
-        );
+          "```" + `Video is size ${size} MB, I can't upload it.` + "```");
       return await message.sendMessage(
         buffer,
         { quoted: message.quoted, mimetype: Mimetype.mp4 },
