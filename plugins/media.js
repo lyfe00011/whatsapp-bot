@@ -250,13 +250,13 @@ Asena.addCommand(
       return await message.sendMessage(
         "*Reply with order number*\n*Ex: .merge 1*"
       );
-    if (!isNaN(match)) {
+    if (/[0-9]+/.test(match)) {
       await message.reply_message.downloadAndSaveMediaMessage(
         "./media/merge/" + match
       );
-      await message.sendMessage("```video " + match + " added```");
+      return await message.sendMessage("```video " + match + " added```");
     }
-    if (isNaN(match)) {
+    else {
       let length = fs.readdirSync("./media/merge").length;
       if (!(length > 0))
         return await message.sendMessage(
@@ -295,6 +295,23 @@ Asena.addCommand(
     return await message.sendMessage(
       buffer,
       { filename: "unvoice.mp3", ptt: true, mimetype: Mimetype.mp3 },
+      MessageType.audio
+    );
+  }
+);
+
+Asena.addCommand(
+  { pattern: "voice", fromMe: true, desc: "Convert voice note to audio." },
+  async (message, match) => {
+    if (!message.reply_message || !message.reply_message.audio)
+      return await message.sendMessage("*Reply to a audio*");
+    let location = await message.reply_message.downloadAndSaveMediaMessage(
+      "voice"
+    );
+    let buffer = await getFfmpegBuffer(location, "mp3.mp3", "mp3");
+    return await message.sendMessage(
+      buffer,
+      { filename: "voice.mp3", ptt: false, mimetype: Mimetype.mp3 },
       MessageType.audio
     );
   }

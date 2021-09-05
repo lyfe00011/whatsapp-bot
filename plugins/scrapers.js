@@ -185,11 +185,16 @@ Asena.addCommand(
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.NEED_WORDS);
     await message.sendMessage(Lang.SEARCHING);
-    let arama = await wiki({
-      apiUrl: "https://" + config.LANG + ".wikipedia.org/w/api.php",
-    }).page(match);
-    let info = await arama.rawContent();
-    return await message.sendMessage(info);
+    try {
+      let arama = await wiki({
+        apiUrl: "https://" + config.LANG + ".wikipedia.org/w/api.php",
+      }).page(match);
+      let info = await arama.rawContent();
+      return await message.sendMessage(info);
+    } catch (error) {
+      return await message.sendMessage(`*${error.message}*`)
+    }
+
   }
 );
 

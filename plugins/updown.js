@@ -26,12 +26,12 @@ Asena.addCommand(
       let msg =
         "```" +
         `Name    : ${group.subject}
-Id      :  ${group.id}
+Id      : ${group.id}
 Onwer   : wa.me/${parseInt(group.owner)}
 Created : ${moment.unix(group.creation).format("MMMM Do YYYY, h:mm a")}
 Desc    : ${group.desc}` +
         "```";
-      let buffer = await getBuffer(pp);
+      let { buffer } = await getBuffer(pp);
       return await message.sendMessage(
         buffer,
         { caption: msg },
@@ -52,7 +52,7 @@ Desc    : ${group.desc}` +
 Id     : ${message.reply_message.jid}
 Status : ${status.status}` +
         "```";
-      let buffer = await getBuffer(pp);
+      let { buffer } = await getBuffer(pp);
       return await message.sendMessage(
         buffer,
         { caption: msg },
@@ -70,9 +70,9 @@ Status : ${status.status}` +
       let msg =
         "```" +
         `Name   : ${await getName(message.jid, message.client)}
-Id     : ${message.reply_message.jid}
-Status : ${status.status}`;
-      let buffer = await getBuffer(pp);
+Id     : ${message.jid}
+Status : ${status.status}` + "```";
+      let { buffer } = await getBuffer(pp);
       await message.sendMessage(buffer, { caption: msg }, MessageType.image);
     }
   }

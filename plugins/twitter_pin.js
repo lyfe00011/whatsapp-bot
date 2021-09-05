@@ -13,7 +13,7 @@ Asena.addCommand(
     owner: false,
   },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : input;
+    match = match == "" ? message.reply_message.text : match;
     if (match === "") return await message.sendMessage("*Give me a link.*");
     let urls = await twitter(match);
     if (!urls) return await message.sendMessage("*Not Found!*");
