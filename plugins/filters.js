@@ -15,7 +15,7 @@ let fm = true;
 Asena.addCommand(
   { pattern: "filter ?(.*)", fromMe: fm, desc: Lang.FILTER_DESC },
   async (message, match) => {
-    match = message.message.match(/[\'\"\“](.*?)[\'\"\“]/gms);
+    match = message.message.match(/[\'\"](.*?)[\'\"]/gms);
     if (match === null) {
       filtreler = await FilterDb.getFilter(message.jid);
       if (filtreler === false) {
@@ -35,8 +35,8 @@ Asena.addCommand(
       }
       await FilterDb.setFilter(
         message.jid,
-        match[0].replace(/['"“]+/g, ""),
-        match[1].replace(/['"“]+/g, ""),
+        match[0].replace(/['"]+/g, ""),
+        match[1].replace(/['"]+/g, ""),
         match[0][0] === "'" ? true : false
       );
       await message.sendMessage(
@@ -49,7 +49,7 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "stop ?(.*)", fromMe: fm, desc: Lang.STOP_DESC },
   async (message, match) => {
-    match = message.message.match(/[\'\"\“](.*?)[\'\"\“]/gms);
+    match = message.message.match(/[\'\"](.*?)[\'\"]/gms);
     if (match === null) {
       return await message.sendMessage(
         Lang.NEED_REPLY + '\n*Example:* ```.stop "hello"```'
@@ -58,7 +58,7 @@ Asena.addCommand(
 
     del = await FilterDb.deleteFilter(
       message.jid,
-      match[0].replace(/['"“]+/g, "")
+      match[0].replace(/['"]+/g, "")
     );
 
     if (!del) {
