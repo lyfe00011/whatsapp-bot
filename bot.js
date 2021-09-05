@@ -17,8 +17,9 @@ const {
 } = require("@adiwajshing/baileys");
 const { StringSession } = require("./Utilis/whatsasena");
 const { getJson } = require("./Utilis/download");
-const { groupMuteSchuler, customMessageScheduler } = require("./Utilis/schedule");
+const { customMessageScheduler } = require("./Utilis/schedule");
 const { prepareGreetingMedia } = require("./Utilis/greetings");
+const { groupMuteSchuler, groupUnmuteSchuler } = require("./Utilis/groupmute");
 const { updateChecker } = require("./plugins/update");
 // Sql
 
@@ -137,6 +138,7 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
     );
 
     await groupMuteSchuler(conn);
+    await groupUnmuteSchuler(conn)
     await customMessageScheduler(conn);
 
     conn.on("chat-update", async (m) => {

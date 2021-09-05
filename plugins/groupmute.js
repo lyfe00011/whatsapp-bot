@@ -19,7 +19,7 @@ Asena.addCommand(
 .automute jid hour minute
 hour 0-23
 minute 0-59
-      
+
 .automute jid
 for get details
       
