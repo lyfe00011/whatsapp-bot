@@ -47,7 +47,7 @@ Remaining : ${Config.WARN_COUNT - count}` +
         { quoted, contextInfo: { mentionedJid: [user] } }
       );
     }
-    if (count > Config.WARN_COUNT) {
+    if (count >= Config.WARN_COUNT) {
       let participants = await message.groupMetadata(message.jid);
       let im = await checkImAdmin(participants, message.client.user.jid);
       if (!im) return await message.sendMessage("*I am Not ADMIN*");

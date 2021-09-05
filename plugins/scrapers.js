@@ -164,7 +164,7 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "yt ?(.*)", fromMe: true, desc: Lang.YT_DESC },
+  { pattern: "yts ?(.*)", fromMe: true, desc: Lang.YT_DESC },
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.NEED_WORDS);
     try {

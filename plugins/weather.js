@@ -11,7 +11,10 @@ const Language = require("../language");
 const Lang = Language.getString("weather");
 // const config = require('../config');
 const moment = require("moment");
-const { getJson } = require("../Utilis/download");
+const { getJson, dlY2mate, getY2mate, getBuffer } = require("../Utilis/download");
+const { Mimetype, MessageType } = require("@adiwajshing/baileys");
+const ytid =
+  /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/;
 
 Asena.addCommand(
   {
@@ -67,5 +70,37 @@ Asena.addCommand(
     weather += Lang.SRISE + "     : " + i + "\n";
     weather += Lang.SET + "      : " + j + "```";
     return await message.sendMessage(weather);
+  }
+);
+
+Asena.addCommand(
+  {
+    pattern: "ytv ?(.*)",
+    fromMe: true,
+    desc: "Download yt videos",
+  },
+  async (message, match) => {
+    let vid = ytid.exec(match);
+    if (match == "" || !vid)
+      return await message.sendMessage("*Give me a yt link*");
+    if (/^[0-9]+/.test(match)) {
+      await message.sendMessage("```Downloading video...```");
+      let yt = await dlY2mate(match);
+      let { buffer, size, emessage } = await getBuffer(yt);
+      if (!buffer && !emessage !== true)
+        return message.sendMessage(emessage, { quoted: message.data });
+      else if (!buffer)
+        return await message.sendMessage(
+          "```" + `Video is size ${size} MB, I can't upload it.` + "```",
+          { quoted: message.data }
+        );
+      return await message.sendMessage(
+        buffer,
+        { quoted: message.quoted, mimetype: Mimetype.mp4 },
+        MessageType.video
+      );
+    }
+    let msg = await getY2mate(match);
+    return await message.sendMessage(msg, {}, MessageType.listMessage);
   }
 );
