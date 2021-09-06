@@ -17,7 +17,6 @@ const { SpeachToText, generateListMessage } = require("../Utilis/Misc");
 //=====================================================================================
 //============================== YOUTUBE ==============================================
 const ytdl = require("ytdl-core");
-const ffmpeg = require("fluent-ffmpeg");
 const yts = require("yt-search");
 const ytid =
   /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/;
@@ -26,6 +25,7 @@ const Language = require("../language");
 const Lang = Language.getString("scrapers");
 const wiki = require("wikijs").default;
 const gis = require("g-i-s");
+const { song } = require("../Utilis/fFmpeg");
 let fm = true;
 
 Asena.addCommand(
@@ -51,8 +51,8 @@ Asena.addCommand(
     if ("text" in ceviri) {
       return await message.sendMessage(
         "```" +
-        `Translated from ${match1} to ${match2}\n\n${ceviri.text}` +
-        "```",
+          `Translated from ${match1} to ${match2}\n\n${ceviri.text}` +
+          "```",
         { quoted: message.quoted }
       );
     } else {
@@ -89,9 +89,13 @@ Asena.addCommand(
     if (!ytid.test(match)) {
       let arama = await yts(match);
       arama = arama.all;
-      if (arama.length < 1) return await message.sendMessage('```' + `${match} not found.` + '```', { quoted: message.data });
-      let msg = await generateListMessage(arama)
-      return await message.sendMessage(msg, {}, MessageType.listMessage)
+      if (arama.length < 1)
+        return await message.sendMessage(
+          "```" + `${match} not found.` + "```",
+          { quoted: message.data }
+        );
+      let msg = await generateListMessage(arama);
+      return await message.sendMessage(msg, {}, MessageType.listMessage);
     }
     let bit = 192;
     if (
@@ -103,26 +107,21 @@ Asena.addCommand(
       match = match.replace(matched[0], "").trim();
     }
     try {
-      let vid = ytid.exec(match)[1]
+      let vid = ytid.exec(match)[1];
       await message.sendMessage(Lang.DOWNLOADING_SONG);
       let stream = ytdl(vid, {
         quality: "highestaudio",
       });
       let songname = new Date().getTime() + ".mp3";
-      ffmpeg(stream)
-        .audioBitrate(bit)
-        .audioFrequency(44100)
-        .save("./" + songname)
-        .on("end", async () => {
-          return await message.sendMessage(
-            fs.readFileSync(songname),
-            {
-              mimetype: Mimetype.mp4Audio,
-              ptt: false,
-            },
-            MessageType.audio
-          );
-        });
+      let buffer = await song(songname, stream, bit);
+      return await message.sendMessage(
+        buffer,
+        {
+          mimetype: Mimetype.mp4Audio,
+          ptt: false,
+        },
+        MessageType.audio
+      );
     } catch (error) {
       return await message.sendMessage("```" + `Downloading failed.` + "```", {
         quoted: message.data,
@@ -192,9 +191,8 @@ Asena.addCommand(
       let info = await arama.rawContent();
       return await message.sendMessage(info);
     } catch (error) {
-      return await message.sendMessage(`*${error.message}*`)
+      return await message.sendMessage(`*${error.message}*`);
     }
-
   }
 );
 

@@ -4,6 +4,8 @@ const {
   setMute,
   getUnmute,
   setUnmute,
+  getEachUnmute,
+  getEachMute,
 } = require("../Utilis/groupmute");
 
 Asena.addCommand(
@@ -19,17 +21,30 @@ Asena.addCommand(
 .automute jid hour minute
 hour 0-23
 minute 0-59
-
+            
 .automute jid
 for get details
-      
+            
 .automute jid off
-to disable mute` + '```');
+to disable unmute
+      
+.automute list
+To get all` + '```');
     }
     let msg = message.reply_message.text;
     let [user, hours, minute] = match.split(" ");
+    if (user == "list") {
+      let all = await getEachMute();
+      if(!all) return await message.sendMessage("*Nothing to Display*")
+      let msg = "";
+      all.forEach((jids) => {
+        let { jid, message, hour, minute, onoroff } = jids;
+        msg += `Jid     : ${jid}\nMessage : ${message}\nHour    : ${hour}\nMinute  : ${minute}\nEnabled : ${onoroff}\n\n`;
+      });
+      return await message.sendMessage("```" + msg + "```");
+    }
     if (user != undefined && !message.reply_message.txt && hours == undefined) {
-      let info = await getMute(jid);
+      let info = await getMute(user);
       let { jid, message: msgs, hour, minute, onoroff } = info;
       return await message.sendMessage(`
 Jid: ${jid}
@@ -50,7 +65,7 @@ Enabled: ${onoroff}`);
 Message: ${msgs}
 Hour: ${hour}
 Minute: ${minute}
-Enabled: ${hour}\n\n*Restart bot*`);
+Enabled: ${hours}\n\n*Restart bot*`);
     } else if (!user || !msg || !hours || !minute) {
       return await message.sendMessage("*Syntax Error!*");
     } else {
@@ -75,17 +90,30 @@ Asena.addCommand(
 .autoumute jid hour minute
 hour 0-23
 minute 0-59
-      
+            
 .autoumute jid
 for get details
-      
+            
 .autoumute jid off
-to disable unmute` + '```');
+to disable unmute
+      
+.autoumute list
+To get all` + '```')
     }
     let msg = message.reply_message.text;
     let [user, hours, minute] = match.split(" ");
+    if (user == "list") {
+      let all = await getEachUnmute();
+      if(!all) return await message.sendMessage("*Nothing to Display*")
+      let msg = "";
+      all.forEach((jids) => {
+        let { jid, message, hour, minute, onoroff } = jids;
+        msg += `Jid     : ${jid}\nMessage : ${message}\nHour    : ${hour}\nMinute  : ${minute}\nEnabled : ${onoroff}\n\n`;
+      });
+      return await message.sendMessage("```" + msg + "```");
+    }
     if (user != undefined && !message.reply_message.txt && hours == undefined) {
-      let info = await getUnmute(jid);
+      let info = await getUnmute(user);
       let { jid, message: msgs, hour, minute, onoroff } = info;
       return await message.sendMessage(`
 Jid: ${jid}
@@ -106,7 +134,7 @@ Enabled: ${onoroff}`);
 Message: ${msgs}
 Hour: ${hour}
 Minute: ${minute}
-Enabled: ${hour}\n\n*Restart bot*`);
+Enabled: ${hours}\n\n*Restart bot*`);
     } else if (!user || !msg || !hours || !minute) {
       return await message.sendMessage("*Syntax Error!*");
     } else {

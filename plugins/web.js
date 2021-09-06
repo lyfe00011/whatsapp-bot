@@ -12,7 +12,11 @@ const Lang = Language.getString("web");
 const QRReader = require("qrcode-reader");
 const jimp = require("jimp");
 // const config = require('../config');
-const { setSchedule, getSchedule } = require("../Utilis/schedule");
+const {
+  setSchedule,
+  getSchedule,
+  getEachSchedule,
+} = require("../Utilis/schedule");
 
 Asena.addCommand(
   { pattern: "ping", fromMe: true, desc: Lang.PING_DESC },
@@ -113,9 +117,34 @@ To get Shedule
 To on/off
 .shedule 89237489-46723@g.us on
 .shedule 89237489-46723@g.us off
+
+To get all Shedules
+
+.shedule list
 `);
     let msg = message.reply_message.text;
     let [jid, year, dayofweek, month, date, hour, minute] = match.split(" ");
+    if (jid == "list") {
+      let all = await getEachSchedule();
+      if(!all) return await message.sendMessage("*No shedule to Display*")
+      let msg = "";
+      all.forEach((jids) => {
+        let {
+          jid,
+          message,
+          year,
+          month,
+          date,
+          hour,
+          minute,
+          dayofweek,
+          onoroff,
+        } = jids;
+        msg += `Jid       : ${jid}\nMessage   : ${message}\nYear      : ${year}\nMonth     : ${month}
+Hour      : ${hour}\nMinute    : ${minute}\nDate      : ${date}\nDayOfWeek : ${dayofweek}\nEnabled   : ${onoroff}\n\n`;
+      });
+      return await message.sendMessage("```" + msg + "```");
+    }
     if (jid != undefined && !message.reply_message.txt && year == undefined) {
       let info = await getSchedule(jid);
       if (info == false) return await message.sendMessage("*Not Found*");
