@@ -12,7 +12,7 @@ Asena.addCommand(
   },
   async (message, match) => {
     match = !message.reply_message.txt ? match : message.reply_message.text;
-    if (match === "")
+    if (match === "" && !(/instagram.com/.test(match)))
       return await message.sendMessage(
         "```Give me a link.\nExample:\ninsta https://www.instagram.com/p/...```",
         { detectLinks: false, quoted: message.data }

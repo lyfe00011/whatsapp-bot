@@ -20,9 +20,11 @@ const { getJson } = require("./Utilis/download");
 const { customMessageScheduler } = require("./Utilis/schedule");
 const { prepareGreetingMedia } = require("./Utilis/greetings");
 const { groupMuteSchuler, groupUnmuteSchuler } = require("./Utilis/groupmute");
+const { PluginDB } = require('./plugins/sql/plugin');
 const { updateChecker } = require("./plugins/update");
-// Sql
 
+// Sql
+const got = require('got')
 const WhatsAsenaDB = config.DATABASE.define("WhatsAsena", {
     info: {
         type: DataTypes.STRING,
@@ -104,6 +106,7 @@ async function whatsAsena(version) {
                 value: Session.createStringSession(authInfo),
             });
         }
+        
     });
     conn.on("connecting", async () => {
         console.log(`${chalk.red.bgBlack("B")}${chalk.green.bgBlack(
@@ -118,6 +121,21 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
     });
     conn.on("open", async () => {
         console.log(chalk.green.bold("✅ Login successful!"));
+        console.log(
+            chalk.blueBright.italic('⬇️ Installing external plugins...')
+        );
+
+        let plugins = await PluginDB.findAll();
+        plugins.map(async (plugin) => {
+            if (!fs.existsSync('./plugins/' + plugin.dataValues.name + '.js')) {
+                console.log(plugin.dataValues.name);
+                let response = await got(plugin.dataValues.url);
+                if (response.statusCode == 200) {
+                    fs.writeFileSync('./plugins/' + plugin.dataValues.name + '.js', response.body);
+                    require('./plugins/' + plugin.dataValues.name + '.js');
+                }
+            }
+        })
         console.log(chalk.blueBright.italic("⬇️  Installing plugins..."));
 
         fs.readdirSync("./plugins").forEach((plugin) => {
@@ -168,7 +186,7 @@ async function lastestVersion() {
     await prepareGreetingMedia();
     let { currentVersion } = await getJson('https://web.whatsapp.com/check-update?version=2.2123.8&platform=web')
     currentVersion = currentVersion.split('.')
-     currentVersion = [+currentVersion[0], +currentVersion[1], +currentVersion[2]]
+    currentVersion = [+currentVersion[0], +currentVersion[1], +currentVersion[2]]
     whatsAsena(currentVersion);
 } lastestVersion();
 
