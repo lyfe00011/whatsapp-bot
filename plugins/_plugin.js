@@ -46,13 +46,13 @@ Asena.addCommand(
 
     let response = await got(url);
     if (response.statusCode == 200) {
-      var plugin_name = response.body.match(/['](.*)[']/g);
+      
+      var plugin_name = (/pattern: ['](.*)[']/g).exec(response.body)
       if (plugin_name.length >= 1) {
-        plugin_name = plugin_name[0].split(" ")[0].replace(/'/g,'');
+        plugin_name = plugin_name[1].split(" ")[0]
       } else {
         plugin_name = Math.random().toString(36).substring(8);
       }
-
       fs.writeFileSync("./plugins/" + plugin_name + ".js", response.body);
       try {
         require("./" + plugin_name);
