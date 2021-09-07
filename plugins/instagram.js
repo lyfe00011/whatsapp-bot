@@ -11,7 +11,7 @@ Asena.addCommand(
     owner: false,
   },
   async (message, match) => {
-    match = !message.reply_message.txt ? match : message.reply_message.text;
+    match = match == '' ? message.reply_message.text : match;
     if (match === "" || !(/instagram.com/.test(match)))
       return await message.sendMessage(
         "```Give me a link.\nExample:\ninsta https://www.instagram.com/p/...```",
@@ -41,7 +41,7 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "story ?(.*)", fromMe: true, desc: "Download Instagram story." },
   async (message, match) => {
-    match = !message.reply_message.txt ? match : message.reply_message.text;
+    match = match == '' ? message.reply_message.text : match;
     if (
       match === "" ||
       (!match.includes("/stories/") && match.startsWith("http"))

@@ -5,7 +5,7 @@ let fm = true
 const { getBuffer, downVideo } = require('../Utilis/download');
 
 Asena.addCommand({ pattern: 'fb ?(.*)', fromMe: fm, desc: "Download facebook video.", owner: false }, (async (message, match) => {
-	match = !message.reply_message.txt ? match : message.reply_message.text;
+	match = match == '' ? message.reply_message.text : match;
 	if (match === '') return await message.sendMessage('```Give me a link.```');
 	await message.sendMessage('```Downloading video...```');
 	let links = await downVideo(match);
