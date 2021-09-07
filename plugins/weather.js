@@ -86,7 +86,7 @@ Asena.addCommand(
     desc: "Download yt videos",
   },
   async (message, match) => {
-    match = !message.repy_message.txt ? match : message.repy_message.text;
+    match = match !== '' ? match : message.repy_message.text;
     let vid = ytid.exec(match);
     if (match == "" || !vid)
       return await message.sendMessage("*Give me a yt link*");
