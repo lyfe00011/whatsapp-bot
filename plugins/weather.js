@@ -11,7 +11,13 @@ const Language = require("../language");
 const Lang = Language.getString("weather");
 // const config = require('../config');
 const moment = require("moment");
-const { getJson, dlY2mate, getY2mate, getBuffer } = require("../Utilis/download");
+const {
+  getJson,
+  dlY2mate,
+  getY2mate,
+  getBuffer,
+  googleSearch,
+} = require("../Utilis/download");
 const { Mimetype, MessageType } = require("@adiwajshing/baileys");
 const ytid =
   /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/;
@@ -80,7 +86,7 @@ Asena.addCommand(
     desc: "Download yt videos",
   },
   async (message, match) => {
-    match = match == '' ? message.reply_message.text : match
+    match = !message.repy_message.txt ? match : message.repy_message.text;
     let vid = ytid.exec(match);
     if (match == "" || !vid)
       return await message.sendMessage("*Give me a yt link*");
@@ -92,14 +98,31 @@ Asena.addCommand(
         return message.sendMessage(emessage, { quoted: message.data });
       else if (!buffer)
         return await message.sendMessage(
-          "```" + `Video is size ${size} MB, I can't upload it.` + "```");
+          "```" + `Video is size ${size} MB, I can't upload it.` + "```"
+        );
       return await message.sendMessage(
         buffer,
-        { quoted: message.quoted, mimetype: Mimetype.mp4 },
+        { mimetype: Mimetype.mp4 },
         MessageType.video
       );
     }
     let msg = await getY2mate(match);
     return await message.sendMessage(msg, {}, MessageType.listMessage);
+  }
+);
+
+Asena.addCommand(
+  { pattern: "google ?(.*)", fromMe: true, desc: "Google Image Search" },
+  async (message, match) => {
+    if (!message.reply_message.image)
+      return await message.sendMessage("*Reply to a image*"); //{
+    let msg = "";
+    let location = await message.reply_message.downloadMediaMessage();
+    let result = await googleSearch(location);
+    if (result.length == 0) return await message.sendMessage("*Not found*");
+    result.forEach((url) => {
+      msg += `${url}\n`;
+    });
+    return await message.sendMessage(msg, { quoted: message.data });
   }
 );
