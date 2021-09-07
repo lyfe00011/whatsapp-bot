@@ -46,9 +46,9 @@ Asena.addCommand(
 
     let response = await got(url);
     if (response.statusCode == 200) {
-      
+
       var plugin_name = (/pattern: ['](.*)[']/g).exec(response.body)
-      if (plugin_name.length >= 1) {
+      if (plugin_name != null && plugin_name.length >= 1) {
         plugin_name = plugin_name[1].split(" ")[0]
       } else {
         plugin_name = Math.random().toString(36).substring(8);
