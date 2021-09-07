@@ -81,7 +81,7 @@ Status : ${status.status}` + "```";
 Asena.addCommand(
   { pattern: "upload ?(.*)", fromMe: true, desc: "Download from link." },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
+    match = !message.reply_message ? match : message.reply_message.text;
     if (match === "")
       return await message.sendMessage("```Give me a direct download link.```");
     await message.sendMessage("```Downloading file...```");
@@ -117,7 +117,7 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "scl ?(.*)", fromMe: true, desc: "Download song SoundCloud." },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
+    match = !message.reply_message ? match : message.reply_message.text;
     if (match === "") return await message.sendMessage("```Give me a Link.```");
     if (!match.startsWith("https://"))
       return await message.sendMessage("*Give me a link.*");
@@ -139,7 +139,7 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "emoji ?(.*)", fromMe: true, desc: "Convert emoji to sticker." },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
+    match = !message.reply_message ? match : message.reply_message.text;
     if (match === "") return await message.sendMessage("*Give me a emoji.*");
     let buffer = await emoji(match);
     if (buffer !== false)
@@ -154,7 +154,7 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "ss ?(.*)", fromMe: true, desc: "Take web screenshot." },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
+    match = !message.reply_message ? match : message.reply_message.text;
     let url = `https://shot.screenshotapi.net/screenshot?&url=${match}
 	&width=1388&height=720&output=image&file_type=png&block_ads=true&no_cookie_banners=true&dark_mode=true&wait_for_event=networkidle`;
     let { buffer } = await getBuffer(url);

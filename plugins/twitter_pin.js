@@ -13,7 +13,7 @@ Asena.addCommand(
     owner: false,
   },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
+    match = !message.reply_message ? match : message.reply_message.text;
     if (match === "") return await message.sendMessage("*Give me a link.*");
     let urls = await twitter(match);
     if (!urls) return await message.sendMessage("*Not Found!*");
@@ -31,7 +31,7 @@ Asena.addCommand(
     owner: false,
   },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
+    match = !message.reply_message ? match : message.reply_message.text;
     if (match === "") return await message.sendMessage("```Give me a link.```");
     let urls = await pinterest(match);
     urls.forEach(async (url) => {
@@ -54,7 +54,7 @@ Asena.addCommand(
     owner: false,
   },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
+    match = !message.reply_message ? match : message.reply_message.text;
     if (match === "") return await message.sendMessage("*Give me a link.*");
     const { link, title } = await mediaFire(match);
     let { buffer, type, size, mime } = await getBuffer(link);

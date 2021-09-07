@@ -176,7 +176,7 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid);
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
-    if (match == "") {
+    if (match == '') {
       await message.GroupMuteSettingsChange(message.jid, true);
       return await message.sendMessage(Lang.MUTED);
     } else {
@@ -289,8 +289,8 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "join ?(.*)", fromMe: true, desc: "Join Groups." },
   async (message, match) => {
-    match = match === "" ? message.reply_message.text : match;
-    if (match == "")
+    match = !message.reply_message ? match : message.reply_message.text;
+    if (match == '')
       return await message.sendMessage("*GIVE ME A WA INVITE LINK*");
     let wa = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/;
     let [_, code] = message.message.match(wa) || [];

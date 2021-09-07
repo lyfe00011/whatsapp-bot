@@ -6,8 +6,8 @@ const { UploadToImgur, wallpaper, forward } = require("../Utilis/Misc");
 Asena.addCommand(
   { pattern: "tiktok ?(.*)", fromMe: true, desc: "Download tiktok video." },
   async (message, match) => {
-    match = match == "" ? message.reply_message.text : match;
-    if (match === "")
+    match = !message.reply_message ? match : message.reply_message.text;
+    if (match == '')
       return await message.sendMessage("```Give me a link.```", {
         quoted: message.data,
       });
@@ -24,7 +24,7 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "movie ?(.*)", fromMe: true, desc: "Shows movie info." },
   async (message, match) => {
-    if (match === "")
+    if (match === '')
       return await message.sendMessage("```Give me a name.```", {
         quoted: message.data,
       });
@@ -59,7 +59,7 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "forward ?(.*)", fromMe: true, desc: "Forward replied msg." },
   async (message, match) => {
-    if (match == "") return await message.sendMessage("*Give me a jid*");
+    if (match == '') return await message.sendMessage("*Give me a jid*");
     if (!message.reply_message)
       return await message.sendMessage("*Reply to a message!*");
     const { jid, buffer, type, options } = await forward(match, message);
@@ -75,7 +75,7 @@ Asena.addCommand(
     owner: false,
   },
   async (message, match) => {
-    if (match == "") return message.sendMessage("*Give me text.*");
+    if (match == '') return message.sendMessage("*Give me text.*");
     let buffer = await wallpaper(match);
     if (!buffer) return await message.sendMessage("*Not Found!*");
     return await message.sendMessage(
