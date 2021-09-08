@@ -1,6 +1,6 @@
 {
   "name": "bottus",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A whatsapp User bot",
   "main": "./whatsAsena/bot.js",
   "scripts": {

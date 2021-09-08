@@ -93,12 +93,6 @@
             "required": false,
             "value": "false"
         },
-        "START_MINUTE": {
-            "description": "Enter start min for mute seprated with ,",
-            "required": false,
-            "value": "false"
-        
-        },
         "WARN_COUNT": {
             "description": "Maximum no of warns",
             "required": false,
@@ -115,7 +109,9 @@
             "value": "false"
         },
         "REMOVEBG_KEY": {
-            "description": "Get your key from remove.bg"
+            "description": "Get your key from remove.bg",
+            "required": false,
+            "value": "false"
         },
         "LANGUAGE": {
             "description": "Enter language (only effect trt , tts ,...)"
