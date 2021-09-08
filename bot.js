@@ -106,7 +106,7 @@ async function whatsAsena(version) {
                 value: Session.createStringSession(authInfo),
             });
         }
-        
+
     });
     conn.on("connecting", async () => {
         console.log(`${chalk.red.bgBlack("B")}${chalk.green.bgBlack(
@@ -127,14 +127,19 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
 
         let plugins = await PluginDB.findAll();
         plugins.map(async (plugin) => {
-            if (!fs.existsSync('./plugins/' + plugin.dataValues.name + '.js')) {
-                console.log(plugin.dataValues.name);
-                let response = await got(plugin.dataValues.url);
-                if (response.statusCode == 200) {
-                    fs.writeFileSync('./plugins/' + plugin.dataValues.name + '.js', response.body);
-                    require('./plugins/' + plugin.dataValues.name + '.js');
+            try {
+                if (!fs.existsSync('./plugins/' + plugin.dataValues.name + '.js')) {
+                    console.log(plugin.dataValues.name);
+                    let response = await got(plugin.dataValues.url);
+                    if (response.statusCode == 200) {
+                        fs.writeFileSync('./plugins/' + plugin.dataValues.name + '.js', response.body);
+                        require('./plugins/' + plugin.dataValues.name + '.js');
+                    }
                 }
+            } catch (error) {
+                console.log(`failed to load external plugin : ${plugin.dataValues.name}`)
             }
+
         })
         console.log(chalk.blueBright.italic("⬇️  Installing plugins..."));
 

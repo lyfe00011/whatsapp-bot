@@ -11,7 +11,7 @@ const { spawnSync } = require("child_process");
 const Config = require("../config");
 const Language = require("../language");
 const { checkImAdmin } = require("../Utilis/Misc");
-const { warn } = require("../Utilis/warn");
+const { warn, getEachWarn } = require("../Utilis/warn");
 const Lang = Language.getString("system_stats");
 let fm = true;
 
@@ -33,6 +33,16 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "warn ?(.*)", fromMe: fm, desc: "To warn", onlyGroup: true },
   async (message, match) => {
+    if (match == 'list') {
+      let msg = '';
+      let users = await getEachWarn()
+      if (!users) return await message.sendMessage('*Nothing to Display*')
+      users.forEach(jid => {
+        let { user, count, reason } = jid
+        msg += `User   : ${user.split('@')[0]}\nWarn   : ${count}\nRemain : ${Config.WARN_COUNT - count}\nReason :${reason}\n\n`
+      })
+      return await message.sendMessage('```' + msg + '```')
+    }
     if (!message.reply_message && !message.mention)
       return await message.sendMessage("*Give me a User*");
     let quoted = !message.reply_message ? undefined : message.quoted;
@@ -60,7 +70,7 @@ Remaining : ${Config.WARN_COUNT - count}` +
       "```" +
       `⚠️WARNING⚠️
 User      : @${user.split("@")[0]}
-Reason    : ${reason}
+Reason    :${reason}
 Remaining : ${Config.WARN_COUNT - count} ` +
       "```",
       { quoted, contextInfo: { mentionedJid: [user] } }
