@@ -184,7 +184,8 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
 
 async function lastestVersion() {
     await prepareGreetingMedia();
-    let { currentVersion } = await getJson('https://web.whatsapp.com/check-update?version=2.2123.8&platform=web')
+    let { currentVersion } = await getJson('https://web.whatsapp.com/check-update?version=2.2134.10&platform=web')
+    currentVersion = currentVersion || '2.2134.10'
     currentVersion = currentVersion.split('.')
     currentVersion = [+currentVersion[0], +currentVersion[1], +currentVersion[2]]
     whatsAsena(currentVersion);
