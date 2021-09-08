@@ -10,6 +10,7 @@ const Asena = require("../Utilis/events");
 const FilterDb = require("./sql/filters");
 // const config = require('../config');
 const Language = require("../language");
+const { prepareFilter } = require("../Utilis/greetings");
 const Lang = Language.getString("filters");
 let fm = true;
 Asena.addCommand(
@@ -69,7 +70,7 @@ Asena.addCommand(
   }
 );
 
-Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
+Asena.addCommand({ on: "text", fromMe: true }, async (message, match) => {
   let filtreler = await FilterDb.getFilter(message.jid);
   if (!filtreler) return;
   filtreler.map(async (filter) => {
@@ -80,9 +81,14 @@ Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
       "gm"
     );
     if (pattern.test(message.message)) {
-      await message.sendMessage(filter.dataValues.text, {
-        quoted: message.data,
-      });
+      let { msg, MessageType } = await prepareFilter(filter.dataValues.text);
+      await message.sendMessage(
+        msg,
+        {
+          quoted: message.data,
+        },
+        MessageType
+      );
     }
   });
 });

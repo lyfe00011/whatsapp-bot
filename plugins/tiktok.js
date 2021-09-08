@@ -1,6 +1,6 @@
 const Asena = require("../Utilis/events");
 const { MessageType } = require("@adiwajshing/baileys");
-const { getJson, TiktokDownloader } = require("../Utilis/download");
+const { getJson, TiktokDownloader, getBuffer } = require("../Utilis/download");
 const { UploadToImgur, wallpaper, forward } = require("../Utilis/Misc");
 
 Asena.addCommand(
@@ -62,7 +62,7 @@ Asena.addCommand(
     if (match == '') return await message.sendMessage("*Give me a jid*");
     if (!message.reply_message)
       return await message.sendMessage("*Reply to a message!*");
-    if(jid.length > 30) return await message.sendMessage('*Check jid*')
+    if(match.length > 30) return await message.sendMessage('*Check jid*')
     const { jid, buffer, type, options } = await forward(match, message);
     return await message.client.sendMessage(jid, buffer, type, options);
   }
