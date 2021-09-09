@@ -117,12 +117,12 @@
             "description": "Enter language (only effect trt , tts ,...)",
             "value": "EN"
         },
-        "URLS": {
-            "description": "Links allowed in when anti enabled",
+        "ALLOWED_URLS": {
+            "description": "Links allowed when anti link enabled",
             "value": "instagram.com,youtube.com"
         },
-        "ANTILINK": {
-            "description": "set true to enable antilink",
+        "ANTIJID": {
+            "description": "set jids to enable antilink",
             "value": "false"
         }
     },
