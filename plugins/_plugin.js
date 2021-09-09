@@ -69,7 +69,7 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "remove ?(.*)", fromMe: true, desc: Lang.REMOVE_DESC },
+  { pattern: "remove (.*)", fromMe: true, desc: Lang.REMOVE_DESC },
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.NEED_PLUGIN);
     let plugin = await PluginDB.findAll({ where: { name: match } });
