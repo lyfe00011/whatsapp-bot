@@ -17,7 +17,7 @@ DATABASE_URL = process.env.DATABASE_URL === undefined ? './whatsasena.db' : proc
 DEBUG = process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBUG);
 
 module.exports = {
-    VERSION: 'v1.0.2',
+    VERSION: 'v1.0.1',
     SESSION: process.env.ASENA_SESSION === undefined ? '' : process.env.ASENA_SESSION,
     EXT: process.env.EXT === undefined ? undefined : process.env.EXT,
     LANG: process.env.LANGUAGE === undefined ? 'EN' : process.env.LANGUAGE.toUpperCase(),
@@ -60,7 +60,6 @@ module.exports = {
     REMOVEBG: process.env.REMOVEBG_KEY === undefined ? "false" : process.env.REMOVEBG_KEY,
     WARN_COUNT: process.env.WARN_COUNT === undefined ? 3 : process.env.WARN_COUNT,
     WARN_MSG: process.env.WARN_MSG === undefined ? "Ok bie" : process.env.WARN_MSG,
-    ANTILINK: process.env.ANTILINK === undefined ? false : convertToBool(process.env.ANTILINK),
     ANTIJID: process.env.ANTIJID === undefined ? '' : process.env.ANTIJID,
-    URLS: process.env.ANTIURL === undefined ? "instagram.com,youtube.com" : process.env.URLS,
+    URLS: process.env.ALLOWED_URLS === undefined ? "false" : process.env.ALLOWED_URLS,
 };
