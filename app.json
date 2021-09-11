@@ -124,6 +124,10 @@
         "ANTIJID": {
             "description": "set jids to enable antilink",
             "value": "false"
+        },
+        "STICKER_PACKNAME": {
+            "description": "Sticker pack name,author",
+            "value": "🥰,lyfe00011"
         }
     },
     "addons": [
