@@ -117,7 +117,7 @@ Asena.addCommand(
       return await message.sendMessage(
         buffer,
         {
-          mimetype: Mimetype.mp4Audio,
+          mimetype: Mimetype.mp4Audio, quoted: message.data,
           ptt: false,
         },
         MessageType.audio

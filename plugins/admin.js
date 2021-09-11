@@ -9,6 +9,8 @@ WhatsAsena - Yusuf Usta
 const Asena = require("../Utilis/events");
 const Language = require("../language");
 const { checkImAdmin } = require("../Utilis/Misc");
+const { MessageType } = require("@adiwajshing/baileys");
+const { getName } = require("../Utilis/download");
 const Lang = Language.getString("admin");
 Asena.addCommand(
   { pattern: "kick ?(.*)", fromMe: true, onlyGroup: true, desc: Lang.BAN_DESC },
@@ -44,7 +46,7 @@ Asena.addCommand(
         "```" + `${message.mention[0].split("@")[0]} ${Lang.BANNED}` + "```",
         { contextInfo: { mentionedJid: message.mention } }
       );
-     return await message.groupRemove(message.jid, message.mention[0]);
+      return await message.groupRemove(message.jid, message.mention[0]);
     } else {
       return await message.sendMessage(Lang.GIVE_ME_USER);
     }
@@ -60,15 +62,38 @@ Asena.addCommand(
     usage: ".add 905xxxxxxxxx",
   },
   async (message, match) => {
-    let participants = await message.groupMetadata(message.jid);
-    let im = await checkImAdmin(participants, message.client.user.jid);
+    let participant = await message.groupMetadata(message.jid);
+    let im = await checkImAdmin(participant, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
     if (match !== "") {
       match.split(" ").map(async (user) => {
-        await message.client.groupAdd(message.jid, [user + "@c.us"]);
-        return await message.sendMessage(
-          "```" + `${user} ${Lang.ADDED}` + "```"
-        );
+        let { participants } = await message.client.groupAdd(message.jid, [
+          user + "@c.us",
+        ]);
+        participants.map(async (participant) => {
+          let { invite_code, invite_code_exp, code } =
+            participant[user + "@c.us"];
+          if (code == "403") {
+            await message.client.sendMessage(
+              user + "@s.whatsapp.net",
+              {
+                inviteCode: invite_code,
+                inviteExpiration: invite_code_exp,
+                groupName: await getName(message.jid, message.client),
+                groupJid: message.jid,
+                caption: "Group Inviie Message",
+              },
+              MessageType.groupInviteMessage
+            );
+            return await message.sendMessage(
+              "```" + `Failed to add ${user}, Invited` + "```"
+            );
+          }
+          if (code == "200")
+            return await message.sendMessage(
+              "```" + `${user} ${Lang.ADDED}` + "```"
+            );
+        });
       });
     } else {
       return await message.sendMessage(Lang.GIVE_ME_USER);
@@ -176,7 +201,7 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid);
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
-    if (match == '') {
+    if (match == "") {
       await message.GroupMuteSettingsChange(message.jid, true);
       return await message.sendMessage(Lang.MUTED);
     } else {
@@ -290,7 +315,7 @@ Asena.addCommand(
   { pattern: "join ?(.*)", fromMe: true, desc: "Join Groups." },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
-    if (match == '')
+    if (match == "")
       return await message.sendMessage("*GIVE ME A WA INVITE LINK*");
     let wa = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/;
     let [_, code] = message.message.match(wa) || [];
