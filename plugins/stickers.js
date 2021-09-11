@@ -76,7 +76,7 @@ Asena.addCommand(
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "take"
     );
-    let buffer = await addExif(location);
+    let buffer = await addExif(location, match);
     return await message.sendMessage(
       buffer,
       { mimetype: Mimetype.webp, isAnimated: message.reply_message.animated, quoted: message.quoted },
