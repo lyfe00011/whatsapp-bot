@@ -9,7 +9,7 @@ const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const Language = require("../language");
 const { webpToMp4 } = require("../Utilis/download");
-const { sticker } = require("../Utilis/fFmpeg");
+const { sticker, addExif } = require("../Utilis/fFmpeg");
 const Lang = Language.getString("sticker");
 
 Asena.addCommand(
@@ -31,7 +31,12 @@ Asena.addCommand(
         MessageType.sticker
       );
     } else if (message.reply_message.video == true) {
-      let buffer = await sticker("animatedsticker", location, message.reply_message.seconds < 10 ? 2 : 3, match);
+      let buffer = await sticker(
+        "animatedsticker",
+        location,
+        message.reply_message.seconds < 10 ? 2 : 3,
+        match
+      );
       return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.webp, isAnimated: true, quoted: message.quoted },
@@ -60,6 +65,22 @@ Asena.addCommand(
       buffer,
       { quoted: message.quoted },
       MessageType.video
+    );
+  }
+);
+
+Asena.addCommand(
+  { pattern: "take ?(.*)", fromMe: true, desc: "Change sticker info" },
+  async (message, match) => {
+    if (!message.reply_message.sticker || !message.reply_message) return await message.sendMessage('*Reply to a sticker*')
+    let location = await message.reply_message.downloadAndSaveMediaMessage(
+      "take"
+    );
+    let buffer = await addExif(location);
+    return await message.sendMessage(
+      buffer,
+      { mimetype: Mimetype.webp, isAnimated: message.reply_message.animated, quoted: message.quoted },
+      MessageType.sticker
     );
   }
 );
