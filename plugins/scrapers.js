@@ -201,7 +201,7 @@ Asena.addCommand(
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.NEED_WORDS);
     gis(match, async (error, result) => {
-      for (let i = 0; i < (result.length < 25 ? result.length : 25); i++) {
+      for (let i = 0; i < (result.length < 10 ? result.length : 10); i++) {
         let { buffer } = await getBuffer(result[i].url);
         if (buffer != false)
           await message

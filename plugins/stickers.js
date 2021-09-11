@@ -13,7 +13,7 @@ const { sticker } = require("../Utilis/fFmpeg");
 const Lang = Language.getString("sticker");
 
 Asena.addCommand(
-  { pattern: "sticker", fromMe: true, desc: Lang.STICKER_DESC },
+  { pattern: "sticker ?(.*)", fromMe: true, desc: Lang.STICKER_DESC },
   async (message, match) => {
     if (
       !message.reply_message ||
@@ -24,14 +24,14 @@ Asena.addCommand(
       "sticker"
     );
     if (message.reply_message.image == true) {
-      let buffer = await sticker("imagesticker", location);
+      let buffer = await sticker("imagesticker", location, 1, match);
       return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.webp, quoted: message.quoted },
         MessageType.sticker
       );
     } else if (message.reply_message.video == true) {
-      let buffer = await sticker("animatedsticker", location, 2);
+      let buffer = await sticker("animatedsticker", location, message.reply_message.seconds < 10 ? 2 : 3, match);
       return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.webp, isAnimated: true, quoted: message.quoted },
