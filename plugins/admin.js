@@ -81,7 +81,7 @@ Asena.addCommand(
                 inviteExpiration: invite_code_exp,
                 groupName: await getName(message.jid, message.client),
                 groupJid: message.jid,
-                caption: "Group Inviie Message",
+                caption: "Group Invite Message",
               },
               MessageType.groupInviteMessage
             );
