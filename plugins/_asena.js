@@ -8,6 +8,8 @@ WhatsAsena - Yusuf Usta
 
 const Asena = require("../Utilis/events");
 const Config = require("../config");
+const { lydia, getLydia, setLydia } = require("../Utilis/lydia");
+const { getName } = require("../Utilis/download");
 Asena.addCommand(
   { pattern: "list ?(.*)", fromMe: true, dontAddCommandList: true },
   async (message, match) => {
@@ -44,3 +46,23 @@ Asena.addCommand(
     return await message.sendMessage("```" + CMD_HELP + "```");
   }
 );
+
+Asena.addCommand(
+  { pattern: "lydia ?(.*)", fromMe: true, dontAddCommandList: true },
+  async (message, match) => {
+    let jid = message.isGroup ? (message.reply_message == false && message.mention == false ? message.jid : !message.reply_message ? message.mention[0] : message.reply_message.jid) : message.jid
+    if (match.startsWith('stop')) {
+      let chat = await getLydia(jid)
+      if (!chat) return await message.sendMessage('```' + `Lydia not activated for ${await getName(jid, message.client)}` + '```')
+      await setLydia(jid, false);
+      return await message.sendMessage('```' + `Lydia deactivated for ${await getName(jid, message.client)}` + '```')
+    }
+    await setLydia(jid, true);
+    return await message.sendMessage('```' + `Lydia activated for ${await getName(jid, message.client)}\nTo stop .lydia stop` + '```')
+  })
+
+Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
+  let chat = await lydia(message)
+  if (!chat) return
+  return await message.sendMessage(chat, { quoted: message.data })
+})

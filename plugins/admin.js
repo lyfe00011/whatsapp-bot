@@ -24,7 +24,7 @@ Asena.addCommand(
       let users = participants.filter((member) => !member.isAdmin == true);
       for (let user of users) {
         await new Promise((r) => setTimeout(r, 1000));
-        await message.groupRemove(message.jid, user);
+        await message.groupRemove(message.jid, user.jid);
       }
       return;
     }
@@ -81,7 +81,7 @@ Asena.addCommand(
                 inviteExpiration: invite_code_exp,
                 groupName: await getName(message.jid, message.client),
                 groupJid: message.jid,
-                caption: "Group Invite Message",
+                caption: "Group Inviie Message",
               },
               MessageType.groupInviteMessage
             );
