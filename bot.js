@@ -150,7 +150,7 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
         });
 
         console.log(chalk.green.bold("✅ Plugins installed!"));
-        await conn.sendMessage(conn.user.jid, "*Bot Started*", MessageType.text);
+        await conn.sendMessage(conn.user.jid, "*Bot Started*\n\nhttps://github.com/lyfe00011/whatsapp-bot/wiki", MessageType.text);
         let update = await updateChecker()
         if (update !== false) await conn.sendMessage(conn.user.jid, "```New updates available```\n\n" + update, MessageType.text);
     });

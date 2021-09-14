@@ -82,7 +82,7 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "vote ?(.*)", fromMe: true },
+  { pattern: "vote ?(.*)", fromMe: true, desc: "To manage vote System.", onlyGroup: true },
   async (message, match) => {
     let { msg, options, type } = await parseVote(message, match);
     return await message.sendMessage(msg, options, type);
@@ -90,5 +90,6 @@ Asena.addCommand(
 );
 Asena.addCommand({ on: "vote", fromMe: false }, async (message, match) => {
   let msg = await participateInVote(message);
+  if (!msg) return
   return await message.sendMessage(msg, { quoted: message.data });
 });
