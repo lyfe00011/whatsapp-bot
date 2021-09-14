@@ -10,6 +10,7 @@ const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const Language = require("../language");
 const { getFfmpegBuffer } = require("../Utilis/fFmpeg");
+const { participateInVote, parseVote } = require("../Utilis/vote");
 const Lang = Language.getString("tagall");
 // const config = require('../config');
 Asena.addCommand(
@@ -79,3 +80,15 @@ Asena.addCommand(
     }
   }
 );
+
+Asena.addCommand(
+  { pattern: "vote ?(.*)", fromMe: true },
+  async (message, match) => {
+    let { msg, options, type } = await parseVote(message, match);
+    return await message.sendMessage(msg, options, type);
+  }
+);
+Asena.addCommand({ on: "vote", fromMe: false }, async (message, match) => {
+  let msg = await participateInVote(message);
+  return await message.sendMessage(msg, { quoted: message.data });
+});

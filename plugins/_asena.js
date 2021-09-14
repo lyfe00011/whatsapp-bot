@@ -48,7 +48,7 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "lydia ?(.*)", fromMe: true, dontAddCommandList: true },
+  { pattern: "lydia ?(.*)", fromMe: true, desc: "To activate chat bot." },
   async (message, match) => {
     let jid = message.isGroup ? (message.reply_message == false && message.mention == false ? message.jid : !message.reply_message ? message.mention[0] : message.reply_message.jid) : message.jid
     if (match.startsWith('stop')) {
