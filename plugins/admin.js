@@ -19,7 +19,7 @@ Asena.addCommand(
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
     if (!message.reply_message && match.startsWith("all")) {
-      await message.sendMessage("```" + "Removing everyone from here." + "```");
+      await message.sendMessage(Lang.REMOVE_ALL);
       await new Promise((r) => setTimeout(r, 10 * 1000));
       let users = participants.filter((member) => !member.isAdmin == true);
       for (let user of users) {
@@ -32,18 +32,16 @@ Asena.addCommand(
       participants,
       !message.reply_message ? message.mention[0] : message.reply_message.jid
     );
-    if (user) return await message.sendMessage("*User is admin*");
+    if (user) return await message.sendMessage(Lang.IS_ADMIN);
     if (message.reply_message != false) {
       await message.sendMessage(
-        "```" +
-        `@${message.reply_message.jid.split("@")[0]} ${Lang.BANNED}` +
-        "```",
+        Lang.BANNED.format(message.reply_message.jid.split("@")[0]),
         { contextInfo: { mentionedJid: [message.reply_message.jid] } }
       );
       return await message.groupRemove(message.jid, message.reply_message.jid);
     } else if (message.reply_message === false && message.mention !== false) {
       await message.sendMessage(
-        "```" + `${message.mention[0].split("@")[0]} ${Lang.BANNED}` + "```",
+        Lang.BANNED.format(message.mention[0].split("@")[0]),
         { contextInfo: { mentionedJid: message.mention } }
       );
       return await message.groupRemove(message.jid, message.mention[0]);
@@ -59,7 +57,6 @@ Asena.addCommand(
     fromMe: true,
     onlyGroup: true,
     desc: Lang.ADD_DESC,
-    usage: ".add 905xxxxxxxxx",
   },
   async (message, match) => {
     let participant = await message.groupMetadata(message.jid);
@@ -85,14 +82,12 @@ Asena.addCommand(
               },
               MessageType.groupInviteMessage
             );
-            return await message.sendMessage(
-              "```" + `Failed to add ${user}, Invited` + "```"
-            );
+            return await message.sendMessage(Lang.FAILED);
           }
           if (code == "200")
-            return await message.sendMessage(
-              "```" + `${user} ${Lang.ADDED}` + "```"
-            );
+            return await message.sendMessage(Lang.ADDED.format(user), {
+              contextInfo: { mentionedJid: [user + "@s.whatsapp.net"] },
+            });
         });
       });
     } else {
@@ -122,7 +117,7 @@ Asena.addCommand(
         message.reply_message.jid,
       ]);
       return await message.sendMessage(
-        "@" + message.reply_message.jid.split("@")[0] + Lang.PROMOTED,
+        Lang.PROMOTED.format(message.reply_message.jid.split("@")[0]),
         { contextInfo: { mentionedJid: [message.reply_message.jid] } }
       );
     } else if (message.reply_message === false && message.mention !== false) {
@@ -162,7 +157,7 @@ Asena.addCommand(
       if (!checkAlready)
         return await message.sendMessage(Lang.ALREADY_NOT_ADMIN);
       await message.sendMessage(
-        "@" + message.reply_message.jid.split("@")[0] + Lang.DEMOTED,
+        Lang.DEMOTED.format(message.reply_message.jid.split("@")[0]),
         { contextInfo: { mentionedJid: [message.reply_message.jid] } }
       );
       return await message.client.groupDemoteAdmin(message.jid, [
@@ -242,29 +237,28 @@ Asena.addCommand(
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
     let invite = await message.client.groupInviteCode(message.jid);
-    return await message.sendMessage(" https://chat.whatsapp.com/" + invite);
+    return await message.sendMessage(Lang.format(invite));
   }
 );
 Asena.addCommand(
   {
     pattern: "common ?(.*)",
     fromMe: true,
-    desc: "Shows common members in groups.",
+    desc: Lang.COMMON_DESC,
   },
   async (message, match) => {
     let [jid1, jid2] = match.split(" ") || [];
     if (jid1 == "" || jid2 == "" || jid1 == undefined || jid2 == undefined)
-      return await message.sendMessage("*Syntax Error!*", {
+      return await message.sendMessage(Lang.SYNTAX, {
         quoted: message.data,
       });
     try {
       var grup1 = await message.groupMetadata(jid1);
       var grup2 = await message.groupMetadata(jid2);
     } catch (error) {
-      return await message.sendMessage(
-        "*I don't have permission to acess these groups!*",
-        { quoted: message.data }
-      );
+      return await message.sendMessage(Lang.INVALID_JID, {
+        quoted: message.data,
+      });
     }
     let common = "";
     let sonuc1 = grup1.map((member) => member.jid);
@@ -281,22 +275,21 @@ Asena.addCommand(
   {
     pattern: "diff ?(.*)",
     fromMe: true,
-    desc: "Shows members not in two groups.",
+    desc: Lang.DIFF_DESC,
   },
   async (message, match) => {
     let [jid1, jid2] = match.split(" ") || [];
     if (jid1 == "" || jid2 == "" || jid1 == undefined || jid2 == undefined)
-      return await message.sendMessage("*Syntax Error!*", {
+      return await message.sendMessage(Lang.SYNTAX, {
         quoted: message.data,
       });
     try {
       var grup1 = await message.groupMetadata(jid1);
       var grup2 = await message.groupMetadata(jid2);
     } catch (error) {
-      return await message.sendMessage(
-        "*I don't have permission to acess these groups!*",
-        { quoted: message.data }
-      );
+      return await message.sendMessage(Lang.INVALID_JID, {
+        quoted: message.data,
+      });
     }
     let diff = "";
     let sonuc1 = grup1.map((member) => member.jid);
@@ -312,31 +305,33 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "join ?(.*)", fromMe: true, desc: "Join Groups." },
+  {
+  pattern: "join ?(.*)",
+  fromMe: true,
+  desc: Lang.JOIN_DESC,
+},
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
-    if (match == "")
-      return await message.sendMessage("*GIVE ME A WA INVITE LINK*");
+    if (match == "") return await message.sendMessage(Lang.JOIN_ERR);
     let wa = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/;
     let [_, code] = message.message.match(wa) || [];
-    if (!code) return await message.sendMessage("*Invalid invite link*");
+    if (!code) return await message.sendMessage(Lang.JOIN_ERR);
     await message.client.acceptInvite(code);
-    return await message.sendMessage("```Joined```");
-  }
-);
+    return await message.sendMessage(Lang.JOINED);
+  });
 
 Asena.addCommand(
   {
     pattern: "revoke",
     fromMe: true,
     onlyGroup: true,
-    desc: "Revoke invite link.",
+    desc: Lang.REVOKE_DESC,
   },
   async (message, match) => {
     let participants = await message.groupMetadata(message.jid);
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
     await message.client.revokeInvite(message.jid);
-    return await message.sendMessage("```Revoked Group link```");
+    return await message.sendMessage(Lang.REVOKE);
   }
 );

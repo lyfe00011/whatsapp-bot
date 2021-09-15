@@ -18,9 +18,7 @@ Asena.addCommand(
   {
     pattern: "meme ?(.*)",
     fromMe: true,
-    desc: Lang.MEMES_DESC,
-    usage: "meme top;bottom",
-    owner: true,
+    desc: Lang.MEMES_DESC
   },
   async (message, match) => {
     if (message.reply_message === false)

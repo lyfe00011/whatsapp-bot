@@ -31,7 +31,7 @@ Asena.addCommand(
     } else {
       if (match.length < 2) {
         return await message.sendMessage(
-          Lang.NEED_REPLY + ' ```.filter "sa" "as"'
+          Lang.NEED_REPLY + " ```.filter 'sa' 'as'"
         );
       }
       await FilterDb.setFilter(
@@ -53,7 +53,7 @@ Asena.addCommand(
     match = message.message.match(/[\'\"](.*?)[\'\"]/gms);
     if (match === null) {
       return await message.sendMessage(
-        Lang.NEED_REPLY + '\n*Example:* ```.stop "hello"```'
+        Lang.NEED_REPLY + "\n*Example:* ```.stop 'hello'```"
       );
     }
 

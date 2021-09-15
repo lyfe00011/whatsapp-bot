@@ -47,16 +47,10 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "mp4", fromMe: true, desc: "Convert animated sticker." },
+  { pattern: "mp4", fromMe: true, desc: Lang.MP4_DESC },
   async (message, match) => {
-    if (!message.reply_message.sticker || !message.reply_message)
-      return await message.sendMessage("*Reply to a animated sticker.*", {
-        quoted: message.data,
-      });
-    if (message.reply_message.sticker && !message.reply_message.animated)
-      return await message.sendMessage("*Reply to a animated sticker.*", {
-        quoted: message.data,
-      });
+    if (!message.reply_message.sticker || !message.reply_message || !message.reply_message.animated)
+      return await message.sendMessage(Lang.MP4_NEED_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "mp4"
     );
@@ -70,9 +64,9 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "take ?(.*)", fromMe: true, desc: "Change sticker info" },
+  { pattern: "take ?(.*)", fromMe: true, desc: Lang.TAKE_DESC },
   async (message, match) => {
-    if (!message.reply_message.sticker || !message.reply_message) return await message.sendMessage('*Reply to a sticker*')
+    if (!message.reply_message.sticker || !message.reply_message) return await message.sendMessage(Lang.TAKE_NEED_REPLY)
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "take"
     );

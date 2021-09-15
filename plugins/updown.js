@@ -8,6 +8,8 @@ const {
   getJson,
   IdentifySong,
 } = require("../Utilis/download");
+const Language = require("../language");
+const Lang = Language.getString("updown");
 const { emoji } = require("../Utilis/Misc");
 const { audioCut } = require("../Utilis/fFmpeg");
 
@@ -27,7 +29,7 @@ Asena.addCommand(
         "```" +
         `Name    : ${group.subject}
 Id      : ${group.id}
-Owner   : wa.me/${parseInt(group.owner)}
+Onwer   : wa.me/${parseInt(group.owner)}
 Created : ${moment.unix(group.creation).format("MMMM Do YYYY, h:mm a")}
 Desc    : ${group.desc}` +
         "```";
@@ -83,8 +85,8 @@ Asena.addCommand(
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
     if (match === "")
-      return await message.sendMessage("```Give me a direct download link.```");
-    await message.sendMessage("```Downloading file...```");
+      return await message.sendMessage(Lang.NEED_URL);
+    await message.sendMessage(Lang.DOWNLOADING);
     let { buffer, type, name, emessage, mime } = await getBuffer(match);
     if (!buffer) return await message.sendMessage(emessage);
     if (type == "video")
@@ -115,17 +117,15 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "scl ?(.*)", fromMe: true, desc: "Download song SoundCloud." },
+  { pattern: "scl ?(.*)", fromMe: true, desc: Lang.SCL_DESC },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
-    if (match === "") return await message.sendMessage("```Give me a Link.```");
-    if (!match.startsWith("https://"))
-      return await message.sendMessage("*Give me a link.*");
+    if (match === "" || !match.startsWith("https://")) return await message.sendMessage(Lang.NEED_URL);
     let sc = "https://soundcloud.com" + match.split(".com")[1];
     let url = `https://api.zeks.xyz/api/soundcloud?apikey=bottus000000&url=${sc}`;
     const json = await getJson(url);
     if (json.status !== true)
-      return await message.sendMessage("```Invalid Link.```");
+      return await message.sendMessage(Lang.NOT_FOUND);
     let title = json.result.title;
     let { buffer, mime } = await getBuffer(json.result.download);
     await message.sendMessage(
@@ -137,10 +137,10 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "emoji ?(.*)", fromMe: true, desc: "Convert emoji to sticker." },
+  { pattern: "emoji ?(.*)", fromMe: true, desc: Lang.EMOJI_DESC },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
-    if (match === "") return await message.sendMessage("*Give me a emoji.*");
+    if (match === "") return await message.sendMessage(Lang.NEED_EMOJI);
     let buffer = await emoji(match);
     if (buffer !== false)
       return await message.sendMessage(
@@ -152,7 +152,7 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "ss ?(.*)", fromMe: true, desc: "Take web screenshot." },
+  { pattern: "ss ?(.*)", fromMe: true, desc: Lang.SS_DESC },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
     let url = `https://shot.screenshotapi.net/screenshot?&url=${match}
@@ -167,33 +167,28 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "find", fromMe: true, desc: "Identify song." },
+  { pattern: "find", fromMe: true, desc: Lang.FIND_DESC },
   async (message, match) => {
     if (
       !message.reply_message ||
       (!message.reply_message.audio && !message.reply_message.video)
     )
-      return await message.sendMessage("*Reply to a audio.*");
+      return await message.sendMessage(Lang.FIND_NEED_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "find"
     );
     let buff = await audioCut(location, 0, 15, "findo");
     const data = await IdentifySong(buff);
     if (!data) return;
-    if (!data.status) return await message.sendMessage("*Not Found*");
-    let result =
-      "```" +
-      `Title    : ${data.data.title}\nArtists  : ${data.data.artists}
-Genre    : ${data.data.genre}\nAlbum    : ${data.data.album}\nReleased : ${data.data.release_date}` +
-      "```";
-    return await message.sendMessage(result, { quoted: message.quoted });
+    if (!data.status) return await message.sendMessage(Lang.NOT_FOUND);
+    return await message.sendMessage(Lang.FIND_MSG.format(data.data.title, data.data.artists, data.data.genre, data.data.album, data.data.release_date), { quoted: message.quoted });
   }
 );
 
 Asena.addCommand(
-  { pattern: "attp ?(.*)", fromMe: true, desc: "Text to sticker" },
+  { pattern: "attp ?(.*)", fromMe: true, desc: Lang.ATTP_DESC },
   async (message, match) => {
-    if (match === "") return await message.sendMessage("*Give me some words.*");
+    if (match === "") return await message.sendMessage(Lang.ATTP_NEED_REPLY);
     let { buffer } = await getBuffer(
       `https://api.xteam.xyz/attp?file&text=${encodeURIComponent(match)}`
     );

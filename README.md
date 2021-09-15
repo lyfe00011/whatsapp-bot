@@ -14,7 +14,7 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
 <br>
 <a href="https://chat.whatsapp.com/Jl6U29pBwmWLG3OOOfdPPt"><img alt="WhatsApp" src="https://img.shields.io/badge/-Whatsapp%20Group-lightgrey?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
 
-<a href="https://github.com/lyfe00011/whatsapp-bot/wiki/plugins"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor%22"/></a>
+<a href="https://github.com/lyfe00011/whatsapp-bot/wiki/"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor%22"/></a>
 <!-- 
 [![Run on Repl.it](https://replit.com/badge/github/lyfe00011/whatsapp-bot)](https://replit.com/@Nightbot2O/baileys-qr)
 

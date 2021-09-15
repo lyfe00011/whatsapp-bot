@@ -39,40 +39,29 @@ Asena.addCommand(
       if (!users) return await message.sendMessage('*Nothing to Display*')
       users.forEach(jid => {
         let { user, count, reason } = jid
-        msg += `User   : ${user.split('@')[0]}\nWarn   : ${count}\nRemain : ${Config.WARN_COUNT - count}\nReason :${reason}\n\n`
+        msg += Lang.WARN_MSG.format(user.split('@')[0], count, Config.WARN_COUNT - count, reason)
       })
-      return await message.sendMessage('```' + msg + '```')
+      return await message.sendMessage(msg)
     }
     if (!message.reply_message && !message.mention)
-      return await message.sendMessage("*Give me a User*");
+      return await message.sendMessage(Lang.NEED_USER);
     let quoted = !message.reply_message ? undefined : message.quoted;
     let { user, count, reason } = await warn(message, match);
     if (reason == "reset") {
-      return await message.sendMessage(
-        "```" +
-        `WARN RESET
-User      : @${user.split("@")[0]}
-Remaining : ${Config.WARN_COUNT - count}` +
-        "```",
+      return await message.sendMessage(Lang.RESET(user.split("@")[0], Config.WARN_COUNT - count),
         { quoted, contextInfo: { mentionedJid: [user] } }
       );
     }
     if (count >= Config.WARN_COUNT) {
       let participants = await message.groupMetadata(message.jid);
       let im = await checkImAdmin(participants, message.client.user.jid);
-      if (!im) return await message.sendMessage("*I am Not ADMIN*");
+      if (!im) return await message.sendMessage(Lang.ISADMIN);
       let us = await checkImAdmin(participants, user);
-      if (us) return await message.sendMessage("*User is ADMIN*");
+      if (us) return await message.sendMessage(Lang.IAADMIN);
       await message.sendMessage(Config.WARN_MSG, { quoted });
       return await message.groupRemove(message.jid, user);
     }
-    return await message.sendMessage(
-      "```" +
-      `⚠️WARNING⚠️
-User      : @${user.split("@")[0]}
-Reason    :${reason}
-Remaining : ${Config.WARN_COUNT - count} ` +
-      "```",
+    return await message.sendMessage(Lang.WARNING.format(user.split("@")[0], reason, Config.WARN_COUNT - count),
       { quoted, contextInfo: { mentionedJid: [user] } }
     );
   }

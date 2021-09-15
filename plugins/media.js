@@ -15,14 +15,11 @@ const {
 let fm = true;
 
 Asena.addCommand(
-  { pattern: "rotate ?(.*)", fromMe: true, desc: Lang.ROTATE },
+  { pattern: "rotate ?(.*)", fromMe: true, desc: Lang.ROTATE_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY);
-    if (match === "")
-      return await message.sendMessage(
-        "*Choose an option from right , left or flip.*"
-      );
+    if (match === "") return await message.sendMessage(Lang.CHOOSE);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "rotate"
     );
@@ -50,12 +47,12 @@ Asena.addCommand(
         { mimetype: Mimetype.mp4 },
         MessageType.video
       );
-    } else await message.sendMessage("*Wrong option*");
+    } else await message.sendMessage(Lang.WRONG);
   }
 );
 
 Asena.addCommand(
-  { pattern: "mp3", fromMe: fm, desc: Lang.MP3 },
+  { pattern: "mp3", fromMe: fm, desc: Lang.MP3_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY);
@@ -72,29 +69,35 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "photo", fromMe: fm, desc: Lang.PHOTO },
+  { pattern: "photo", fromMe: fm, desc: Lang.PHOTO_DESC },
   async (message, match) => {
-    if (!message.reply_message.sticker || message.reply_message === false)
+    if (
+      !message.reply_message.sticker ||
+      message.reply_message === false ||
+      message.reply_message.animated
+    )
       return await message.sendMessage(Lang.SNEED);
-    if (message.reply_message.animated)
-      return await message.sendMessage("*use* _mp4_ *command.*");
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "photo"
     );
     let buffer = await getFfmpegBuffer(location, "photo.png", "photo");
-    return await message.sendMessage(buffer, {}, MessageType.image);
+    return await message.sendMessage(
+      buffer,
+      { viewOnce: true, quoted: message.data },
+      MessageType.image
+    );
   }
 );
 
 Asena.addCommand(
-  { pattern: "reverse", fromMe: true, desc: "Reverse audio/video." },
+  { pattern: "reverse", fromMe: true, desc: Lang.REVERSE_DESC },
   async (message, match) => {
     if (
       !message.reply_message.audio &&
       !message.reply_message.video &&
       !message.reply_message
     )
-      return await message.sendMessage("*Reply to a audio or video!*");
+      return await message.sendMessage(Lang.RE_NEED_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "reverse"
     );
@@ -117,14 +120,11 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "cut ?(.*)", fromMe: fm, desc: Lang.CUT },
+  { pattern: "cut ?(.*)", fromMe: fm, desc: Lang.CUT_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    if (match === "")
-      return await message.sendMessage(
-        "```Give start time;Duration.\nExample : .cut 103;30```"
-      );
+    if (match === "") return await message.sendMessage(Lang.CUT_NEED_REPLY);
     let start = match.split(";")[0];
     let duration = match.split(";")[1];
     if (
@@ -135,7 +135,7 @@ Asena.addCommand(
       isNaN(start) ||
       isNaN(duration)
     )
-      return await message.sendMessage("*Syntax Error!*");
+      return await message.sendMessage(Lang.SYNTAX);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "cut"
     );
@@ -149,14 +149,11 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "trim ?(.*)", fromMe: fm, desc: Lang.TRIM },
+  { pattern: "trim ?(.*)", fromMe: fm, desc: Lang.TRIM_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY);
-    if (match === "")
-      return await message.sendMessage(
-        "```Give start time ; Duration.\nExample : .trim 89;30```"
-      );
+    if (match === "") return await message.sendMessage(Lang.TRIM_NEED_REPLY);
     let start = match.split(";")[0];
     let duration = match.split(";")[1];
     if (
@@ -167,7 +164,7 @@ Asena.addCommand(
       isNaN(start) ||
       isNaN(duration)
     )
-      return await message.sendMessage("*Syntax Error!*");
+      return await message.sendMessage(Lang.SYNTAX);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "trim"
     );
@@ -180,7 +177,7 @@ Asena.addCommand(
   }
 );
 Asena.addCommand(
-  { pattern: "page ?(.*)", fromMe: fm, desc: "To add images.", owner: false },
+  { pattern: "page ?(.*)", fromMe: fm, desc: "To add images." },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage("*Reply to a image.*");
@@ -201,7 +198,6 @@ Asena.addCommand(
     pattern: "pdf ?(.*)",
     fromMe: fm,
     desc: "Convert images to pdf.",
-    owner: false,
   },
   async (message, match) => {
     if (!fs.existsSync("./pdf")) {
@@ -238,44 +234,46 @@ Asena.addCommand(
   }
 );
 
-Asena.addCommand(
-  { pattern: "merge ?(.*)", fromMe: true, desc: "Merge videos" },
-  async (message, match) => {
-    if (!fs.existsSync("./media/merge")) {
-      fs.mkdirSync("./media/merge");
-    }
-    if (match == "" && !message.reply_message.video)
-      return await message.sendMessage(Lang.NEED_REPLY);
-    if (match == "" && isNaN(match))
-      return await message.sendMessage(
-        "*Reply with order number*\n*Ex: .merge 1*"
-      );
-    if (/[0-9]+/.test(match)) {
-      await message.reply_message.downloadAndSaveMediaMessage(
-        "./media/merge/" + match
-      );
-      return await message.sendMessage("```video " + match + " added```");
-    }
-    else {
-      let length = fs.readdirSync("./media/merge").length;
-      if (!(length > 0))
-        return await message.sendMessage(
-          "```Add videos in order.```\n*Example .merge 1*"
-        );
-      await message.sendMessage("```Merging " + length + " videos...```");
-      let buffer = await mergeVideo(length);
-      return await message.sendMessage(
-        buffer,
-        { mimetype: Mimetype.mp4 },
-        MessageType.video
-      );
-    }
-  }
-);
+// Asena.addCommand(
+//   { pattern: "merge ?(.*)", fromMe: true, desc: "Merge videos" },
+//   async (message, match) => {
+//     if (!fs.existsSync("./media/merge")) {
+//       fs.mkdirSync("./media/merge");
+//     }
+//     if (match == "" && !message.reply_message.video)
+//       return await message.sendMessage(Lang.NEED_REPLY);
+//     if (match == "" && isNaN(match))
+//       return await message.sendMessage(
+//         "*Reply with order number*\n*Ex: .merge 1*"
+//       );
+//     if (/[0-9]+/.test(match)) {
+//       await message.reply_message.downloadAndSaveMediaMessage(
+//         "./media/merge/" + match
+//       );
+//       return await message.sendMessage("```video " + match + " added```");
+//     }
+//     else {
+//       let length = fs.readdirSync("./media/merge").length;
+//       if (!(length > 0))
+//         return await message.sendMessage(
+//           "```Add videos in order.```\n*Example .merge 1*"
+//         );
+//       await message.sendMessage("```Merging " + length + " videos...```");
+//       let buffer = await mergeVideo(length);
+//       return await message.sendMessage(
+//         buffer,
+//         { mimetype: Mimetype.mp4 },
+//         MessageType.video
+//       );
+//     }
+//   }
+// );
 
 Asena.addCommand(
-  { pattern: "compress ?(.*)", fromMe: true, desc: "Compress video." },
+  { pattern: "compress ?(.*)", fromMe: true, desc: Lang.COMPRESS_DESC },
   async (message, match) => {
+    if (!message.reply_message || !message.reply_message.video)
+      return await message.sendMessage(Lang.NEED_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "compress"
     );
@@ -284,10 +282,10 @@ Asena.addCommand(
   }
 );
 Asena.addCommand(
-  { pattern: "unvoice", fromMe: true, desc: "Convert audio to voice note." },
+  { pattern: "unvoice", fromMe: true, desc: Lang.UNVOICE_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
-      return await message.sendMessage("*Reply to a audio*");
+      return await message.sendMessage(Lang.NEED_CUT_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "unvoice"
     );
@@ -301,10 +299,10 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "voice", fromMe: true, desc: "Convert voice note to audio." },
+  { pattern: "voice", fromMe: true, desc: Lang.VOICE_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
-      return await message.sendMessage("*Reply to a audio*");
+      return await message.sendMessage(Lang.NEED_CUT_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "voice"
     );
@@ -317,10 +315,10 @@ Asena.addCommand(
   }
 );
 Asena.addCommand(
-  { pattern: "lowmp3", fromMe: true, desc: "Alter replied audio" },
+  { pattern: "low", fromMe: true, desc: Lang.LOW_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
-      return await message.sendMessage("*Reply to a audio*");
+      return await message.sendMessage(Lang.NEED_CUT_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "lowmp3"
     );
@@ -333,10 +331,10 @@ Asena.addCommand(
   }
 );
 Asena.addCommand(
-  { pattern: "pitchmp3", fromMe: true, desc: "Alter replied audio" },
+  { pattern: "pitch", fromMe: true, desc: Lang.PITCH_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
-      return await message.sendMessage("*Reply to a audio*");
+      return await message.sendMessage(Lang.NEED_CUT_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "pitchmp3"
     );
@@ -349,10 +347,10 @@ Asena.addCommand(
   }
 );
 Asena.addCommand(
-  { pattern: "avec", fromMe: true, desc: "Alter replied audio" },
+  { pattern: "avec", fromMe: true, desc: Lang.AVEC_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
-      return await message.sendMessage("*Reply to a audio*");
+      return await message.sendMessage(Lang.NEED_CUT_REPLY);
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "avec"
     );

@@ -17,7 +17,7 @@ Asena.addCommand(
   { pattern: "plugin ?(.*)", fromMe: true, desc: Lang.INSTALL_DESC },
   async (message, match) => {
     if (match === "" && match !== "list")
-      return await message.sendMessage("```" + "Give me  a URL\nExample .plugin https://gist.github.com/lyfe00011/a497eba97dd1e82d8fa43c81cbf0fca8" + "```");
+      return await message.sendMessage(Lang.NEED_URL);
     if (match == "list") {
       let mesaj = Lang.INSTALLED_FROM_REMOTE;
       let plugins = await PluginDB.findAll();
@@ -48,10 +48,11 @@ Asena.addCommand(
     if (response.statusCode == 200) {
       var plugin_name = (/pattern: ['"](.*)["']/g).exec(response.body)
       if (plugin_name.length >= 1) {
-        plugin_name = plugin_name[1].split(" ")[0]
+        plugin_name = plugin_name[1].split(" ")[0];
       } else {
         plugin_name = Math.random().toString(36).substring(8);
       }
+
       fs.writeFileSync("./plugins/" + plugin_name + ".js", response.body);
       try {
         require("./" + plugin_name);

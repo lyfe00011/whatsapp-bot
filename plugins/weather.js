@@ -26,9 +26,7 @@ Asena.addCommand(
   {
     pattern: "weather ?(.*)",
     fromMe: true,
-    desc: Lang.WEATHER_DESC,
-    usage: "weather Bakü",
-    owner: false,
+    desc: Lang.WEATHER_DESC
   },
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.NEED_LOCATION);
@@ -83,22 +81,21 @@ Asena.addCommand(
   {
     pattern: "ytv ?(.*)",
     fromMe: true,
-    desc: "Download yt videos",
+    desc: Lang.YTV_DESC,
   },
   async (message, match) => {
     match = !message.repy_message ? match : message.repy_message.text;
     let vid = ytid.exec(match);
     if (match == "" || !vid)
-      return await message.sendMessage("*Give me a yt link*");
+      return await message.sendMessage(Lang.YTV_NEED_REPLY);
     if (/^[0-9]+/.test(match)) {
-      await message.sendMessage("```Downloading video...```");
+      await message.sendMessage(Lang.DOWNLOADING);
       let url = await dlY2mate(match);
       let { buffer, size, emessage } = await getBuffer(url);
       if (emessage)
         return message.sendMessage(emessage, { quoted: message.data });
       else if (!buffer)
-        return await message.sendMessage(
-          "```" + `Video is size ${size} MB, I can't upload it.` + "```"
+        return await message.sendMessage(Lang.SIZE.format(size)
         );
       return await message.sendMessage(
         buffer,
@@ -112,14 +109,14 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "google ?(.*)", fromMe: true, desc: "Google Image Search" },
+  { pattern: "google ?(.*)", fromMe: true, desc: Lang.GOOGLE_DESC },
   async (message, match) => {
     if (!message.reply_message.image)
-      return await message.sendMessage("*Reply to a image*"); //{
+      return await message.sendMessage(Lang.INEED_REPLY);
     let msg = "";
     let location = await message.reply_message.downloadMediaMessage();
     let result = await googleSearch(location);
-    if (result.length == 0) return await message.sendMessage("*Not found*");
+    if (result.length == 0) return await message.sendMessage(Lang.INOT_FOUND);
     result.forEach((url) => {
       msg += `${url}\n`;
     });

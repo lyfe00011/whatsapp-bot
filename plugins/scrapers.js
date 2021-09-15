@@ -49,10 +49,7 @@ Asena.addCommand(
       to: match2,
     });
     if ("text" in ceviri) {
-      return await message.sendMessage(
-        "```" +
-          `Translated from ${match1} to ${match2}\n\n${ceviri.text}` +
-          "```",
+      return await message.sendMessage(Lang.TRT.format(match1, match2, ceviri.text),
         { quoted: message.quoted }
       );
     } else {
@@ -64,7 +61,7 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "tts ?(.*)", fromMe: fm, desc: "Text to speech." },
+  { pattern: "tts ?(.*)", fromMe: fm, desc: Lang.TTS_DESC },
   async (message, match) => {
     if (match == "") return;
     let LANG = config.LANG.toLowerCase(),
@@ -117,7 +114,8 @@ Asena.addCommand(
       return await message.sendMessage(
         buffer,
         {
-          mimetype: Mimetype.mp4Audio, quoted: message.data,
+          mimetype: Mimetype.mp4Audio,
+          quoted: message.data,
           ptt: false,
         },
         MessageType.audio

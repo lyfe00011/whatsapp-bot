@@ -7,10 +7,9 @@ WhatsAsena - Yusuf Usta
 */
 
 const Asena = require("../Utilis/events");
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const Language = require("../language");
-const { getFfmpegBuffer } = require("../Utilis/fFmpeg");
 const { participateInVote, parseVote } = require("../Utilis/vote");
+const { tag } = require("../Utilis/Misc");
 const Lang = Language.getString("tagall");
 // const config = require('../config');
 Asena.addCommand(
@@ -30,59 +29,16 @@ Asena.addCommand(
         contextInfo: { mentionedJid: jids },
       });
     }
-    if (message.reply_message.txt) {
-      return await message.sendMessage(
-        message.reply_message.text,
-        { contextInfo: { mentionedJid: jids } },
-        MessageType.extendedText
-      );
-    } else if (message.reply_message.image) {
-      let location = await message.reply_message.downloadMediaMessage();
-      return await message.sendMessage(
-        location,
-        { contextInfo: { mentionedJid: jids } },
-        MessageType.image
-      );
-    } else if (message.reply_message.sticker) {
-      let location = await message.reply_message.downloadMediaMessage();
-      return await message.sendMessage(
-        location,
-        { contextInfo: { mentionedJid: jids } },
-        MessageType.sticker
-      );
-    } else if (message.reply_message.video) {
-      let location = await message.reply_message.downloadMediaMessage();
-      return await message.sendMessage(
-        location,
-        { contextInfo: { mentionedJid: jids } },
-        MessageType.video
-      );
-    } else if (message.reply_message.audio) {
-      let location = await message.reply_message.downloadAndSaveMediaMessage(
-        "tag"
-      );
-      let buffer = await getFfmpegBuffer(location, "tag.mp3", "mp3");
-      return await message.sendMessage(
-        buffer,
-        {
-          mimetype: Mimetype.mp4Audio,
-          ptt: true,
-          contextInfo: { mentionedJid: jids },
-        },
-        MessageType.audio
-      );
-    } else {
-      return await message.sendMessage(
-        match == "" ? "Hi" : match,
-        { contextInfo: { mentionedJid: jids } },
-        MessageType.extendedText
-      );
-    }
+    let { buffer, type } = await tag(message, match)
+    return await message.sendMessage(buffer, {
+      contextInfo: { mentionedJid: jids }
+    },
+      type)
   }
 );
 
 Asena.addCommand(
-  { pattern: "vote ?(.*)", fromMe: true, desc: "To manage vote System.", onlyGroup: true },
+  { pattern: "vote ?(.*)", fromMe: true,  desc: Lang.VOTE_DESC},
   async (message, match) => {
     let { msg, options, type } = await parseVote(message, match);
     return await message.sendMessage(msg, options, type);
