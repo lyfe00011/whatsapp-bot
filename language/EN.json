@@ -323,7 +323,7 @@
             "NOT_FOUND": "*Not found!*",
             "FIND_NEED_REPLY": "*Reply to a video or audio*",
             "FIND_MSG": "Title    : {}\nArtists  : {}\nGenre    : {}\nAlbum    : {}\nReleased : {}",
-            "FIND_DESC": "Identify song from replied video or audio.",
+            "FIND_DESC": "```Identify song from replied video or audio.```",
             "SS_DESC": "Take web screenshot of given url.",
             "NEED_URL": "Give me a url.",
             "EMOJI_DESC": "Convert emoji to sticker.",

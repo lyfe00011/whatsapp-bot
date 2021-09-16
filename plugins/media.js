@@ -83,7 +83,7 @@ Asena.addCommand(
     let buffer = await getFfmpegBuffer(location, "photo.png", "photo");
     return await message.sendMessage(
       buffer,
-      { viewOnce: true, quoted: message.data },
+      { quoted: message.data },
       MessageType.image
     );
   }

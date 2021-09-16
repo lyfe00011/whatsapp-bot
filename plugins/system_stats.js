@@ -48,7 +48,7 @@ Asena.addCommand(
     let quoted = !message.reply_message ? undefined : message.quoted;
     let { user, count, reason } = await warn(message, match);
     if (reason == "reset") {
-      return await message.sendMessage(Lang.RESET(user.split("@")[0], Config.WARN_COUNT - count),
+      return await message.sendMessage(Lang.RESET.format(user.split("@")[0], Config.WARN_COUNT - count),
         { quoted, contextInfo: { mentionedJid: [user] } }
       );
     }
