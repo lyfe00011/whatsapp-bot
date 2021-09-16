@@ -63,7 +63,7 @@
             "REPLY_MSG": "Bir mesajı yanıtla",
             "NOT_SUPPORTED": "*Bu mesaj pdf'ye dönüştürülemez.*",
             "WASTED_DESC": "heba olmuş afiş\nBir resmi yanıtla",
-            "TRIGGERED_DESC": "Tetiklenmiş afiş\nir resmi yanıtla"
+            "TRIGGERED_DESC": "Tetiklenmiş afiş\nBir resmi yanıtla"
         },
         "groupmute": {
             "AUTOMUTE_DESC": "Planlanan zamanda grubun sesini kapat\n.automute 98723-2323@g.us 10 10\nbu, grubu her gün 10:10'da sessize alacak.",
@@ -71,7 +71,7 @@
             "MUTE_NEED_REPLY": "*Mesajı Yanıtla*```Örnek\n.automute jid hour minute\nhour 0-23\nminute 0-59\n\n\n.automute jid\ndetaylarını almak için\n\n.automute jid off\nSesi açmayı devre dışı bırakmak için\n\n.automute list\nTo get all```",
             "UNMUTE_NEED_REPLY": "*Mesajı Yanıtla*```Örnek\n.autoUmute jid hour minute\nhour 0-23\nminute 0-59\n\n\n.autoUmute jid\ndetayları almak için\n\n.autoUmute jid off\nto disable unmute\n\n.autoUmute list\nTo get all```",
             "NO_SCHEDULE": "*There is no schedule to display.*",
-            "SCHEDULE_MSG": "```Jid     : {}\nMessage : {}\nHour    : {}\nMinute  : {}\nEnabled : {}```\n\n",
+            "SCHEDULE_MSG": "```Jid     : {}\nMesaj : {}\nSaat    : {}\nDakika  : {}\nEtkinleştirildi : {}```\n\n",
             "SYNTAX": "*Sözdizimi hatası!*",
             "NOT_FOUND": "*Bulunamadı*",
             "MUTE": "```Sesi kapat {} {}:{}```\n\n*Etkili olması için botu yeniden başlatın",
