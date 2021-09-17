@@ -43,7 +43,7 @@ Asena.addCommand(
     return await message.sendMessage(msg, options, type);
   }
 );
-Asena.addCommand({ on: "vote", fromMe: true }, async (message, match) => {
+Asena.addCommand({ on: "vote", fromMe: false }, async (message, match) => {
   let msg = await participateInVote(message);
   if (!msg) return
   return await message.sendMessage(msg, { quoted: message.data });
