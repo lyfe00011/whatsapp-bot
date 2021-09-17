@@ -234,40 +234,43 @@ Asena.addCommand(
   }
 );
 
-// Asena.addCommand(
-//   { pattern: "merge ?(.*)", fromMe: true, desc: "Merge videos" },
-//   async (message, match) => {
-//     if (!fs.existsSync("./media/merge")) {
-//       fs.mkdirSync("./media/merge");
-//     }
-//     if (match == "" && !message.reply_message.video)
-//       return await message.sendMessage(Lang.NEED_REPLY);
-//     if (match == "" && isNaN(match))
-//       return await message.sendMessage(
-//         "*Reply with order number*\n*Ex: .merge 1*"
-//       );
-//     if (/[0-9]+/.test(match)) {
-//       await message.reply_message.downloadAndSaveMediaMessage(
-//         "./media/merge/" + match
-//       );
-//       return await message.sendMessage("```video " + match + " added```");
-//     }
-//     else {
-//       let length = fs.readdirSync("./media/merge").length;
-//       if (!(length > 0))
-//         return await message.sendMessage(
-//           "```Add videos in order.```\n*Example .merge 1*"
-//         );
-//       await message.sendMessage("```Merging " + length + " videos...```");
-//       let buffer = await mergeVideo(length);
-//       return await message.sendMessage(
-//         buffer,
-//         { mimetype: Mimetype.mp4 },
-//         MessageType.video
-//       );
-//     }
-//   }
-// );
+Asena.addCommand(
+  { pattern: "merge ?(.*)", fromMe: true, desc: "Merge videos" },
+  async (message, match) => {
+    if (!fs.existsSync("./media/merge")) {
+      fs.mkdirSync("./media/merge");
+    }
+    if (
+      match == "" &&
+      message.reply_message != false &&
+      !message.reply_message.video
+    )
+      return await message.sendMessage(Lang.NEED_REPLY);
+    if (match == "" && isNaN(match))
+      return await message.sendMessage(
+        "*Reply with order number*\n*Ex: .merge 1*"
+      );
+    if (/[0-9]+/.test(match)) {
+      await message.reply_message.downloadAndSaveMediaMessage(
+        "./media/merge/" + match
+      );
+      return await message.sendMessage("```video " + match + " added```");
+    } else {
+      let length = fs.readdirSync("./media/merge").length;
+      if (!(length > 0))
+        return await message.sendMessage(
+          "```Add videos in order.```\n*Example .merge 1*"
+        );
+      await message.sendMessage("```Merging " + length + " videos...```");
+      let buffer = await mergeVideo(length);
+      return await message.sendMessage(
+        buffer,
+        { mimetype: Mimetype.mp4 },
+        MessageType.video
+      );
+    }
+  }
+);
 
 Asena.addCommand(
   { pattern: "compress ?(.*)", fromMe: true, desc: Lang.COMPRESS_DESC },
@@ -281,6 +284,28 @@ Asena.addCommand(
     return await message.sendMessage(buffer, {}, MessageType.video);
   }
 );
+
+Asena.addCommand(
+  { pattern: "bass ?(.*)", fromMe: true, desc: Lang.LOW_DESC },
+  async (message, match) => {
+    if (!message.reply_message || !message.reply_message.audio)
+      return await message.sendMessage(Lang.NEED_CUT_REPLY);
+    let location = await message.reply_message.downloadAndSaveMediaMessage(
+      "basso"
+    );
+    let buffer = await getFfmpegBuffer(
+      location,
+      "bass.mp3",
+      "bass," + match == "" ? 10 : match
+    );
+    return await message.sendMessage(
+      buffer,
+      { mimetype: Mimetype.mp4Audio },
+      MessageType.audio
+    );
+  }
+);
+
 Asena.addCommand(
   { pattern: "unvoice", fromMe: true, desc: Lang.UNVOICE_DESC },
   async (message, match) => {

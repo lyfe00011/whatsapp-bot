@@ -29,22 +29,21 @@ Asena.addCommand(
         contextInfo: { mentionedJid: jids },
       });
     }
-    let { buffer, type } = await tag(message, match)
-    return await message.sendMessage(buffer, {
-      contextInfo: { mentionedJid: jids }
-    },
+    let { buffer, type, options } = await tag(message, match)
+    options.contextInfo = { mentionedJid: jids }
+    return await message.sendMessage(buffer, options,
       type)
   }
 );
 
 Asena.addCommand(
-  { pattern: "vote ?(.*)", fromMe: true,  desc: Lang.VOTE_DESC},
+  { pattern: "vote ?(.*)", fromMe: true, desc: Lang.VOTE_DESC },
   async (message, match) => {
     let { msg, options, type } = await parseVote(message, match);
     return await message.sendMessage(msg, options, type);
   }
 );
-Asena.addCommand({ on: "vote", fromMe: false }, async (message, match) => {
+Asena.addCommand({ on: "vote", fromMe: true }, async (message, match) => {
   let msg = await participateInVote(message);
   if (!msg) return
   return await message.sendMessage(msg, { quoted: message.data });
