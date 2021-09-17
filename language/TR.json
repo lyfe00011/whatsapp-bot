@@ -275,7 +275,7 @@
             "SYSD_DESC": "Sistem özelliklerini gösterir.",
             "WARN_MSG": "```Kullanıcı   : {}\nUyarı   : {}\nGeriye kalan : {}\nSebep : {}\n\n```",
             "WARN_DESC": "Bir grupta yanıtlanan veya bahsedilen kullanıcıyı uyarır",
-            "RESET": "```Uyarı sıfırlama\nKullanıcı      : @${}\nGeriye kalan : {}```",
+            "RESET": "```Uyarı sıfırlama\nKullanıcı      : @{}\nGeriye kalan : {}```",
             "NEED_USER": "*Bana bir Kullanıcı ver*",
             "IAADMIN": "*Yönetici değilim*",
             "ISADMIN": "*Verilen kullanıcı bir yöneticidir*",
