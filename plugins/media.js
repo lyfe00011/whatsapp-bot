@@ -83,7 +83,7 @@ Asena.addCommand(
     let buffer = await getFfmpegBuffer(location, "photo.png", "photo");
     return await message.sendMessage(
       buffer,
-      { quoted: message.data },
+      { viewOnce: true, quoted: message.data },
       MessageType.image
     );
   }
@@ -153,7 +153,7 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY);
-    if (match === "") return await message.sendMessage(Lang.TRIM_NEED_REPLY);
+    if (match === "") return await message.sendMessage();
     let start = match.split(";")[0];
     let duration = match.split(";")[1];
     if (
@@ -296,7 +296,28 @@ Asena.addCommand(
     let buffer = await getFfmpegBuffer(
       location,
       "bass.mp3",
-      "bass," + match == "" ? 10 : match
+      `bass,${match == "" ? 10 : match}`
+    );
+    return await message.sendMessage(
+      buffer,
+      { mimetype: Mimetype.mp4Audio },
+      MessageType.audio
+    );
+  }
+);
+
+Asena.addCommand(
+  { pattern: "treble ?(.*)", fromMe: true, desc: Lang.LOW_DESC },
+  async (message, match) => {
+    if (!message.reply_message || !message.reply_message.audio)
+      return await message.sendMessage(Lang.NEED_CUT_REPLY);
+    let location = await message.reply_message.downloadAndSaveMediaMessage(
+      "trebleo"
+    );
+    let buffer = await getFfmpegBuffer(
+      location,
+      "treble.mp3",
+      `treble,${match == "" ? 10 : match}`
     );
     return await message.sendMessage(
       buffer,
