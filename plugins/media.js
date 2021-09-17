@@ -83,7 +83,7 @@ Asena.addCommand(
     let buffer = await getFfmpegBuffer(location, "photo.png", "photo");
     return await message.sendMessage(
       buffer,
-      { viewOnce: true, quoted: message.data },
+      { quoted: message.data },
       MessageType.image
     );
   }
@@ -153,7 +153,7 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY);
-    if (match === "") return await message.sendMessage();
+    if (match === "") return await message.sendMessage(Lang.TRIM_NEED_REPLY);
     let start = match.split(";")[0];
     let duration = match.split(";")[1];
     if (
