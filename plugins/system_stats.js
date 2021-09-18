@@ -21,7 +21,7 @@ Asena.addCommand(
   { pattern: "alive", fromMe: fm, desc: Lang.ALIVE_DESC },
   async (message, match) => {
     if (Config.ALIVE_URL == 'false') return await message.sendMessage(Config.ALIVE);
-    let { buffer, type } = await getBuffer(ALIVE_URL)
+    let { buffer, type } = await getBuffer(config.ALIVE_URL)
     if (type == 'video') return await message.sendMessage(buffer, { caption: Config.ALIVE }, MessageType.video)
     if (type == 'image') return await message.sendMessage(buffer, { caption: Config.ALIVE }, MessageType.image)
   }
