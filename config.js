@@ -62,5 +62,7 @@ module.exports = {
     WARN_MSG: process.env.WARN_MSG === undefined ? "Ok bie" : process.env.WARN_MSG,
     ANTIJID: process.env.ANTIJID === undefined ? '' : process.env.ANTIJID,
     URLS: process.env.ALLOWED_URLS === undefined ? "false" : process.env.ALLOWED_URLS,
-    STICKER_PACKNAME: process.env.STICKER_PACKNAME === undefined ? '🥰,lyfe00011' : process.env.STICKER_PACKNAME
+    STICKER_PACKNAME: process.env.STICKER_PACKNAME === undefined ? '🥰,lyfe00011' : process.env.STICKER_PACKNAME,
+    ALIVE_URL: process.env.ALIVE_URL === undefined ? "false" : process.env.ALIVE_URL
+
 };

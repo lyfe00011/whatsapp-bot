@@ -12,13 +12,18 @@ const Config = require("../config");
 const Language = require("../language");
 const { checkImAdmin } = require("../Utilis/Misc");
 const { warn, getEachWarn } = require("../Utilis/warn");
+const { getBuffer } = require("../Utilis/download");
+const { MessageType } = require("@adiwajshing/baileys");
 const Lang = Language.getString("system_stats");
 let fm = true;
 
 Asena.addCommand(
   { pattern: "alive", fromMe: fm, desc: Lang.ALIVE_DESC },
   async (message, match) => {
-    return await message.sendMessage(Config.ALIVE);
+    if (Config.ALIVE_URL == 'false') return await message.sendMessage(Config.ALIVE);
+    let { buffer, type } = await getBuffer(ALIVE_URL)
+    if (type == 'video') return await message.sendMessage(buffer, { caption: Config.ALIVE }, MessageType.video)
+    if (type == 'image') return await message.sendMessage(buffer, { caption: Config.ALIVE }, MessageType.image)
   }
 );
 

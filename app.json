@@ -108,13 +108,18 @@
             "required": false,
             "value": "false"
         },
+        "ALIVE_URL": {
+            "description": "alive message media can be video or image url.",
+            "required": false,
+            "value": "false"
+        },
         "REMOVEBG_KEY": {
             "description": "Get your key from remove.bg",
             "required": false,
             "value": "false"
         },
         "LANGUAGE": {
-            "description": "Enter language (only effect trt , tts ,...)",
+            "description": "Enter bot language, example EN for English, ID for Bahasa Indonesia, TR for Turkish",
             "value": "EN"
         },
         "ALLOWED_URLS": {

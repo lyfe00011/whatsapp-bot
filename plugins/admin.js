@@ -123,9 +123,9 @@ Asena.addCommand(
     } else if (message.reply_message === false && message.mention !== false) {
       let checkAlready = await checkImAdmin(participants, message.mention[0]);
       if (checkAlready)
-        return await message.sendMessage(Lang.ALREADY_PROMOTED.format(message.mention[0]));
+        return await message.sendMessage(Lang.ALREADY_PROMOTED);
       await message.client.groupMakeAdmin(message.jid, message.mention);
-      return await message.sendMessage(Lang.PROMOTED.format(message.mention[0]), {
+      return await message.sendMessage(Lang.PROMOTED.format(message.mention[0].split("@")[0]), {
         contextInfo: { mentionedJid: message.mention },
       });
     } else {
@@ -163,7 +163,7 @@ Asena.addCommand(
       let checkAlready = await checkImAdmin(participants, message.mention[0]);
       if (!checkAlready)
         return await message.sendMessage(Lang.ALREADY_NOT_ADMIN);
-      await message.sendMessage(Lang.DEMOTED.format(message.mention[0]), {
+      await message.sendMessage(Lang.DEMOTED.format(message.mention[0].split("@")[0]), {
         contextInfo: { mentionedJid: message.mention },
       });
       return await message.client.groupDemoteAdmin(
