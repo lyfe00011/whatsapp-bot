@@ -20,7 +20,7 @@ let fm = true;
 Asena.addCommand(
   { pattern: "alive", fromMe: fm, desc: Lang.ALIVE_DESC },
   async (message, match) => {
-    if (Config.ALIVE_URL == 'false') return await message.sendMessage(Config.ALIVE);
+    if (!(/(https?):\/\/[^\s$.?#].[^\s]*$/.test(Config.ALIVE_URL))) return await message.sendMessage(Config.ALIVE);
     let { buffer, type } = await getBuffer(Config.ALIVE_URL)
     if (type == 'video') return await message.sendMessage(buffer, { caption: Config.ALIVE }, MessageType.video)
     if (type == 'image') return await message.sendMessage(buffer, { caption: Config.ALIVE }, MessageType.image)
@@ -60,9 +60,9 @@ Asena.addCommand(
     if (count >= Config.WARN_COUNT) {
       let participants = await message.groupMetadata(message.jid);
       let im = await checkImAdmin(participants, message.client.user.jid);
-      if (!im) return await message.sendMessage(Lang.IAADMIN);
+      if (!im) return await message.sendMessage(Lang.ISADMIN);
       let us = await checkImAdmin(participants, user);
-      if (us) return await message.sendMessage(Lang.ISADMIN);
+      if (us) return await message.sendMessage(Lang.IAADMIN);
       await message.sendMessage(Config.WARN_MSG, { quoted });
       return await message.groupRemove(message.jid, user);
     }
