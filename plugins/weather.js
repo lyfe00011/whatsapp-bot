@@ -19,6 +19,7 @@ const {
   googleSearch,
 } = require("../Utilis/download");
 const { Mimetype, MessageType } = require("@adiwajshing/baileys");
+const { iplscore } = require("../Utilis/Misc");
 const ytid =
   /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/;
 
@@ -26,7 +27,7 @@ Asena.addCommand(
   {
     pattern: "weather ?(.*)",
     fromMe: true,
-    desc: Lang.WEATHER_DESC
+    desc: Lang.WEATHER_DESC,
   },
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.NEED_LOCATION);
@@ -95,8 +96,7 @@ Asena.addCommand(
       if (emessage)
         return message.sendMessage(emessage, { quoted: message.data });
       else if (!buffer)
-        return await message.sendMessage(Lang.SIZE.format(size)
-        );
+        return await message.sendMessage(Lang.SIZE.format(size));
       return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.mp4 },
@@ -121,5 +121,17 @@ Asena.addCommand(
       msg += `${url}\n`;
     });
     return await message.sendMessage(msg, { quoted: message.data });
+  }
+);
+
+Asena.addCommand(
+  {
+    pattern: "ipl ?(.*)",
+    fromMe: true,
+    desc: "Shows live ipl score ",
+  },
+  async (message, match) => {
+    let msg = await iplscore(match);
+    return await message.sendMessage(msg);
   }
 );

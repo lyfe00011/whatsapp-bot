@@ -273,9 +273,9 @@
         "system_stats": {
             "ALIVE_DESC": "Apakah bot berfungsi?",
             "SYSD_DESC": "Menunjukkan properti sistem.",
-            "WARN_MSG": "```Pengguna   : {}\nPeringatan   : {}\nSisa : {}\nAlasan : {}\n\n```",
+            "WARN_MSG": "```Pengguna   : {}\nPeringatan : {}\nSisa       : {}\nAlasan     : {}\n\n```",
             "WARN_DESC": "Memperingatkan pengguna yang dibalas atau dimention di grup.",
-            "RESET": "```PERINGATAN DIHAPUS\nPengguna      : @{}\nTersisa : {}```",
+            "RESET": "```PERINGATAN DIHAPUS\nPengguna : @{}\nTersisa  : {}```",
             "NEED_USER": "*Berikan saya pengguna*",
             "IAADMIN": "*Saya bukan admin*",
             "ISADMIN": "*Pengguna yang diberikan adalah admin*",

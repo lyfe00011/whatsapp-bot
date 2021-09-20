@@ -111,6 +111,7 @@ Asena.addCommand(
       });
       let songname = new Date().getTime() + ".mp3";
       let buffer = await song(songname, stream, bit);
+      if (!buffer) return await message.sendMessage('*Downloading failed*')
       return await message.sendMessage(
         buffer,
         {
