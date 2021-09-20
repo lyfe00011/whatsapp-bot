@@ -20,6 +20,88 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/lyfe00011/whatsapp-bot) -->
 
+
+|   Active  |   Group commands    | 
+:---------: | :-------------------| 
+|   ✔️   | Kick                  |
+|   ✔️   | Tag                   |
+|   ✔️   | Add                   |
+|   ✔️   | Warn                  |
+|   ✔️   | Vote                  |
+|   ✔️   | Invite                |
+|   ✔️   | Revoke                |     
+|   ✔️   | Demote                |
+|   ✔️   | Promote               |
+|   ✔️   | Banbye                |
+|   ✔️   | Goodbye               | 
+|   ✔️   | Welcome               | 
+|   ✔️   | Schedule              |
+|   ✔️   | Auto-mute             |
+|   ✔️   | Mute/Unmute           |
+|   ✔️   | Common/Diff           |
+
+
+|  Active | Dowloader commands    |
+|:-------:| :---------------------|
+|   ✔️   | Saavn                 |
+|   ✔️   | Upload                |
+|   ✔️   | Yta/Ytv               |
+|   ✔️   | Unsplash              |
+|   ✔️   | Mediafire             |
+|   ✔️   | Pinterest             |
+|   ✔️   | SoundCloud            |
+|   ✔️   | TikTok video          |
+|   ✔️   | Twitter video         |
+|   ✔️   | Facebook video        |
+|   ✔️   | Instagram story       |
+|   ✔️   | YouTube audio/video   |
+|   ✔️   | Instagram video/image |
+
+|  Active |      Misc Commands    |              Usage                           |  
+|:-------:| :-------------------- |:---------------------------------------------|
+|   ✔️   | Qr                    |      Reads Barcode                           | 
+|   ✔️   | Ss                    |      Screenshot of web                       | 
+|   ✔️   | Url                   |      Gets url of media                       |
+|   ✔️   | Trt                   |      Translates languages                    |
+|   ✔️   | Mp3                   |      Video to mp3                            |
+|   ✔️   | Txt                   |      Image to text                           |     
+|   ✔️   | Afk                   |      Away from keyboard                      |
+|   ✔️   | Cut                   |      Cuts mp3                                |
+|   ✔️   | Pdf                   |      Images to pdf                           |
+|   ✔️   | Mp4                   |      Sticker to video                        |
+|   ✔️   | Take                  |      Takes other sticker                     |  
+|   ✔️   | Wiki                  |      Wikipedia search                        |
+|   ✔️   | Meme                  |      Text on photos                          |
+|   ✔️   | Trim                  |      Trims video                             |
+|   ✔️   | Find                  |      It finds  song                          |
+|   ✔️   | Attp                  |      Coloured text sticker                   |
+|   ✔️   | Alive                 |      To check alive or not                   |
+|   ✔️   | Whois                 |      Group or individual data                | 
+|   ✔️   | Movie                 |      Shows Movie Info                        |
+|   ✔️   | Merge                 |      It merge a videos                       |
+|   ✔️   | Voice                 |      Voice to mp3                            |
+|   ✔️   | Topdf                 |      Single page pdf                         | 
+|   ✔️   | Emoji                 |      Emoji to sticker                        |
+|   ✔️   | Lydia                 |      Auto AI chat                            |
+|   ✔️   | Sticker               |      Photo/video to sticker                  |
+|   ✔️   | Reverse               |      It reverse a video                      |
+|   ✔️   | Unvoice               |      Audio to voices                         |
+|   ✔️   | Wasted                |      Wasted logo                             |
+|   ✔️   | Trigged               |      Trigged effect                          |
+|   ✔️   | Forward               |      Forwarding using jid                    |
+|   ✔️   | Compress              |      Compresses video                        |
+|   ✔️   | Google                |      Google image search                     |
+|   ✔️   | Upload                |      Uploads medias                          |
+|   ✔️   | Weather               |      Shows weather                           |
+|   ✔️   | Getjids               |      Gets jids of group                      | 
+|   ✔️   | Removebg              |      Removes background                      |
+|   ✔️   | Setabout              |      Sets bio                                |
+|   ✔️   | Setstatus             |      Sets status                             |
+|   ✔️   | Pitch/low/bass        |      Audio effects                           |
+|   ✔️   | Histo/vector/aves     |      Audio to video                          |
+|   ✔️   | Block/unblock         |      Blocks/unblocks members                 |
+ 
+
 ## Thanks To
 - [Yusuf Usta](https://github.com/Quiec) for [WhatsAsena](https://github.com/yusufusta/WhatsAsena)
 - [@adiwajshing](https://github.com/adiwajshing) for [Baileys](https://github.com/adiwajshing/Baileys) 
