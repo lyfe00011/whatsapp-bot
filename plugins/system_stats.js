@@ -60,9 +60,9 @@ Asena.addCommand(
     if (count >= Config.WARN_COUNT) {
       let participants = await message.groupMetadata(message.jid);
       let im = await checkImAdmin(participants, message.client.user.jid);
-      if (!im) return await message.sendMessage(Lang.ISADMIN);
+      if (!im) return await message.sendMessage(Lang.IAADMIN);
       let us = await checkImAdmin(participants, user);
-      if (us) return await message.sendMessage(Lang.IAADMIN);
+      if (us) return await message.sendMessage(Lang.ISADMIN);
       await message.sendMessage(Config.WARN_MSG, { quoted });
       return await message.groupRemove(message.jid, user);
     }
