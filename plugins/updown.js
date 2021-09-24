@@ -84,7 +84,7 @@ Asena.addCommand(
   { pattern: "upload ?(.*)", fromMe: true, desc: "Download from link." },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
-    if (match === "")
+    if (!(/(https?):\/\/[^\s$.?#].[^\s]*$/.test(match)))
       return await message.sendMessage(Lang.NEED_URL);
     await message.sendMessage(Lang.DOWNLOADING);
     let { buffer, type, name, emessage, mime } = await getBuffer(match);

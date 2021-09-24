@@ -169,7 +169,7 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
         if (!m.messages && !m.count) return;
         const { messages } = m;
         const all = messages.all()
-        await handleMessages(all[0], conn);
+        handleMessages(all[0], conn);
     })
 
     try {

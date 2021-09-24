@@ -13,7 +13,7 @@ async function updateChecker() {
   commits["all"].map((commit) => {
     newcommits += `🔹 *[${commit.date.substring(0, 10)}] :* ${sss}${
       commit.message
-    }${sss} <_*${commit.author_name}*_>\n`;
+    }${sss} <*${commit.author_name}*>\n`;
   });
   return newcommits;
 }
@@ -46,7 +46,7 @@ Asena.addCommand(
         var app = await heroku.get("/apps/" + Config.HEROKU.APP_NAME);
       } catch {
         await message.sendMessage(
-          "*Invalid Heroku Details*\n*Update Heroku vars*"
+          "*Invalid Heroku Details*\n*Update Heroku APP name and Heroku API key*"
         );
       }
       git.fetch("upstream", Config.BRANCH);
