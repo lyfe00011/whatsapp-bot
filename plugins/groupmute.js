@@ -42,11 +42,11 @@ Asena.addCommand(
     ) {
       let info = await getMute(user);
       if (info == false) return await message.sendMessage(Lang.NOT_FOUND);
-      let { jid, message: msgs, hour, minute } = info;
+      let { jid, message: msgs, hour, minute, onoroff } = info;
       await setMute(user, msgs, hour, minute, hours == "on" ? true : false);
       return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) + '*Restart bot*');
     } else if (!user || !msg || !hours || !minute) {
-      return await message.sendMessage(Lang.SCHEDULE_MSG.SYNTAX);
+      return await message.sendMessage(Lang.SYNTAX);
     } else {
       await setMute(user, msg, hours, minute, true);
       return await message.sendMessage(
@@ -90,7 +90,7 @@ Asena.addCommand(
     ) {
       let info = await getUnmute(user);
       if (info == false) return await message.sendMessage(Lang.NOT_FOUND);
-      let { jid, message: msgs, hour, minute } = info;
+      let { jid, message: msgs, hour, minute, onoroff } = info;
       await setUnmute(user, msgs, hour, minute, hours == "on" ? true : false);
       return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) +
         `\n\n*Restart bot*`);
