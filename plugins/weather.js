@@ -92,15 +92,20 @@ Asena.addCommand(
     if (/^[0-9]+/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING);
       let url = await dlY2mate(match);
-      let { buffer, size, emessage } = await getBuffer(url);
+      let { buffer, size, emessage, type } = await getBuffer(url);
       if (emessage)
         return message.sendMessage(emessage, { quoted: message.data });
       else if (!buffer)
         return await message.sendMessage(Lang.SIZE.format(size));
-      return await message.sendMessage(
+      if (type == 'video') return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.mp4 },
         MessageType.video
+      );
+      return await message.sendMessage(
+        buffer,
+        { mimetype: Mimetype.mp4Audio },
+        MessageType.audio
       );
     }
     let msg = await getY2mate(match);
