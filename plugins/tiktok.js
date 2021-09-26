@@ -64,8 +64,8 @@ Asena.addCommand(
   async (message, match) => {
     if (match == "") return await message.sendMessage(Lang.JID);
     if (!message.reply_message) return await message.sendMessage(Lang.FORWARD);
+    const { buffer, type, options } = await forward(match, message);
     let jid = match.match(parseJid)[0]
-    const { jid, buffer, type, options } = await forward(match, message);
     return await message.client.sendMessage(jid, buffer, type, options);
   }
 );
