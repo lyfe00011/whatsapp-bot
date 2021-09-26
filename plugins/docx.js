@@ -4,6 +4,7 @@ const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { banner, checkBroadCast } = require("../Utilis/Misc");
 const Language = require("../language");
 const { broadCast } = require("../Utilis/groupmute");
+const { parseJid } = require("../Utilis/vote");
 const Lang = Language.getString("docx");
 Asena.addCommand(
   { pattern: "topdf", fromMe: true, desc: Lang.TOPDF_DESC, usage: Lang.TOPDF_USAGE },
@@ -66,10 +67,10 @@ Asena.addCommand(
     let { msg, result, broadcast, status } = await checkBroadCast(match)
     if (status == false) return await message.sendMessage(`Example \n.broadcast 'frnds' 'jid1 jid2 jid3'`)
     if (msg) return await message.sendMessage(msg)
-    if (result) return await message.sendMessage('added' + result)
+    if (result) return await message.sendMessage(`added ${result}\nNow reply to a message .broadcast ${result}`)
     if (!message.reply_message) return await message.sendMessage('*Reply to a Message*')
     await message.client.sendMessage(message.client.user.jid, 'BroadCasting\n' + broadcast)
-    broadcast.split(' ').map((jid) => {
+    match.match(parseJid).map((jid) => {
       broadCast(jid, message)
     })
   })

@@ -4,6 +4,8 @@ const { getJson, TiktokDownloader, getBuffer } = require("../Utilis/download");
 const { UploadToImgur, wallpaper, forward } = require("../Utilis/Misc");
 const Language = require("../language");
 const Lang = Language.getString("tiktok");
+const { parseJid } = require("../Utilis/vote");
+
 Asena.addCommand(
   { pattern: "tiktok ?(.*)", fromMe: true, desc: Lang.TIKTOK_DESC },
   async (message, match) => {
@@ -62,7 +64,7 @@ Asena.addCommand(
   async (message, match) => {
     if (match == "") return await message.sendMessage(Lang.JID);
     if (!message.reply_message) return await message.sendMessage(Lang.FORWARD);
-    if (match.length > 30) return await message.sendMessage("*Check jid*");
+    let jid = match.match(parseJid)[0]
     const { jid, buffer, type, options } = await forward(match, message);
     return await message.client.sendMessage(jid, buffer, type, options);
   }
