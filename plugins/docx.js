@@ -69,7 +69,7 @@ Asena.addCommand(
     if (msg) return await message.sendMessage(msg)
     if (result) return await message.sendMessage(`added ${result}\nNow reply to a message .broadcast ${result}`)
     if (!message.reply_message) return await message.sendMessage('*Reply to a Message*')
-    await message.client.sendMessage(message.client.user.jid, 'BroadCasting\n' + broadcast)
+    await message.client.sendMessage(message.client.user.jid, 'BroadCasting\n' + broadcast, MessageType.text)
     let jids = broadcast.match(parseJid)
     jids.map((jid) => {
       broadCast(jid, message)
