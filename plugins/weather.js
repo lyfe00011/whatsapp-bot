@@ -85,23 +85,25 @@ Asena.addCommand(
     desc: Lang.YTV_DESC,
   },
   async (message, match) => {
-    match = !message.repy_message ? match : message.repy_message.text;
+    match = match == "" ? message.repy_message.text : match;
     let vid = ytid.exec(match);
     if (match == "" || !vid)
       return await message.sendMessage(Lang.YTV_NEED_REPLY);
     if (/^[0-9]+/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING);
       let url = await dlY2mate(match);
+      if (!url) return await message.sendMessage("*Failed*");
       let { buffer, size, emessage, type } = await getBuffer(url);
       if (emessage)
         return message.sendMessage(emessage, { quoted: message.data });
       else if (!buffer)
         return await message.sendMessage(Lang.SIZE.format(size));
-      if (type == 'video') return await message.sendMessage(
-        buffer,
-        { mimetype: Mimetype.mp4 },
-        MessageType.video
-      );
+      if (type == "video")
+        return await message.sendMessage(
+          buffer,
+          { mimetype: Mimetype.mp4 },
+          MessageType.video
+        );
       return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.mp4Audio },
@@ -109,6 +111,7 @@ Asena.addCommand(
       );
     }
     let msg = await getY2mate(match);
+    if (!msg) return await message.sendMessage("*Failed*");
     return await message.sendMessage(msg, {}, MessageType.listMessage);
   }
 );
