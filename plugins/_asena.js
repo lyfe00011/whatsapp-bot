@@ -9,7 +9,7 @@ WhatsAsena - Yusuf Usta
 const Asena = require("../Utilis/events");
 const Config = require("../config");
 const { lydia, getLydia, setLydia } = require("../Utilis/lydia");
-const { getName } = require("../Utilis/download");
+const { getName, readmore } = require("../Utilis/download");
 const Language = require("../language");
 const Lang = Language.getString("_asena");
 Asena.addCommand(
@@ -36,6 +36,7 @@ Asena.addCommand(
         } else {
           HANDLER = ".";
         }
+        if (index == 2) CMD_HELP += readmore
         CMD_HELP += `${index} ${match.length >= 3 ? HANDLER + match[2] : command.pattern
           }\n${command.desc}\n\n`;
       }

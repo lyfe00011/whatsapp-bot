@@ -5,9 +5,15 @@ const { banner, checkBroadCast } = require("../Utilis/Misc");
 const Language = require("../language");
 const { broadCast } = require("../Utilis/groupmute");
 const { parseJid } = require("../Utilis/vote");
+const { readmore, readMore } = require("../Utilis/download");
 const Lang = Language.getString("docx");
 Asena.addCommand(
-  { pattern: "topdf", fromMe: true, desc: Lang.TOPDF_DESC, usage: Lang.TOPDF_USAGE },
+  {
+    pattern: "topdf",
+    fromMe: true,
+    desc: Lang.TOPDF_DESC,
+    usage: Lang.TOPDF_USAGE,
+  },
   async (message, match) => {
     if (!message.reply_message)
       return await message.sendMessage(Lang.REPLY_MSG);
@@ -36,7 +42,12 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "wasted", fromMe: true, desc: Lang.WASTED_DESC, usage: Lang.WASTED_USAGE },
+  {
+    pattern: "wasted",
+    fromMe: true,
+    desc: Lang.WASTED_DESC,
+    usage: Lang.WASTED_USAGE,
+  },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.REPLY);
@@ -47,7 +58,12 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "trigged", fromMe: true, desc: Lang.TRIGGERED_DESC, usage: Lang.TRGGERED_USAGE },
+  {
+    pattern: "trigged",
+    fromMe: true,
+    desc: Lang.TRIGGERED_DESC,
+    usage: Lang.TRGGERED_USAGE,
+  },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.REPLY);
@@ -62,16 +78,41 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
+  {
+    pattern: "readmore ?(.*)",
+    fromMe: true,
+    desc: "Add readmore to given Message\nExample .readmore Hi readmore hi",
+  },
+  async (message, match) => {
+    await message.sendMessage(
+      readMore(!message.reply_message ? match : message.reply_message.text)
+    );
+  }
+);
+
+Asena.addCommand(
   { pattern: "broadcast ?(.*)", fromMe: true, desc: "BroadCast" },
   async (message, match) => {
-    let { msg, result, broadcast, status } = await checkBroadCast(match)
-    if (status == false) return await message.sendMessage(`Example \n.broadcast 'frnds' 'jid1 jid2 jid3'`)
-    if (msg) return await message.sendMessage(msg)
-    if (result) return await message.sendMessage(`added ${result}\nNow reply to a message .broadcast ${result}`)
-    if (!message.reply_message) return await message.sendMessage('*Reply to a Message*')
-    await message.client.sendMessage(message.client.user.jid, 'BroadCasting\n' + broadcast, MessageType.text)
-    let jids = broadcast.match(parseJid)
+    let { msg, result, broadcast, status } = await checkBroadCast(match);
+    if (status == false)
+      return await message.sendMessage(
+        `Example \n.broadcast 'frnds' 'jid1 jid2 jid3'`
+      );
+    if (msg) return await message.sendMessage(msg);
+    if (result)
+      return await message.sendMessage(
+        `added ${result}\nNow reply to a message .broadcast ${result}`
+      );
+    if (!message.reply_message)
+      return await message.sendMessage("*Reply to a Message*");
+    await message.client.sendMessage(
+      message.client.user.jid,
+      "BroadCasting\n" + broadcast,
+      MessageType.text
+    );
+    let jids = broadcast.match(parseJid);
     jids.map((jid) => {
-      broadCast(jid, message)
-    })
-  })
+      broadCast(jid, message);
+    });
+  }
+);
