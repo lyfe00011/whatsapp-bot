@@ -227,8 +227,7 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid);
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
-    let invite = await message.client.groupInviteCode(message.jid);
-    return await message.sendMessage(Lang.INVITE.format(invite));
+    return await message.sendMessage(Lang.INVITE.format(await message.client.groupInviteCode(message.jid)));
   }
 );
 Asena.addCommand(

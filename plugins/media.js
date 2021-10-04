@@ -11,7 +11,7 @@ const {
   videoTrim,
   mergeVideo,
   getFfmpegBuffer,
-  audioToVideo,
+  videoHeightWidth,
 } = require("../Utilis/fFmpeg");
 let fm = true;
 
@@ -26,25 +26,22 @@ Asena.addCommand(
     );
     if (/right/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING);
-      let buffer = await getFfmpegBuffer(location, "orotate.mp4", "right");
       return await message.sendMessage(
-        buffer,
+        await getFfmpegBuffer(location, "orotate.mp4", "right"),
         { mimetype: Mimetype.mp4 },
         MessageType.video
       );
     } else if (/left/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING);
-      let buffer = await getFfmpegBuffer(location, "orotate.mp4", "left");
       return await message.sendMessage(
-        buffer,
+        await getFfmpegBuffer(location, "orotate.mp4", "left"),
         { mimetype: Mimetype.mp4 },
         MessageType.video
       );
     } else if (/flip/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING);
-      let buffer = await getFfmpegBuffer(location, "orotate.mp4", "flip");
       return await message.sendMessage(
-        buffer,
+        await getFfmpegBuffer(location, "orotate.mp4", "flip"),
         { mimetype: Mimetype.mp4 },
         MessageType.video
       );
@@ -57,12 +54,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "mp3"
-    );
-    let buffer = await getFfmpegBuffer(location, "mp3.mp3", "mp3");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("mp3"),
+        "mp3.mp3",
+        "mp3"
+      ),
       { filename: "mp3.mp3", mimetype: Mimetype.mp3, ptt: false },
       MessageType.audio
     );
@@ -78,12 +75,12 @@ Asena.addCommand(
       message.reply_message.animated
     )
       return await message.sendMessage(Lang.SNEED);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "photo"
-    );
-    let buffer = await getFfmpegBuffer(location, "photo.png", "photo");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("photo"),
+        "photo.png",
+        "photo"
+      ),
       { quoted: message.data },
       MessageType.image
     );
@@ -103,16 +100,14 @@ Asena.addCommand(
       "reverse"
     );
     if (message.reply_message.video == true) {
-      let buffer = await getFfmpegBuffer(location, "revered.mp4", "videor");
       return await message.sendMessage(
-        buffer,
+        await getFfmpegBuffer(location, "revered.mp4", "videor"),
         { mimetype: Mimetype.mp4 },
         MessageType.video
       );
     } else if (message.reply_message.audio == true) {
-      let buffer = await getFfmpegBuffer(location, "revered.mp3", "audior");
       return await message.sendMessage(
-        buffer,
+        await getFfmpegBuffer(location, "revered.mp3", "audior"),
         { filename: "revered.mp3", mimetype: Mimetype.mp3, ptt: false },
         MessageType.audio
       );
@@ -137,12 +132,12 @@ Asena.addCommand(
       isNaN(duration)
     )
       return await message.sendMessage(Lang.SYNTAX);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "cut"
-    );
-    let buffer = await audioCut(location, start.trim(), duration.trim());
     return await message.sendMessage(
-      buffer,
+      await audioCut(
+        await message.reply_message.downloadAndSaveMediaMessage("cut"),
+        start.trim(),
+        duration.trim()
+      ),
       { filename: "cut.mp3", mimetype: Mimetype.mp3, ptt: false },
       MessageType.audio
     );
@@ -166,12 +161,12 @@ Asena.addCommand(
       isNaN(duration)
     )
       return await message.sendMessage(Lang.SYNTAX);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "trim"
-    );
-    let buffer = await videoTrim(location, start, duration);
     return await message.sendMessage(
-      buffer,
+      await videoTrim(
+        await message.reply_message.downloadAndSaveMediaMessage("trim"),
+        start,
+        duration
+      ),
       { mimetype: Mimetype.mp4 },
       MessageType.video
     );
@@ -263,9 +258,8 @@ Asena.addCommand(
           "```Add videos in order.```\n*Example .merge 1*"
         );
       await message.sendMessage("```Merging " + length + " videos...```");
-      let buffer = await mergeVideo(length);
       return await message.sendMessage(
-        buffer,
+        await mergeVideo(length),
         { mimetype: Mimetype.mp4 },
         MessageType.video
       );
@@ -278,11 +272,15 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "compress"
+    return await message.sendMessage(
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("compress"),
+        "ocompress.mp4",
+        "compress"
+      ),
+      {},
+      MessageType.video
     );
-    let buffer = await getFfmpegBuffer(location, "ocompress.mp4", "compress");
-    return await message.sendMessage(buffer, {}, MessageType.video);
   }
 );
 
@@ -291,16 +289,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "basso"
-    );
-    let buffer = await getFfmpegBuffer(
-      location,
-      "bass.mp3",
-      `bass,${match == "" ? 10 : match}`
-    );
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("basso"),
+        "bass.mp3",
+        `bass,${match == "" ? 10 : match}`
+      ),
       { mimetype: Mimetype.mp4Audio },
       MessageType.audio
     );
@@ -312,16 +306,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "trebleo"
-    );
-    let buffer = await getFfmpegBuffer(
-      location,
-      "treble.mp3",
-      `treble,${match == "" ? 10 : match}`
-    );
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("trebleo"),
+        "treble.mp3",
+        `treble,${match == "" ? 10 : match}`
+      ),
       { mimetype: Mimetype.mp4Audio },
       MessageType.audio
     );
@@ -333,12 +323,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "unvoice"
-    );
-    let buffer = await getFfmpegBuffer(location, "mp3.mp3", "mp3");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("unvoice"),
+        "mp3.mp3",
+        "mp3"
+      ),
       { filename: "unvoice.mp3", ptt: true, mimetype: Mimetype.mp3 },
       MessageType.audio
     );
@@ -350,12 +340,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "histo"
-    );
-    let buffer = await getFfmpegBuffer(location, "histo.mp4", "histo");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("histo"),
+        "histo.mp4",
+        "histo"
+      ),
       { mimetype: Mimetype.mp4 },
       MessageType.video
     );
@@ -367,44 +357,64 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "vector"
-    );
-    let buffer = await getFfmpegBuffer(location, "vector.mp4", "vector");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("vector"),
+        "vector.mp4",
+        "vector"
+      ),
       { mimetype: Mimetype.mp4 },
       MessageType.video
     );
   }
 );
-// Asena.addCommand(
-//   { pattern: "plain", fromMe: true, desc: Lang.UNVOICE_DESC },
-//   async (message, match) => {
-//     if (!message.reply_message || !message.reply_message.audio)
-//       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-//     let location = await message.reply_message.downloadAndSaveMediaMessage(
-//       "plain"
-//     );
-//     let buffer = await audioToVideo(location);
-//     return await message.sendMessage(
-//       buffer,
-//       { mimetype: Mimetype.mp4 },
-//       MessageType.video
-//     );
-//   }
-// );
+Asena.addCommand(
+  {
+    pattern: "crop ?(.*)",
+    fromMe: true,
+    desc: "To crop video\nExample \n.crop 512,512,0,512\n.crop outW,outH,WtoCrop,HtoCrop",
+  },
+  async (message, match) => {
+    if (!message.reply_message || !message.reply_message.video)
+      return await message.sendMessage(Lang.NEED_REPLY);
+    let [vw, vh, w, h] = match.split(",");
+    if (
+      !vh ||
+      !vw ||
+      !w ||
+      !h ||
+      typeof +vh !== "number" ||
+      typeof +w !== "number" ||
+      typeof +h !== "number" ||
+      typeof +vw !== "number"
+    )
+      return await message.sendMessage(Lang.SYNTAX);
+    let location = await message.reply_message.downloadAndSaveMediaMessage(
+      "plain"
+    );
+    let { height, width } = await videoHeightWidth(location);
+    if (vw > width || vh > height)
+      return await message.sendMessage(
+        `*Video width: ${width}, height: ${height}*\n*Choose output size in between.*`
+      );
+    return await message.sendMessage(
+      await getFfmpegBuffer(location, "crop.mp4", "crop", match),
+      { mimetype: Mimetype.mp4 },
+      MessageType.video
+    );
+  }
+);
 Asena.addCommand(
   { pattern: "voice", fromMe: true, desc: Lang.VOICE_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "voice"
-    );
-    let buffer = await getFfmpegBuffer(location, "mp3.mp3", "mp3");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("voice"),
+        "mp3.mp3",
+        "mp3"
+      ),
       { filename: "voice.mp3", ptt: false, mimetype: Mimetype.mp3 },
       MessageType.audio
     );
@@ -415,12 +425,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "lowmp3"
-    );
-    let buffer = await getFfmpegBuffer(location, "lowmp3.mp3", "lowmp3");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("lowmp3"),
+        "lowmp3.mp3",
+        "pitch"
+      ),
       { filename: "lowmp3.mp3", mimetype: Mimetype.mp3 },
       MessageType.audio
     );
@@ -431,12 +441,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "pitchmp3"
-    );
-    let buffer = await getFfmpegBuffer(location, "lowmp3.mp3", "pitch");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("pitchmp3"),
+        "lowmp3.mp3",
+        "lowmp3"
+      ),
       { filename: "lowmp3.mp3", mimetype: Mimetype.mp3 },
       MessageType.audio
     );
@@ -447,12 +457,12 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
       return await message.sendMessage(Lang.NEED_CUT_REPLY);
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "avec"
-    );
-    let buffer = await getFfmpegBuffer(location, "avec.mp4", "avec");
     return await message.sendMessage(
-      buffer,
+      await getFfmpegBuffer(
+        await message.reply_message.downloadAndSaveMediaMessage("avec"),
+        "avec.mp4",
+        "avec"
+      ),
       { mimetype: Mimetype.mp4 },
       MessageType.video
     );

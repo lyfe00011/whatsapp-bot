@@ -5,7 +5,7 @@ const { banner, checkBroadCast } = require("../Utilis/Misc");
 const Language = require("../language");
 const { broadCast } = require("../Utilis/groupmute");
 const { parseJid } = require("../Utilis/vote");
-const { readmore, readMore } = require("../Utilis/download");
+const { readMore } = require("../Utilis/download");
 const Lang = Language.getString("docx");
 Asena.addCommand(
   {
@@ -24,8 +24,7 @@ Asena.addCommand(
       message.reply_message.pdf
     )
       return message.sendMessage(Lang.NOT_SUPPORTED);
-    let location = await message.reply_message.downloadMediaMessage();
-    toPDF(location).then(
+    toPDF(await message.reply_message.downloadMediaMessage()).then(
       async (pdfBuffer) => {
         return await message.sendMessage(
           pdfBuffer,
@@ -51,9 +50,14 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.REPLY);
-    let location = await message.reply_message.downloadMediaMessage();
-    let buffer = await banner(location, "wasted");
-    return await message.sendMessage(buffer, {}, MessageType.image);
+    return await message.sendMessage(
+      await banner(
+        await message.reply_message.downloadMediaMessage(),
+        "wasted"
+      ),
+      {},
+      MessageType.image
+    );
   }
 );
 
@@ -67,10 +71,11 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.REPLY);
-    let location = await message.reply_message.downloadMediaMessage();
-    let buffer = await banner(location, "triggered");
     return await message.sendMessage(
-      buffer,
+      await banner(
+        await message.reply_message.downloadMediaMessage(),
+        "triggered"
+      ),
       { mimetype: Mimetype.webp },
       MessageType.sticker
     );
@@ -110,8 +115,7 @@ Asena.addCommand(
       "BroadCasting\n" + broadcast,
       MessageType.text
     );
-    let jids = broadcast.match(parseJid);
-    jids.map((jid) => {
+    broadcast.match(parseJid).map((jid) => {
       broadCast(jid, message);
     });
   }
