@@ -9,7 +9,7 @@ const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const Language = require("../language");
 const { webpToMp4 } = require("../Utilis/download");
-const { sticker, addExif } = require("../Utilis/fFmpeg");
+const { sticker, addExif, cropsticker } = require("../Utilis/fFmpeg");
 const Lang = Language.getString("sticker");
 
 Asena.addCommand(
@@ -45,6 +45,42 @@ Asena.addCommand(
     }
   }
 );
+
+
+Asena.addCommand(
+  { pattern: "csticker ?(.*)", fromMe: true, desc: Lang.STICKER_DESC },
+  async (message, match) => {
+    if (
+      !message.reply_message ||
+      (!message.reply_message.video && !message.reply_message.image)
+    )
+      return await message.sendMessage(Lang.NEED_REPLY);
+    let location = await message.reply_message.downloadAndSaveMediaMessage(
+      "sticker"
+    );
+    if (message.reply_message.image == true) {
+      let buffer = await cropsticker("cimagesticker", location, 1, match);
+      return await message.sendMessage(
+        buffer,
+        { mimetype: Mimetype.webp, quoted: message.quoted },
+        MessageType.sticker
+      );
+    } else if (message.reply_message.video == true) {
+      let buffer = await cropsticker(
+        "canimatedsticker",
+        location,
+        message.reply_message.seconds < 10 ? 2 : 3,
+        match
+      );
+      return await message.sendMessage(
+        buffer,
+        { mimetype: Mimetype.webp, isAnimated: true, quoted: message.quoted },
+        MessageType.sticker
+      );
+    }
+  }
+);
+
 
 Asena.addCommand(
   { pattern: "mp4", fromMe: true, desc: Lang.MP4_DESC },
