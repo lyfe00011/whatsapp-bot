@@ -21,18 +21,35 @@ Asena.addCommand(
   },
   async (message, match) => {
     let participants = await message.groupMetadata(message.jid);
-    let jids = participants.map((user) => user.jid);
+    let mentionedJid = participants.map((user) => user.jid);
     if (match == "all") {
       let mesaj = "";
-      jids.forEach((e) => (mesaj += `@${e.split("@")[0]}\n`));
+      mentionedJid.forEach((e) => (mesaj += `@${e.split("@")[0]}\n`));
       return await message.sendMessage(mesaj, {
-        contextInfo: { mentionedJid: jids },
+        contextInfo: { mentionedJid },
+      });
+    } else if (match == "admin") {
+      let mesaj = "";
+      let mentionedJid = participants
+        .filter((user) => user.isAdmin == true)
+        .map((user) => user.jid);
+      mentionedJid.forEach((e) => (mesaj += `@${e.split("@")[0]}\n`));
+      return await message.sendMessage(mesaj, {
+        contextInfo: { mentionedJid },
+      });
+    } else if (match == "notadmin") {
+      let mesaj = "";
+      let mentionedJid = participants
+        .filter((user) => user.isAdmin != true)
+        .map((user) => user.jid);
+      mentionedJid.forEach((e) => (mesaj += `@${e.split("@")[0]}\n`));
+      return await message.sendMessage(mesaj, {
+        contextInfo: { mentionedJid },
       });
     }
-    let { buffer, type, options } = await tag(message, match)
-    options.contextInfo = { mentionedJid: jids }
-    return await message.sendMessage(buffer, options,
-      type)
+    let { buffer, type, options } = await tag(message, match);
+    options.contextInfo = { mentionedJid };
+    return await message.sendMessage(buffer, options, type);
   }
 );
 
@@ -45,6 +62,6 @@ Asena.addCommand(
 );
 Asena.addCommand({ on: "vote", fromMe: false }, async (message, match) => {
   let msg = await participateInVote(message);
-  if (!msg) return
+  if (!msg) return;
   return await message.sendMessage(msg, { quoted: message.data });
 });
