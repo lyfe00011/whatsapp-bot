@@ -36,9 +36,10 @@ Asena.addCommand(
         } else {
           HANDLER = ".";
         }
-        if (index == 2) CMD_HELP += readmore
-        CMD_HELP += `${index} ${match.length >= 3 ? HANDLER + match[2] : command.pattern
-          }\n${command.desc}\n\n`;
+        if (index == 2) CMD_HELP += readmore;
+        CMD_HELP += `${index} ${
+          match.length >= 3 ? HANDLER + match[2] : command.pattern
+        }\n${command.desc}\n\n`;
       }
     });
     return await message.sendMessage("```" + CMD_HELP + "```");
@@ -49,15 +50,15 @@ Asena.addCommand(
   {
     pattern: "lydia ?(.*)",
     fromMe: true,
-    desc: Lang.DESC
+    desc: Lang.DESC,
   },
   async (message, match) => {
     let jid = message.isGroup
       ? message.reply_message == false && message.mention == false
         ? message.jid
         : !message.reply_message
-          ? message.mention[0]
-          : message.reply_message.jid
+        ? message.mention[0]
+        : message.reply_message.jid
       : message.jid;
     if (match.startsWith("stop")) {
       let chat = await getLydia(jid);

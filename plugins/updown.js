@@ -73,7 +73,8 @@ Status : ${status.status}` +
         "```" +
         `Name   : ${await getName(message.jid, message.client)}
 Id     : ${message.jid}
-Status : ${status.status}` + "```";
+Status : ${status.status}` +
+        "```";
       let { buffer } = await getBuffer(pp);
       await message.sendMessage(buffer, { caption: msg }, MessageType.image);
     }
@@ -84,7 +85,7 @@ Asena.addCommand(
   { pattern: "upload ?(.*)", fromMe: true, desc: "Download from link." },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
-    if (!(/(https?):\/\/[^\s$.?#].[^\s]*$/.test(match)))
+    if (!/(https?):\/\/[^\s$.?#].[^\s]*$/.test(match))
       return await message.sendMessage(Lang.NEED_URL);
     await message.sendMessage(Lang.DOWNLOADING);
     let { buffer, type, name, emessage, mime } = await getBuffer(match);
@@ -120,12 +121,12 @@ Asena.addCommand(
   { pattern: "scl ?(.*)", fromMe: true, desc: Lang.SCL_DESC },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
-    if (match === "" || !match.startsWith("https://")) return await message.sendMessage(Lang.NEED_URL);
+    if (match === "" || !match.startsWith("https://"))
+      return await message.sendMessage(Lang.NEED_URL);
     let sc = "https://soundcloud.com" + match.split(".com")[1];
     let url = `https://api.zeks.xyz/api/soundcloud?apikey=bottus000000&url=${sc}`;
     const json = await getJson(url);
-    if (json.status !== true)
-      return await message.sendMessage(Lang.NOT_FOUND);
+    if (json.status !== true) return await message.sendMessage(Lang.NOT_FOUND);
     let title = json.result.title;
     let { buffer, mime } = await getBuffer(json.result.download);
     await message.sendMessage(
@@ -181,7 +182,16 @@ Asena.addCommand(
     const data = await IdentifySong(buff);
     if (!data) return;
     if (!data.status) return await message.sendMessage(Lang.NOT_FOUND);
-    return await message.sendMessage(Lang.FIND_MSG.format(data.data.title, data.data.artists, data.data.genre, data.data.album, data.data.release_date), { quoted: message.quoted });
+    return await message.sendMessage(
+      Lang.FIND_MSG.format(
+        data.data.title,
+        data.data.artists,
+        data.data.genre,
+        data.data.album,
+        data.data.release_date
+      ),
+      { quoted: message.quoted }
+    );
   }
 );
 

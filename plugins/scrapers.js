@@ -49,7 +49,8 @@ Asena.addCommand(
       to: match2,
     });
     if ("text" in ceviri) {
-      return await message.sendMessage(Lang.TRT.format(match1, match2, ceviri.text),
+      return await message.sendMessage(
+        Lang.TRT.format(match1, match2, ceviri.text),
         { quoted: message.quoted }
       );
     } else {
@@ -111,7 +112,10 @@ Asena.addCommand(
       });
       let songname = new Date().getTime() + ".mp3";
       let buffer = await song(songname, stream, bit);
-      if (!buffer) return await message.sendMessage('*Downloading failed*\n```Restart BOT```')
+      if (!buffer)
+        return await message.sendMessage(
+          "*Downloading failed*\n```Restart BOT```"
+        );
       return await message.sendMessage(
         buffer,
         {

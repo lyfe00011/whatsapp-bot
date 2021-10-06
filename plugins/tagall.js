@@ -47,7 +47,8 @@ Asena.addCommand(
         contextInfo: { mentionedJid },
       });
     }
-    if (!message.reply_message) return await message.sendMessage('*Reply to a message*')
+    if (!message.reply_message)
+      return await message.sendMessage("*Reply to a message*");
     forwardOrBroadCast(message.jid, message, { contextInfo: { mentionedJid } });
   }
 );

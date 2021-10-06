@@ -78,7 +78,7 @@ Asena.addCommand(
   {
     pattern: "fb ?(.*)",
     fromMe: true,
-    desc: Lang.FB_DESC
+    desc: Lang.FB_DESC,
   },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;

@@ -126,7 +126,7 @@ To get all Shedules
     let [jid, year, dayofweek, month, date, hour, minute] = match.split(" ");
     if (jid == "list") {
       let all = await getEachSchedule();
-      if(!all) return await message.sendMessage("*No shedule to Display*")
+      if (!all) return await message.sendMessage("*No shedule to Display*");
       let msg = "";
       all.forEach((jids) => {
         let {

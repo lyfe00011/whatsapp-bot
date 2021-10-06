@@ -116,8 +116,7 @@ Asena.addCommand(
       MessageType.text
     );
     broadcast.match(parseJid).map((jid) => {
-      forwardOrBroadCast(jid, message)
-    }
-    );
+      forwardOrBroadCast(jid, message);
+    });
   }
 );

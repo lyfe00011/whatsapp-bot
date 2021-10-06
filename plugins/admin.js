@@ -122,12 +122,14 @@ Asena.addCommand(
       );
     } else if (message.reply_message === false && message.mention !== false) {
       let checkAlready = await checkImAdmin(participants, message.mention[0]);
-      if (checkAlready)
-        return await message.sendMessage(Lang.ALREADY_PROMOTED);
+      if (checkAlready) return await message.sendMessage(Lang.ALREADY_PROMOTED);
       await message.client.groupMakeAdmin(message.jid, message.mention);
-      return await message.sendMessage(Lang.PROMOTED.format(message.mention[0].split("@")[0]), {
-        contextInfo: { mentionedJid: message.mention },
-      });
+      return await message.sendMessage(
+        Lang.PROMOTED.format(message.mention[0].split("@")[0]),
+        {
+          contextInfo: { mentionedJid: message.mention },
+        }
+      );
     } else {
       return await message.sendMessage(Lang.GIVE_ME_USER);
     }
@@ -163,9 +165,12 @@ Asena.addCommand(
       let checkAlready = await checkImAdmin(participants, message.mention[0]);
       if (!checkAlready)
         return await message.sendMessage(Lang.ALREADY_NOT_ADMIN);
-      await message.sendMessage(Lang.DEMOTED.format(message.mention[0].split("@")[0]), {
-        contextInfo: { mentionedJid: message.mention },
-      });
+      await message.sendMessage(
+        Lang.DEMOTED.format(message.mention[0].split("@")[0]),
+        {
+          contextInfo: { mentionedJid: message.mention },
+        }
+      );
       return await message.client.groupDemoteAdmin(
         message.jid,
         message.mention
@@ -227,7 +232,9 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid);
     let im = await checkImAdmin(participants, message.client.user.jid);
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
-    return await message.sendMessage(Lang.INVITE.format(await message.client.groupInviteCode(message.jid)));
+    return await message.sendMessage(
+      Lang.INVITE.format(await message.client.groupInviteCode(message.jid))
+    );
   }
 );
 Asena.addCommand(
@@ -308,7 +315,8 @@ Asena.addCommand(
     if (!code) return await message.sendMessage(Lang.JOIN_ERR);
     await message.client.acceptInvite(code);
     return await message.sendMessage(Lang.JOINED);
-  });
+  }
+);
 
 Asena.addCommand(
   {

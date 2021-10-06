@@ -10,7 +10,7 @@ Asena.addCommand(
   {
     pattern: "twitter ?(.*)",
     fromMe: fm,
-    desc: Lang.TWITTER_DESC
+    desc: Lang.TWITTER_DESC,
   },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
@@ -27,7 +27,7 @@ Asena.addCommand(
   {
     pattern: "pinterest ?(.*)",
     fromMe: fm,
-    desc: Lang.PINTEREST_DESC
+    desc: Lang.PINTEREST_DESC,
   },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
@@ -49,15 +49,14 @@ Asena.addCommand(
   {
     pattern: "mediafire ?(.*)",
     fromMe: fm,
-    desc: Lang.MEDIAFIRE_DESC
+    desc: Lang.MEDIAFIRE_DESC,
   },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text;
     if (match === "") return await message.sendMessage("*Give me a link.*");
     const { link, title } = await mediaFire(match);
     let { buffer, type, size, mime } = await getBuffer(link);
-    if (size > 100)
-      return await message.sendMessage(Lang.SIZE.format(size));
+    if (size > 100) return await message.sendMessage(Lang.SIZE.format(size));
     if (type == "video")
       return await message.sendMessage(
         buffer,
