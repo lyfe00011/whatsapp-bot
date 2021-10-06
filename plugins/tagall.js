@@ -9,7 +9,7 @@ WhatsAsena - Yusuf Usta
 const Asena = require("../Utilis/events");
 const Language = require("../language");
 const { participateInVote, parseVote } = require("../Utilis/vote");
-const { tag } = require("../Utilis/Misc");
+const { forwardOrBroadCast } = require("../Utilis/groupmute");
 const Lang = Language.getString("tagall");
 // const config = require('../config');
 Asena.addCommand(
@@ -47,9 +47,8 @@ Asena.addCommand(
         contextInfo: { mentionedJid },
       });
     }
-    let { buffer, type, options } = await tag(message, match);
-    options.contextInfo = { mentionedJid };
-    return await message.sendMessage(buffer, options, type);
+    if (!message.reply_message) return await message.sendMessage('*Reply to a message*')
+    forwardOrBroadCast(message.jid, message, { contextInfo: { mentionedJid } });
   }
 );
 

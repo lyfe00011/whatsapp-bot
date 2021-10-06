@@ -3,7 +3,7 @@ const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { banner, checkBroadCast } = require("../Utilis/Misc");
 const Language = require("../language");
-const { broadCast } = require("../Utilis/groupmute");
+const { forwardOrBroadCast } = require("../Utilis/groupmute");
 const { parseJid } = require("../Utilis/vote");
 const { readMore } = require("../Utilis/download");
 const Lang = Language.getString("docx");
@@ -116,7 +116,8 @@ Asena.addCommand(
       MessageType.text
     );
     broadcast.match(parseJid).map((jid) => {
-      broadCast(jid, message);
-    });
+      forwardOrBroadCast(jid, message)
+    }
+    );
   }
 );

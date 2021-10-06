@@ -1,10 +1,11 @@
 const Asena = require("../Utilis/events");
 const { MessageType } = require("@adiwajshing/baileys");
 const { getJson, TiktokDownloader, getBuffer } = require("../Utilis/download");
-const { UploadToImgur, wallpaper, forward } = require("../Utilis/Misc");
+const { UploadToImgur, wallpaper } = require("../Utilis/Misc");
 const Language = require("../language");
 const Lang = Language.getString("tiktok");
 const { parseJid } = require("../Utilis/vote");
+const { forwardOrBroadCast } = require("../Utilis/groupmute");
 
 Asena.addCommand(
   { pattern: "tiktok ?(.*)", fromMe: true, desc: Lang.TIKTOK_DESC },
@@ -64,12 +65,11 @@ Asena.addCommand(
   async (message, match) => {
     if (match == "") return await message.sendMessage(Lang.JID);
     if (!message.reply_message) return await message.sendMessage(Lang.FORWARD);
-    const { buffer, type, options } = await forward(match, message);
-    let jid = match.match(parseJid)[0]
-    return await message.client.sendMessage(jid, buffer, type, options);
+    match.match(parseJid).map((jid) => {
+      forwardOrBroadCast(jid, message);
+    });
   }
 );
-
 Asena.addCommand(
   {
     pattern: "wallpaper ?(.*)",
