@@ -8,12 +8,13 @@ const {
   getEachMute,
 } = require("../Utilis/groupmute");
 const Language = require("../language");
+const { isGroup } = require("../Utilis/Misc");
 const Lang = Language.getString("groupmute");
 Asena.addCommand(
   {
     pattern: "automute ?(.*)",
     fromMe: true,
-    desc: Lang.AUTOMUTE_DESC,
+    desc: Lang.AUTOMUTE_DESC
   },
   async (message, match) => {
     if (match == "" && !message.reply_message) {
@@ -23,7 +24,7 @@ Asena.addCommand(
     let [user, hours, minute] = match.split(" ");
     if (user == "list") {
       let all = await getEachMute();
-      if (!all) return await message.sendMessage(Lang.NO_SCHEDULE);
+      if (!all) return await message.sendMessage(Lang.NO_SCHEDULE)
       let msg = "";
       all.forEach((jids) => {
         let { jid, message, hour, minute, onoroff } = jids;
@@ -31,12 +32,12 @@ Asena.addCommand(
       });
       return await message.sendMessage(msg);
     }
+    let gjid = isGroup(user)
+    if (!gjid) return await message.sendMessage('*Give me a group Jid*')
     if (user != undefined && !message.reply_message.txt && hours == undefined) {
       let info = await getMute(user);
       let { jid, message: msgs, hour, minute, onoroff } = info;
-      return await message.sendMessage(
-        Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff)
-      );
+      return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff));
     } else if (
       user != undefined &&
       hours != undefined &&
@@ -46,15 +47,15 @@ Asena.addCommand(
       if (info == false) return await message.sendMessage(Lang.NOT_FOUND);
       let { jid, message: msgs, hour, minute, onoroff } = info;
       await setMute(user, msgs, hour, minute, hours == "on" ? true : false);
-      return await message.sendMessage(
-        Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) +
-          "*Restart bot*"
-      );
+      return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) + '*Restart bot*');
     } else if (!user || !msg || !hours || !minute) {
       return await message.sendMessage(Lang.SYNTAX);
     } else {
+      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage('*Reply to a text message*')
       await setMute(user, msg, hours, minute, true);
-      return await message.sendMessage(Lang.MUTE.format(user, hours, minute));
+      return await message.sendMessage(
+        Lang.MUTE.format(user, hours, minute)
+      );
     }
   }
 );
@@ -63,17 +64,17 @@ Asena.addCommand(
   {
     pattern: "autoumute ?(.*)",
     fromMe: true,
-    desc: Lang.AUTOUMUTE_DESC,
+    desc: Lang.AUTOUMUTE_DESC
   },
   async (message, match) => {
     if (match == "" && !message.reply_message) {
-      return await message.sendMessage(Lang.UNMUTE_NEED_REPLY);
+      return await message.sendMessage(Lang.UNMUTE_NEED_REPLY)
     }
     let msg = message.reply_message.text;
     let [user, hours, minute] = match.split(" ");
     if (user == "list") {
       let all = await getEachUnmute();
-      if (!all) return await message.sendMessage(Lang.NO_SCHEDULE);
+      if (!all) return await message.sendMessage(Lang.NO_SCHEDULE)
       let msg = "";
       all.forEach((jids) => {
         let { jid, message, hour, minute, onoroff } = jids;
@@ -81,11 +82,12 @@ Asena.addCommand(
       });
       return await message.sendMessage(msg);
     }
+    let gjid = isGroup(user)
+    if (!gjid) return await message.sendMessage('*Give me a group Jid*')
     if (user != undefined && !message.reply_message.txt && hours == undefined) {
       let info = await getUnmute(user);
       let { jid, message: msgs, hour, minute, onoroff } = info;
-      return await message.sendMessage(
-        Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff)
+      return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff)
       );
     } else if (
       user != undefined &&
@@ -96,15 +98,15 @@ Asena.addCommand(
       if (info == false) return await message.sendMessage(Lang.NOT_FOUND);
       let { jid, message: msgs, hour, minute, onoroff } = info;
       await setUnmute(user, msgs, hour, minute, hours == "on" ? true : false);
-      return await message.sendMessage(
-        Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) +
-          `\n\n*Restart bot*`
-      );
+      return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) +
+        `\n\n*Restart bot*`);
     } else if (!user || !msg || !hours || !minute) {
       return await message.sendMessage(Lang.SYNTAX);
     } else {
+      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage('*Reply to a text message*')
       await setUnmute(user, msg, hours, minute, true);
-      return await message.sendMessage(Lang.UNMUTE.format(user, hours, minute));
+      return await message.sendMessage(Lang.UNMUTE.format(user, hours, minute)
+      );
     }
   }
 );

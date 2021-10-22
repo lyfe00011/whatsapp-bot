@@ -10,30 +10,28 @@ const Asena = require("../Utilis/events");
 const { spawnSync } = require("child_process");
 const Config = require("../config");
 const Language = require("../language");
-const { checkImAdmin } = require("../Utilis/Misc");
+const { checkImAdmin, aliveMessage } = require("../Utilis/Misc");
 const { warn, getEachWarn } = require("../Utilis/warn");
-const { getBuffer } = require("../Utilis/download");
 const { MessageType } = require("@adiwajshing/baileys");
 const Lang = Language.getString("system_stats");
 let fm = true;
 
 Asena.addCommand(
-  { pattern: "alive", fromMe: fm, desc: Lang.ALIVE_DESC },
+  { pattern: "alive ?(.*)", fromMe: fm, desc: Lang.ALIVE_DESC },
   async (message, match) => {
-    if (!/(https?):\/\/[^\s$.?#].[^\s]*$/.test(Config.ALIVE_URL))
-      return await message.sendMessage(Config.ALIVE);
-    let { buffer, type } = await getBuffer(Config.ALIVE_URL);
-    if (type == "video")
+    let { buffer, type, msg } = await aliveMessage(match);
+    if (type == "text") return await message.sendMessage(msg);
+    else if (type == "image")
       return await message.sendMessage(
         buffer,
-        { caption: Config.ALIVE },
-        MessageType.video
-      );
-    if (type == "image")
-      return await message.sendMessage(
-        buffer,
-        { caption: Config.ALIVE },
+        { caption: msg },
         MessageType.image
+      );
+    else if (type == "video")
+      return await message.sendMessage(
+        buffer,
+        { caption: msg },
+        MessageType.video
       );
   }
 );
