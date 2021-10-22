@@ -16,7 +16,7 @@
             "required": false
         },
         "HANDLERS": {
-            "description": "enter handlers.",
+            "description": "enter prefix.",
             "required": true,
             "value": "^[.]"
         },
@@ -43,11 +43,6 @@
             "required": false,
             "value": "false"
         },
-        "AUTO_REMOVE_FAKE": {
-            "description": "Remove fake number if welcome msg enabled.",
-            "required": false,
-            "value": "false"
-        },
         "EXT": {
             "description": "Enter xteam api",
             "required": false,
@@ -63,36 +58,6 @@
             "required": false,
             "value": "true"
         },
-        "WELCOME": {
-            "description": "links separeted by ,",
-            "required": false,
-            "value": "false"
-        },
-        "GOODBYE": {
-            "description": "links separeted by ,",
-            "required": false,
-            "value": "false"
-        },
-        "BANBYE": {
-            "description": "links separeted by ,",
-            "required": false,
-            "value": "false"
-        },
-        "WELCOME_JID": {
-            "description": "jid,jid,jid...",
-            "required": false,
-            "value": "false"
-        },
-        "BANBYE_JID": {
-            "description": "jid,jid,jid...",
-            "required": false,
-            "value": "false"
-        },
-        "GOODBYE_JID": {
-            "description": "jid,jid,jid...",
-            "required": false,
-            "value": "false"
-        },
         "WARN_COUNT": {
             "description": "Maximum no of warns",
             "required": false,
@@ -103,16 +68,6 @@
             "required": false,
             "value": "OK bie"
         },
-        "ALIVE_MSG": {
-            "description": "alive command reply message.",
-            "required": false,
-            "value": "false"
-        },
-        "ALIVE_URL": {
-            "description": "alive message media can be video or image url.",
-            "required": false,
-            "value": "false"
-        },
         "REMOVEBG_KEY": {
             "description": "Get your key from remove.bg",
             "required": false,
@@ -121,14 +76,6 @@
         "LANGUAGE": {
             "description": "Enter bot language, example EN for English, ID for Bahasa Indonesia, TR for Turkish",
             "value": "EN"
-        },
-        "ALLOWED_URLS": {
-            "description": "Links allowed when anti link enabled",
-            "value": "instagram.com,youtube.com"
-        },
-        "ANTIJID": {
-            "description": "set jids to enable antilink",
-            "value": "false"
         },
         "STICKER_PACKNAME": {
             "description": "Sticker pack name,author",
