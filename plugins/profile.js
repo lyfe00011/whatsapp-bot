@@ -11,6 +11,7 @@ const { MessageType } = require("@adiwajshing/baileys");
 const fs = require("fs");
 const Language = require("../language");
 const { getName } = require("../Utilis/download");
+const { genButtons } = require("../Utilis/Misc");
 const Lang = Language.getString("profile");
 
 Asena.addCommand(
@@ -29,7 +30,13 @@ Asena.addCommand(
   { pattern: "getjids ?(.*)", fromMe: true, desc: "Get Jids name." },
   async (message, match) => {
     if (match === "")
-      return await message.sendMessage("Choose group or personal");
+      return await message.sendMessage(
+        genButtons(
+          ["GROUP", "PERSONAL"],
+          "Shows Group or Personal Jids",
+          "Choose"
+        )
+      );
     let msg = "";
     let chats = message.client.chats.all();
     if (match == "group") {
@@ -183,8 +190,8 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "setabout ?(.*)", fromMe: true, desc: "set about." },
   async (message, match) => {
-    if (message.reply_message.txt) {
-      return await message.client.setStatus(message.reply_message.text);
-    } else return await message.sendMessage("*Reply to a text message!*");
+    if (!message.reply_message || !message.reply_message.txt)
+      return await message.sendMessage("*Reply to a text message!*");
+    return await message.client.setStatus(message.reply_message.text);
   }
 );

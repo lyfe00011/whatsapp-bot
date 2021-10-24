@@ -14,16 +14,19 @@ const {
   genButtons,
   genGreetingsPreView,
   enableAntilink,
-  isUrl,
   enableAntiFake,
   enableAntiBad,
+  checkImAdmin,
+  antiList,
+  clearGreetings,
 } = require("../Utilis/Misc");
 const { MessageType } = require("@adiwajshing/baileys");
 const { getMessage, deleteMessage } = require("../Utilis/warn");
 const Lang = Language.getString("greetings");
+const Lang1 = Language.getString("admin");
 // const config = require('../config');
 let fm = true;
-
+const s = "```";
 Asena.addCommand(
   {
     pattern: "welcome ?(.*)",
@@ -47,17 +50,18 @@ Asena.addCommand(
     }
     if (match === "") return await message.sendMessage(Lang.NEED_WELCOME_TEXT);
     else if (match == "on" || match == "off") {
-      enableGreetings(message.jid, "welcome", match);
+      await enableGreetings(message.jid, "welcome", match);
       return await message.sendMessage(
         `*✅Welcome Message ${match == "on" ? "Enabled" : "Disabled"}*`
       );
     } else if (match === "delete") {
       await message.sendMessage(Lang.WELCOME_DELETED);
+      clearGreetings(message.jid, 'welcome')
       return await deleteMessage(message.jid, "welcome");
     }
-    setMsg(message.jid, "welcome", match);
-    await message.sendMessage(Lang.WELCOME_SETTED);
-    genGreetingsPreView(message);
+    await setMsg(message.jid, "welcome", match);
+    await genGreetingsPreView(message);
+    return await message.sendMessage(Lang.WELCOME_SETTED);
   }
 );
 
@@ -73,9 +77,7 @@ Asena.addCommand(
     if (hg === false && match === "")
       return await message.sendMessage(Lang.NOT_SET_GOODBYE);
     if (hg !== false && match === "") {
-      await message.sendMessage(
-        Lang.GOODBYE_ALREADY_SETTED + hg.message + "```"
-      );
+      await message.sendMessage(Lang.GOODBYE_ALREADY_SETTED + hg.message + s);
       return await message.sendMessage(
         genButtons(["ON", "OFF"], "To ON or OFF Goodbye Message", "Choose"),
         {},
@@ -84,17 +86,18 @@ Asena.addCommand(
     }
     if (match === "") return await message.sendMessage(Lang.NEED_WELCOME_TEXT);
     else if (match == "on" || match == "off") {
-      enableGreetings(message.jid, "goodbye", match);
+      await enableGreetings(message.jid, "goodbye", match);
       return await message.sendMessage(
         `*✅Goodbye Message ${match == "on" ? "Enabled" : "Disabled"}*`
       );
     } else if (match === "delete") {
+      clearGreetings(message.jid, 'goodbye')
       await message.sendMessage(Lang.GOODBYE_DELETED);
       return await deleteMessage(message.jid, "goodbye");
     }
-    setMsg(message.jid, "goodbye", match);
-    await message.sendMessage(Lang.GOODBYE_SETTED);
-    genGreetingsPreView(message);
+    await setMsg(message.jid, "goodbye", match);
+    await genGreetingsPreView(message);
+    return await message.sendMessage(Lang.GOODBYE_SETTED);
   }
 );
 
@@ -110,28 +113,31 @@ Asena.addCommand(
     if (hg === false && match === "")
       return await message.sendMessage(Lang.NOT_SET_GOODBYE);
     if (hg !== false && match === "") {
-      await message.sendMessage(
-        Lang.GOODBYE_ALREADY_SETTED + hg.message + "```"
-      );
+      await message.sendMessage(Lang.GOODBYE_ALREADY_SETTED + hg.message + s);
       return await message.sendMessage(
-        genButtons(["ON", "OFF"], "To ON or OFF Banbye Message", "Choose"),
+        genButtons(
+          ["ON", "OFF", "LIST"],
+          "To ON or OFF Banbye Message",
+          "Choose"
+        ),
         {},
         MessageType.buttonsMessage
       );
     }
     if (match === "") return await message.sendMessage(Lang.NEED_WELCOME_TEXT);
     else if (match == "on" || match == "off") {
-      enableGreetings(message.jid, "banbye", match);
+      await enableGreetings(message.jid, "banbye", match);
       return await message.sendMessage(
         `*✅Banbye Message ${match == "on" ? "Enabled" : "Disabled"}*`
       );
     } else if (match === "delete") {
+      clearGreetings(message.jid, 'banbye')
       await message.sendMessage(Lang.GOODBYE_DELETED);
       return await deleteMessage(message.jid, "banbye");
     }
-    setMsg(message.jid, "banbye", match);
-    await message.sendMessage(Lang.GOODBYE_SETTED);
-    genGreetingsPreView(message);
+    await setMsg(message.jid, "banbye", match);
+    await genGreetingsPreView(message);
+    return await message.sendMessage(Lang.GOODBYE_SETTED);
   }
 );
 
@@ -144,19 +150,33 @@ Asena.addCommand(
   async (message, match) => {
     if (match == "")
       return await message.sendMessage(
-        genButtons(["ON", "OFF"], "To ON or OFF Anti link Here", "Choose"),
+        genButtons(
+          ["ON", "OFF", "LIST"],
+          "To ON or OFF Anti link Here",
+          "Choose"
+        ),
         {},
         MessageType.buttonsMessage
       );
-
-    if (match == "on" || match == "off") {
-      enableAntilink(message.jid, match);
+    if (match == "list") {
+      let list = "";
+      let urls = await antiList(message.jid, 'link');
+      if (!urls) return await message.sendMessage("*Anti link not Enbaled*");
+      urls.forEach((url, i) => {
+        list += `${i + 1}. ${url}\n`;
+      });
+      return await message.sendMessage(s + list + s);
+    } else if (match == "on" || match == "off") {
+      let participants = await message.groupMetadata(message.jid);
+      let im = await checkImAdmin(participants, message.client.user.jid);
+      if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
+      await enableAntilink(message.jid, match);
       return await message.sendMessage(
         `*✅Antilink ${match == "on" ? "Enabled" : "Disabled"}*`
       );
     }
-    enableAntilink(message.jid, match);
-    return await message.sendMessage("```Updated```");
+    await enableAntilink(message.jid, match);
+    return await message.sendMessage(`${s}Antilink Updated${s}`);
   }
 );
 
@@ -169,18 +189,33 @@ Asena.addCommand(
   async (message, match) => {
     if (match == "")
       return await message.sendMessage(
-        genButtons(["ON", "OFF"], "To ON or OFF Anti Fake Here", "Choose"),
+        genButtons(
+          ["ON", "OFF", "LIST"],
+          "To ON or OFF Anti Fake Here",
+          "Choose"
+        ),
         {},
         MessageType.buttonsMessage
       );
-    if (match == "on" || match == "off") {
-      enableAntiFake(message.jid, match);
+    if (match == "list") {
+      let list = "";
+      let codes = await antiList(message.jid, 'fake');
+      if (!codes) return await message.sendMessage("*Anti Fake not Enbaled*");
+      codes.forEach((code, i) => {
+        list += `${i + 1}. ${code}\n`;
+      });
+      return await message.sendMessage(s + list + s);
+    } else if (match == "on" || match == "off") {
+      let participants = await message.groupMetadata(message.jid);
+      let im = await checkImAdmin(participants, message.client.user.jid);
+      if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
+      await enableAntiFake(message.jid, match);
       return await message.sendMessage(
         `*✅Antifake ${match == "on" ? "Enabled" : "Disabled"}*`
       );
     }
-    enableAntiFake(message.jid, match);
-    return await message.sendMessage("```Updated```");
+    await enableAntiFake(message.jid, match);
+    return await message.sendMessage(`${s}AntiFake Updated${s}`);
   }
 );
 
@@ -193,17 +228,28 @@ Asena.addCommand(
   async (message, match) => {
     if (match == "")
       return await message.sendMessage(
-        genButtons(["ON", "OFF"], "To ON or OFF Anti Bad Here", "Choose"),
+        genButtons(["ON", "OFF", "LIST"], "To ON or OFF Anti Bad Here", "Choose"),
         {},
         MessageType.buttonsMessage
       );
-    if (match == "on" || match == "off") {
-      enableAntiBad(message.jid, match);
+    if (match == "list") {
+      let list = "";
+      let words = await antiList(message.jid, 'bad');
+      if (!words) return await message.sendMessage("*Anti Bad not Enbaled*");
+      words.forEach((word, i) => {
+        list += `${i + 1}. ${word}\n`;
+      });
+      return await message.sendMessage(s + list + s);
+    } else if (match == "on" || match == "off") {
+      let participants = await message.groupMetadata(message.jid);
+      let im = await checkImAdmin(participants, message.client.user.jid);
+      if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
+      await enableAntiBad(message.jid, match);
       return await message.sendMessage(
         `*✅AntiBad ${match == "on" ? "Enabled" : "Disabled"}*`
       );
     }
-    enableAntiBad(message.jid, match);
-    return await message.sendMessage("```Updated```");
+    await enableAntiBad(message.jid, match);
+    return await message.sendMessage(`${s}AntiBad Updated${s}`);
   }
 );

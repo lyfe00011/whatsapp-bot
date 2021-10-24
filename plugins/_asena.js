@@ -36,7 +36,7 @@ Asena.addCommand(
         } else {
           HANDLER = ".";
         }
-        if (index == 2) CMD_HELP += readmore;
+        if (index == 3) CMD_HELP += readmore;
         CMD_HELP += `${index} ${
           match.length >= 3 ? HANDLER + match[2] : command.pattern
         }\n${command.desc}\n\n`;

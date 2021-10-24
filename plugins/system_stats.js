@@ -10,7 +10,7 @@ const Asena = require("../Utilis/events");
 const { spawnSync } = require("child_process");
 const Config = require("../config");
 const Language = require("../language");
-const { checkImAdmin, aliveMessage } = require("../Utilis/Misc");
+const { checkImAdmin, aliveMessage, removeUrl } = require("../Utilis/Misc");
 const { warn, getEachWarn } = require("../Utilis/warn");
 const { MessageType } = require("@adiwajshing/baileys");
 const Lang = Language.getString("system_stats");
@@ -57,7 +57,7 @@ Asena.addCommand(
           user.split("@")[0],
           count,
           Config.WARN_COUNT - count,
-          reason
+          removeUrl(reason)
         );
       });
       return await message.sendMessage(msg);
@@ -84,7 +84,7 @@ Asena.addCommand(
     return await message.sendMessage(
       Lang.WARNING.format(
         user.split("@")[0],
-        reason,
+        removeUrl(reason),
         Config.WARN_COUNT - count
       ),
       { quoted, contextInfo: { mentionedJid: [user] } }

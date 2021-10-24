@@ -61,6 +61,50 @@ Asena.addCommand(
   }
 );
 
+
+Asena.addCommand(
+  {
+    pattern: "mission",
+    fromMe: true,
+    desc: Lang.WASTED_DESC,
+    usage: Lang.WASTED_USAGE,
+  },
+  async (message, match) => {
+    if (!message.reply_message || !message.reply_message.image)
+      return await message.sendMessage(Lang.REPLY);
+    return await message.sendMessage(
+      await banner(
+        await message.reply_message.downloadMediaMessage(),
+        "passed"
+      ),
+      {},
+      MessageType.image
+    );
+  }
+);
+
+
+Asena.addCommand(
+  {
+    pattern: "jail",
+    fromMe: true,
+    desc: Lang.WASTED_DESC,
+    usage: Lang.WASTED_USAGE,
+  },
+  async (message, match) => {
+    if (!message.reply_message || !message.reply_message.image)
+      return await message.sendMessage(Lang.REPLY);
+    return await message.sendMessage(
+      await banner(
+        await message.reply_message.downloadMediaMessage(),
+        "jail"
+      ),
+      {},
+      MessageType.image
+    );
+  }
+);
+
 Asena.addCommand(
   {
     pattern: "trigged",
