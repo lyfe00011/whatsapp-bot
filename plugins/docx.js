@@ -155,7 +155,7 @@ Asena.addCommand(
       return await message.sendMessage(Lang.REPLY_MSG);
     await message.client.sendMessage(
       message.client.user.jid,
-      Lang.BROADCASTING(broadcast),
+      Lang.BROADCASTING.format(broadcast),
       MessageType.text
     );
     broadcast.match(parseJid).map((jid) => {
