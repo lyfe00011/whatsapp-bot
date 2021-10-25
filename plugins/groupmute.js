@@ -33,7 +33,7 @@ Asena.addCommand(
       return await message.sendMessage(msg);
     }
     let gjid = isGroup(user)
-    if (!gjid) return await message.sendMessage('*Give me a group Jid*')
+    if (!gjid) return await message.sendMessage(Lang.GJID)
     if (user != undefined && !message.reply_message.txt && hours == undefined) {
       let info = await getMute(user);
       let { jid, message: msgs, hour, minute, onoroff } = info;
@@ -51,7 +51,7 @@ Asena.addCommand(
     } else if (!user || !msg || !hours || !minute) {
       return await message.sendMessage(Lang.SYNTAX);
     } else {
-      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage('*Reply to a text message*')
+      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage(Lang.NEED_REPLY)
       await setMute(user, msg, hours, minute, true);
       return await message.sendMessage(
         Lang.MUTE.format(user, hours, minute)
@@ -83,7 +83,7 @@ Asena.addCommand(
       return await message.sendMessage(msg);
     }
     let gjid = isGroup(user)
-    if (!gjid) return await message.sendMessage('*Give me a group Jid*')
+    if (!gjid) return await message.sendMessage(Lang.GJID)
     if (user != undefined && !message.reply_message.txt && hours == undefined) {
       let info = await getUnmute(user);
       let { jid, message: msgs, hour, minute, onoroff } = info;
@@ -103,7 +103,7 @@ Asena.addCommand(
     } else if (!user || !msg || !hours || !minute) {
       return await message.sendMessage(Lang.SYNTAX);
     } else {
-      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage('*Reply to a text message*')
+      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage(Lang.NEED_REPLY)
       await setUnmute(user, msg, hours, minute, true);
       return await message.sendMessage(Lang.UNMUTE.format(user, hours, minute)
       );

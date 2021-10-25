@@ -63,7 +63,12 @@
             "REPLY_MSG": "Balas sebuah pesan",
             "NOT_SUPPORTED": "*Pesan ini tidak dapat diubah menjadi PDF.*",
             "WASTED_DESC": "Banner Wasted\nBalas sebuah foto",
-            "TRIGGERED_DESC": "Banner Triggered\nBalas sebuah foto"
+            "TRIGGERED_DESC": "Banner Triggered\nBalas sebuah foto",
+            "READMORE_DESC": "Add readmore to given Message\nExample .readmore Hi readmore hi",
+            "BROADCAST_DESC": "To send broadcast or To set Broadcast\nExample : .broadcast 'family' 'jid,jid,jid,jid'",
+            "BROADCAST_EXAMPLE": "Example \n.broadcast 'friends' 'jid1 jid2 jid3'",
+            "BROADCAST_SET": "```added {} to Broadcast.\nNow reply to a message .broadcast {}```",
+            "BROADCASTING": "```BroadCasting to\n {}```"
         },
         "groupmute": {
             "AUTOMUTE_DESC": "Membisukan grup pada waktu yang dijadwalkan\n.automute 98723-2323@g.us 10 10\nini akan membisukan grup pada jam 10.10 pagi setiap hari.",
@@ -75,7 +80,9 @@
             "SYNTAX": "*Syntax Error!*",
             "NOT_FOUND": "*Tidak Ditemukan*",
             "MUTE": "```Bisukan {} pada {}:{}```\n\n*Restart bot agar perubahan dapat diterapkan.",
-            "UNMUTE": "```Unmute {} at {}:{}```\n\n*Restart bot agar perubahan dapat diterapkan."
+            "UNMUTE": "```Unmute {} at {}:{}```\n\n*Restart bot agar perubahan dapat diterapkan.",
+            "NEED_REPLY": "*Reply to a text message*",
+            "GJID": "*Give me a group Jid*"
         },
         "insta": {
             "INSTA_DESC": "Download dari Instagram seperti Post, IGTV, Reels\n.insta url atau balas pada link url",
@@ -164,7 +171,9 @@
             "GETVAR_DESC": "Mendapatkan konfigurasi heroku var",
             "DELVAR_DESC": "Menghapus konfigurasi heroku var",
             "DEL_SUCCESS": "```{} Berhasil Dihapus```",
-            "NOT_FOUND": "```Tidak ada hasil yang ditemukan untuk kunci ini```"
+            "NOT_FOUND": "```Tidak ada hasil yang ditemukan untuk kunci ini```",
+            "ERROR": "*Check Heroku app name in Heroku app settings*\n*Update Heroku api key in Heroku app settings*",
+            "ALL_VARS": "Shows all vars in Heroku APP settings."
         },
         "filters": {
             "FILTER_DESC": "Untuk menambahkan filter. Jika seseorang menulis kata yang terdapat pada filter, bot akan mengirim jawaban. Jika hanya mengetik .filter, akan menunjukkan daftar filter Anda.",
@@ -189,7 +198,26 @@
             "GOODBYE_ALREADY_SETTED": "*✅ Pesan selamat tinggal berhasil diatur!*\n*Pesan:* ```",
             "NEED_GOODBYE_TEXT": "*Anda harus menulis sebuah pesan untuk mengatur pesan selamat tinggal.*\n*Contoh:* ```.goodbye Selamat Tinggal!```",
             "GOODBYE_DELETED": "*✅ Pesan selamat tinggal telah berhasil dihapus!*",
-            "GOODBYE_SETTED": "*✅ Pesan selamat tinggal telah berhasil diatur!*"
+            "GOODBYE_SETTED": "*✅ Pesan selamat tinggal telah berhasil diatur!*",
+            "ON_OFF": "To ON or OFF ${} Message",
+            "W_ENABLED": "*✅Welcome Message {}*",
+            "G_ENABLED": "*✅GOODBYE Message {}*",
+            "B_ENABLED": "*✅BANBYE Message {}*",
+            "ENABLE": "Enabled.",
+            "DISABLE": "Disabled.",
+            "BANBYE_DESC": "Sets the banbye message. If you leave blank, it show's the banbye message.",
+            "NOT_SET_BANBYE": "*You didn't set a banbye message!*\n*To set:* ```.banbye Your banbye Message```",
+            "BANBYE_ALREADY_SETTED": "*✅ Goodbye message has been set!*\n*Message:* ```",
+            "NEED_BANBYE_TEXT": "*You must write a message to set up the banbye message.*\n*Example:* ```.banbye Goodbye!```",
+            "BANBYE_DELETED": "*✅ Banbye message has been deleted successfully!*",
+            "BANBYE_SETTED": "*✅ Banbye message has been setted successfully!*",
+            "ANTILINK_DESC": "To enable or disable antilink\nExample : To on or off\n.antilink on\nTo allow urls\n.antilink instagram.com,fb.com,youtube.com",
+            "NOT_ENABLED": "*{} Not Enabled*",
+            "A_ON_OFF": "To ON or OFF {} Here",
+            "A_ENABLED": "*✅{} {}*",
+            "A_UPDATED": "```{} Updated.```",
+            "ANTIFAKE_DESC": "To enable or disable antifake\nExample : To on or off\n.antifake on\nTo choose county code\n.antifake 1,44,994",
+            "ANTIBAD_DESC": "To enable or disable antibad\nExample : To on or off\n.antibad on\nTo add words\n.antibad word1,word2,word3"
         },
         "memes": {
             "MEMES_DESC": "Membuat meme pada foto yang dibalas.\n.meme top;bottom",
@@ -201,7 +229,20 @@
             "NEED_REPLY": "*Balas sebuah foto!*",
             "DOWNLOADING": "```Media sedang mengunduh dan membaca...```",
             "ERROR": "```Saya tidak dapat membaca ini :/```\n*Error:*```{}```",
-            "RESULT": "*Bahasa:* ```{}```\n*Inilah yang saya baca:* ```{}```"
+            "RESULT": "*Bahasa:* ```{}```\n*Inilah yang saya baca:* ```{}```",
+            "SKULL": "Skull on replied photo.",
+            "SKETCH": "Convert replied photo to sketch.",
+            "PENCIL": "Draw replied photo.",
+            "COLOR": "Color effect on replied Photo.",
+            "KISS": "Kiss on replied photo.",
+            "WANTED": "Wanted with replied photo.",
+            "LOOK": "Dramatic Look on replied Photo.",
+            "GANDM": "Glasses and Mustache on replied Photo.",
+            "DARK": "Become Joker in the hands of the Dark Knight.Become Joker in the hands of the Dark Knight.",
+            "MAKEUP": "Retouch replied Photo.",
+            "CARTOON": "Convert replied Photo to Cartoon.",
+            "BOKEH": "Bokeh effect on replied photo",
+            "EDITOR": "Photo Editor Menu."
         },
         "profile": {
             "KICKME_DESC": "Mengeluarkan Anda dari grup dimana perintah ini digunakan.",
@@ -335,6 +376,7 @@
         "weather": {
             "WEATHER_DESC": "Menampilkan cuaca.\n.weather Jakarta",
             "NEED_LOCATION": "*Tolong tulis nama lokasi daerah!*\n*Contoh:* ```weather Jakarta```",
+            "COUNTRY": "Country",
             "LOCATION": "Lokasi",
             "FTEMP": "Terasa seperti",
             "TEMP": "Suhu",
@@ -363,6 +405,15 @@
             "UPLOAD": "Upload",
             "DOWNLOAD": "Download",
             "PING_DESC": "Mengecek Ping ."
+        },
+        "vote": {
+            "voted": "```voted```",
+            "avoted": "```Already Voted```",
+            "total": "Total votes : ",
+            "delete": "*Voted deleted*",
+            "new": "*Delete current vote, To set new.*",
+            "error": "*Not found any vote.*",
+            "syntax": "*Syntax error*"
         }
     }
 }

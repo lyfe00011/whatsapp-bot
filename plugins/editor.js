@@ -173,7 +173,7 @@ Asena.addCommand(
     }
 );
 Asena.addCommand(
-    { pattern: "editor", fromMe: fm, desc: "Photo editor menu" },
+    { pattern: "editor", fromMe: fm, desc: Lang.EDITOR },
     async (message, match) => {
         return await message.sendMessage(menu(), {}, MessageType.listMessage)
     }

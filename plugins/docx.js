@@ -130,7 +130,7 @@ Asena.addCommand(
   {
     pattern: "readmore ?(.*)",
     fromMe: true,
-    desc: "Add readmore to given Message\nExample .readmore Hi readmore hi",
+    desc: Lang.READMORE_DESC,
   },
   async (message, match) => {
     await message.sendMessage(
@@ -140,23 +140,22 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
-  { pattern: "broadcast ?(.*)", fromMe: true, desc: "BroadCast" },
+  { pattern: "broadcast ?(.*)", fromMe: true, desc: Lang.BROADCAST_DESC },
   async (message, match) => {
     let { msg, result, broadcast, status } = await checkBroadCast(match);
     if (status == false)
       return await message.sendMessage(
-        `Example \n.broadcast 'frnds' 'jid1 jid2 jid3'`
+        Lang.BROADCAST_EXAMPLE
       );
     if (msg) return await message.sendMessage(msg);
     if (result)
       return await message.sendMessage(
-        `added ${result}\nNow reply to a message .broadcast ${result}`
-      );
+        BROADCAST_SET.format(result, result));
     if (!message.reply_message)
-      return await message.sendMessage("*Reply to a Message*");
+      return await message.sendMessage(Lang.REPLY_MSG);
     await message.client.sendMessage(
       message.client.user.jid,
-      "BroadCasting\n" + broadcast,
+      Lang.BROADCASTING(broadcast),
       MessageType.text
     );
     broadcast.match(parseJid).map((jid) => {

@@ -44,7 +44,7 @@ Asena.addCommand(
     let i = moment.utc(p).format("h:mmA");
     let j = moment.utc(q).format("h:mmA");
     let weather = "```" + Lang.LOCATION + "    : " + json.name + "\n";
-    weather += "Country     : " + json.sys.country + "\n";
+    weather += Lang.COUNTRY +   " : " + json.sys.country + "\n";
     weather += Lang.TEMP + " : " + json.main.temp + "°\n";
     weather += Lang.FTEMP + "  : " + json.main.feels_like + "°\n";
     weather += Lang.DESC + " : " + json.weather[0].description + "\n";

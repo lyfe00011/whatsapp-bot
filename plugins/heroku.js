@@ -25,9 +25,10 @@ Asena.addCommand(
   async (message, match) => {
     await message.sendMessage(Lang.RESTART_MSG);
     console.log(baseURI);
-    await heroku.delete(baseURI + "/dynos").catch(async (error) => {
-      await message.sendMessage(error.message);
-    });
+    await heroku.delete(baseURI + "/dynos")
+      .catch(async (error) => {
+        await message.sendMessage(Lang.ERROR);
+      });
   }
 );
 
@@ -45,8 +46,8 @@ Asena.addCommand(
           },
         });
       })
-      .catch(async (err) => {
-        await message.sendMessage(error.message);
+      .catch(async (error) => {
+        await message.sendMessage(Lang.ERROR);
       });
   }
 );
@@ -73,19 +74,19 @@ Asena.addCommand(
           remaining = total_quota - quota_used;
           await message.sendMessage(
             Lang.DYNO_TOTAL +
-              ": ```{}```\n\n".format(secondsToHms(total_quota)) +
-              Lang.DYNO_USED +
-              ": ```{}```\n".format(secondsToHms(quota_used)) +
-              Lang.PERCENTAGE +
-              ": ```{}```\n\n".format(percentage) +
-              Lang.DYNO_LEFT +
-              ": ```{}```\n".format(secondsToHms(remaining))
+            ": ```{}```\n\n".format(secondsToHms(total_quota)) +
+            Lang.DYNO_USED +
+            ": ```{}```\n".format(secondsToHms(quota_used)) +
+            Lang.PERCENTAGE +
+            ": ```{}```\n\n".format(percentage) +
+            Lang.DYNO_LEFT +
+            ": ```{}```\n".format(secondsToHms(remaining))
           );
         })
-        .catch(async (err) => {
-          await message.sendMessage(err.message);
-        });
-    });
+    })
+      .catch(async (error) => {
+        await message.sendMessage(Lang.ERROR);
+      });
   }
 );
 
@@ -102,6 +103,9 @@ Asena.addCommand(
         })
         .then(async (app) => {
           await message.sendMessage(Lang.SET_SUCCESS.format(varKey, varValue));
+        })
+        .catch(async (error) => {
+          await message.sendMessage(Lang.ERROR);
         });
     } else {
       await message.sendMessage(Lang.INVALID);
@@ -130,7 +134,7 @@ Asena.addCommand(
         await message.sendMessage(Lang.NOT_FOUND);
       })
       .catch(async (error) => {
-        await message.sendMessage(error.message);
+        await message.sendMessage(Lang.ERROR);
       });
   }
 );
@@ -151,13 +155,13 @@ Asena.addCommand(
         await message.sendMessage(Lang.NOT_FOUND);
       })
       .catch(async (error) => {
-        await message.sendMessage(error.message);
+        await message.sendMessage(Lang.ERROR);
       });
   }
 );
 
 Asena.addCommand(
-  { pattern: "allvar", fromMe: true, desc: "Shows all vars in Heroku." },
+  { pattern: "allvar", fromMe: true, desc: Lang.ALL_VARS },
   async (message, match) => {
     let msg = "```Here your all Heroku vars\n\n\n";
     await heroku
@@ -169,7 +173,7 @@ Asena.addCommand(
         return await message.sendMessage(msg + "```");
       })
       .catch(async (error) => {
-        await message.sendMessage(error.message);
+        await message.sendMessage(Lang.ERROR);
       });
   }
 );

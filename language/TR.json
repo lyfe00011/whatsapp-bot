@@ -63,7 +63,12 @@
             "REPLY_MSG": "Bir mesajı yanıtla",
             "NOT_SUPPORTED": "*Bu mesaj pdf'ye dönüştürülemez.*",
             "WASTED_DESC": "heba olmuş afiş\nBir resmi yanıtla",
-            "TRIGGERED_DESC": "Tetiklenmiş afiş\nBir resmi yanıtla"
+            "TRIGGERED_DESC": "Tetiklenmiş afiş\nBir resmi yanıtla",
+            "READMORE_DESC": "Add readmore to given Message\nExample .readmore Hi readmore hi",
+            "BROADCAST_DESC": "To send broadcast or To set Broadcast\nExample : .broadcast 'family' 'jid,jid,jid,jid'",
+            "BROADCAST_EXAMPLE": "Example \n.broadcast 'friends' 'jid1 jid2 jid3'",
+            "BROADCAST_SET": "```added {} to Broadcast.\nNow reply to a message .broadcast {}```",
+            "BROADCASTING": "```BroadCasting to\n {}```"
         },
         "groupmute": {
             "AUTOMUTE_DESC": "Planlanan zamanda grubun sesini kapat\n.automute 98723-2323@g.us 10 10\nbu, grubu her gün 10:10'da sessize alacak.",
@@ -75,7 +80,9 @@
             "SYNTAX": "*Sözdizimi hatası!*",
             "NOT_FOUND": "*Bulunamadı*",
             "MUTE": "```Sesi kapat {} {}:{}```\n\n*Etkili olması için botu yeniden başlatın",
-            "UNMUTE": "```Sesi aç {} {}:{}```\n\n*Etkili olması için botu yeniden başlatın"
+            "UNMUTE": "```Sesi aç {} {}:{}```\n\n*Etkili olması için botu yeniden başlatın",
+            "NEED_REPLY": "*Reply to a text message*",
+            "GJID": "*Give me a group Jid*"
         },
         "insta": {
             "INSTA_DESC": "Gönderi, igtv, makaralar gibi instagramdan indirin\n.insta url'si veya bir url'ye yanıt",
@@ -164,7 +171,9 @@
             "GETVAR_DESC": "heroku config vars gösterir",
             "DELVAR_DESC": "heroku config vars siler",
             "DEL_SUCCESS": "```{} başarıyla silindi```",
-            "NOT_FOUND": "```bu anahtar için sonuç bulunamadı```"
+            "NOT_FOUND": "```bu anahtar için sonuç bulunamadı```",
+            "ERROR": "*Check Heroku app name in Heroku app settings*\n*Update Heroku api key in Heroku app settings*",
+            "ALL_VARS": "Shows all vars in Heroku APP settings."
         },
         "filters": {
             "FILTER_DESC": "Bir filtre ekler. Birisi filtrenizi yazarsa, cevabı gönderir. Sadece .filter yazarsanız, filtre listenizi gösterir.",
@@ -189,7 +198,26 @@
             "GOODBYE_ALREADY_SETTED": "*✅ Görüşürüz mesajınız ayarlandı!*\n*Message:* ```",
             "NEED_GOODBYE_TEXT": "*Görüşürüz mesajını ayarlamak için bir mesaj yazmalısınız.*\n*Örnek:* ```.goodbye Güle Güle!```",
             "GOODBYE_DELETED": "*✅  Görüşürüz mesajı başarıyla silindi!*",
-            "GOODBYE_SETTED": "*✅  Görüşürüz mesajı başarıyla ayarlandı!*"
+            "GOODBYE_SETTED": "*✅  Görüşürüz mesajı başarıyla ayarlandı!*",
+            "ON_OFF": "To ON or OFF ${} Message",
+            "W_ENABLED": "*✅Welcome Message {}*",
+            "G_ENABLED": "*✅GOODBYE Message {}*",
+            "B_ENABLED": "*✅BANBYE Message {}*",
+            "ENABLE": "Enabled.",
+            "DISABLE": "Disabled.",
+            "BANBYE_DESC": "Sets the banbye message. If you leave blank, it show's the banbye message.",
+            "NOT_SET_BANBYE": "*You didn't set a banbye message!*\n*To set:* ```.banbye Your banbye Message```",
+            "BANBYE_ALREADY_SETTED": "*✅ Goodbye message has been set!*\n*Message:* ```",
+            "NEED_BANBYE_TEXT": "*You must write a message to set up the banbye message.*\n*Example:* ```.banbye Goodbye!```",
+            "BANBYE_DELETED": "*✅ Banbye message has been deleted successfully!*",
+            "BANBYE_SETTED": "*✅ Banbye message has been setted successfully!*",
+            "ANTILINK_DESC": "To enable or disable antilink\nExample : To on or off\n.antilink on\nTo allow urls\n.antilink instagram.com,fb.com,youtube.com",
+            "NOT_ENABLED": "*{} Not Enabled*",
+            "A_ON_OFF": "To ON or OFF {} Here",
+            "A_ENABLED": "*✅{} {}*",
+            "A_UPDATED": "```{} Updated.```",
+            "ANTIFAKE_DESC": "To enable or disable antifake\nExample : To on or off\n.antifake on\nTo choose county code\n.antifake 1,44,994",
+            "ANTIBAD_DESC": "To enable or disable antibad\nExample : To on or off\n.antibad on\nTo add words\n.antibad word1,word2,word3"
         },
         "memes": {
             "MEMES_DESC": "Yanıtladığınız fotoğraflı memler.\n.meme top;bottom",
@@ -201,7 +229,20 @@
             "NEED_REPLY": "*Bir fotoğrafa yanıt verin!*",
             "DOWNLOADING": "```Medya indiriliyor ve okunuyor...````",
             "ERROR": "```Bunu okuyamadım :/```\n*Hata:*```{}```",
-            "RESULT": "*Dil:* ```{}```\n*İşte okuduklarım:* ```{}```"
+            "RESULT": "*Dil:* ```{}```\n*İşte okuduklarım:* ```{}```",
+            "SKULL": "Skull on replied photo.",
+            "SKETCH": "Convert replied photo to sketch.",
+            "PENCIL": "Draw replied photo.",
+            "COLOR": "Color effect on replied Photo.",
+            "KISS": "Kiss on replied photo.",
+            "WANTED": "Wanted with replied photo.",
+            "LOOK": "Dramatic Look on replied Photo.",
+            "GANDM": "Glasses and Mustache on replied Photo.",
+            "DARK": "Become Joker in the hands of the Dark Knight.Become Joker in the hands of the Dark Knight.",
+            "MAKEUP": "Retouch replied Photo.",
+            "CARTOON": "Convert replied Photo to Cartoon.",
+            "BOKEH": "Bokeh effect on replied photo",
+            "EDITOR": "Photo Editor Menu."
         },
         "profile": {
             "KICKME_DESC": "Kullandığınız gruptan sizi atar",
@@ -335,6 +376,7 @@
         "weather": {
             "WEATHER_DESC": "Hava durumunu gösterir.\n.weather Malappuram",
             "NEED_LOCATION": "*Lütfen bir konum yazın!*\n*Örnek:* ```weather Malappuram```",
+            "COUNTRY": "Country",
             "LOCATION": "Konum",
             "FTEMP": "Gibi hissettiriyor",
             "TEMP": "Sıcaklık",
@@ -363,6 +405,15 @@
             "UPLOAD": "Yükleme",
             "DOWNLOAD": "İndirme",
             "PING_DESC": "Pinginizi ölçer."
+        },
+        "vote": {
+            "voted": "```voted```",
+            "avoted": "```Already Voted```",
+            "total": "Total votes : ",
+            "delete": "*Voted deleted*",
+            "new": "*Delete current vote, To set new.*",
+            "error": "*Not found any vote.*",
+            "syntax": "*Syntax error*"
         }
     }
 }
