@@ -217,7 +217,9 @@
             "A_ENABLED": "*✅{} {}*",
             "A_UPDATED": "```{} Updated.```",
             "ANTIFAKE_DESC": "To enable or disable antifake\nExample : To on or off\n.antifake on\nTo choose county code\n.antifake 1,44,994",
-            "ANTIBAD_DESC": "To enable or disable antibad\nExample : To on or off\n.antibad on\nTo add words\n.antibad word1,word2,word3"
+            "ANTIBAD_DESC": "To enable or disable antibad\nExample : To on or off\n.antibad on\nTo add words\n.antibad word1,word2,word3",
+            "MENTION_DESC": "Send reply to mention.",
+            "M_ENABLE": "To Enable or Disable reply to mention."
         },
         "memes": {
             "MEMES_DESC": "Photo memes you replied to.\n.meme top;bottom",

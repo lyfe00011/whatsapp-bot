@@ -19,6 +19,8 @@ const {
   checkImAdmin,
   antiList,
   clearGreetings,
+  mentionMessage,
+  enableMention,
 } = require("../Utilis/Misc");
 const { MessageType } = require("@adiwajshing/baileys");
 const { getMessage, deleteMessage } = require("../Utilis/warn");
@@ -43,7 +45,7 @@ Asena.addCommand(
         Lang.WELCOME_ALREADY_SETTED + hg.message + "```"
       );
       return await message.sendMessage(
-        genButtons(["ON", "OFF"], Lang.ON_OFF('Welcome'), "Choose"),
+        genButtons(["ON", "OFF"], Lang.ON_OFF.format('Welcome'), "Choose"),
         {},
         MessageType.buttonsMessage
       );
@@ -79,7 +81,7 @@ Asena.addCommand(
     if (hg !== false && match === "") {
       await message.sendMessage(Lang.GOODBYE_ALREADY_SETTED + hg.message + s);
       return await message.sendMessage(
-        genButtons(["ON", "OFF"], Lang.ON_OFF('GoodBye'), "Choose"),
+        genButtons(["ON", "OFF"], Lang.ON_OFF.format('GoodBye'), "Choose"),
         {},
         MessageType.buttonsMessage
       );
@@ -115,7 +117,7 @@ Asena.addCommand(
     if (hg !== false && match === "") {
       await message.sendMessage(Lang.BANBYE_ALREADY_SETTED + hg.message + s);
       return await message.sendMessage(
-        genButtons(["ON", "OFF"], Lang.ON_OFF('Banbye'), "Choose"),
+        genButtons(["ON", "OFF"], Lang.ON_OFF.format('Banbye'), "Choose"),
         {},
         MessageType.buttonsMessage
       );
@@ -168,7 +170,7 @@ Asena.addCommand(
       if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
       await enableAntilink(message.jid, match);
       return await message.sendMessage(
-        A_ON_OFF.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
+        Lang.A_ENABLED.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
       );
     }
     await enableAntilink(message.jid, match);
@@ -207,7 +209,7 @@ Asena.addCommand(
       if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
       await enableAntiFake(message.jid, match);
       return await message.sendMessage(
-        A_ON_OFF.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
+        Lang.A_ENABLED.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
       );
     }
     await enableAntiFake(message.jid, match);
@@ -242,10 +244,39 @@ Asena.addCommand(
       if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
       await enableAntiBad(message.jid, match);
       return await message.sendMessage(
-        A_ON_OFF.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
+        Lang.A_ENABLED.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
       );
     }
     await enableAntiBad(message.jid, match);
     return await message.sendMessage(Lang.A_UPDATED.format('Antibad'));
+  }
+);
+
+
+Asena.addCommand(
+  {
+    pattern: "mention ?(.*)",
+    fromMe: true,
+    desc: Lang.MENTION_DESC
+  },
+  async (message, match) => {
+    if (match == "")
+      return await message.sendMessage(
+        genButtons(["ON", "OFF", "GET"], Lang.M_ENABLE, 'Choose'),
+        {},
+        MessageType.buttonsMessage
+      );
+    if (match == "get") {
+      let msg = await mentionMessage()
+      if (!msg) return await message.sendMessage(Lang.NOT_ENABLED.format('Mention'));
+      return await message.sendMessage(msg);
+    } else if (match == "on" || match == "off") {
+      await enableMention(match);
+      return await message.sendMessage(
+        Lang.A_ENABLED.format('Reply to Mention', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
+      );
+    }
+    await enableMention(match);
+    return await message.sendMessage(Lang.A_UPDATED.format('Mention'));
   }
 );
