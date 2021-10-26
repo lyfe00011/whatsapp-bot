@@ -34,14 +34,44 @@ Asena.addCommand(
         if (/\[(\W*)\]/.test(Config.HANDLERS)) {
           HANDLER = Config.HANDLERS.match(/\[(\W*)\]/)[1][0];
         } else {
-          HANDLER = ".";
+          HANDLER = "";
         }
-        if (index == 3) CMD_HELP += readmore;
+        if (index == 4) CMD_HELP += readmore;
         CMD_HELP += `${index} ${
           match.length >= 3 ? HANDLER + match[2] : command.pattern
         }\n${command.desc}\n\n`;
       }
     });
+    return await message.sendMessage("```" + CMD_HELP + "```");
+  }
+);
+
+Asena.addCommand(
+  { pattern: "help ?(.*)", fromMe: true, dontAddCommandList: true },
+  async (message, match) => {
+    let CMD_HELP = `╭────────────────╮
+    ᴡʜᴀᴛsᴀᴘᴘ-ʙᴏᴛ
+╰────────────────╯
+
+╭────────────────
+`;
+    Asena.commands.map(async (command, index) => {
+      if (
+        command.dontAddCommandList === false &&
+        command.pattern !== undefined
+      ) {
+        try {
+          var match = command.pattern
+            .toString()
+            .match(/(\W*)([A-Za-z0-9ğüşiöç]*)/);
+        } catch {
+          var match = [command.pattern];
+        }
+        if (index == 4) CMD_HELP += readmore;
+        CMD_HELP += `│ ▢ ${match[2]}\n`;
+      }
+    });
+    CMD_HELP += `╰────────────────`;
     return await message.sendMessage("```" + CMD_HELP + "```");
   }
 );

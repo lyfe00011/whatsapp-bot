@@ -24,7 +24,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY);
     if (match === "") return await message.sendMessage("*Syntax Error!*");
-    let [topText, bottomText, fontFill] = match.split(";")
+    let [topText, bottomText, fontFill, fontSize] = match.split(";")
     let location = await message.reply_message.downloadAndSaveMediaMessage(
       "mem"
     );
@@ -34,7 +34,8 @@ Asena.addCommand(
         outfile: "meme.png",
         topText: topText,
         bottomText: bottomText,
-        fontFill: fontFill
+        fontFill: fontFill,
+        fontSize: fontSize
       }).then(async () => {
         await message.sendMessage(
           fs.readFileSync("meme.png"),

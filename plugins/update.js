@@ -11,9 +11,8 @@ async function updateChecker() {
   if (commits.total === 0) return false;
   let newcommits = "";
   commits["all"].map((commit) => {
-    newcommits += `🔹 *[${commit.date.substring(0, 10)}] :* ${sss}${
-      commit.message
-    }${sss} <*${commit.author_name}*>\n`;
+    newcommits += `🔹 *[ ${commit.date.substring(0, 10)} ] :* ${sss}${commit.message
+      }${sss} <${commit.author_name}>\n`;
   });
   return newcommits;
 }
