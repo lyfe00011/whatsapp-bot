@@ -9,9 +9,9 @@ Coded by @KursadHD
 
 const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const memeMaker = require("meme-maker");
 const fs = require("fs");
 const Language = require("../language");
+const { memeMaker } = require("../Utilis/meme");
 const Lang = Language.getString("memes");
 
 Asena.addCommand(
@@ -21,19 +21,11 @@ Asena.addCommand(
     desc: Lang.MEMES_DESC
   },
   async (message, match) => {
-    if (message.reply_message === false)
+    if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY);
-    var topText, bottomText;
     if (match === "") return await message.sendMessage("*Syntax Error!*");
-    if (match.includes(";")) {
-      var split = match.split(";");
-      topText = split[1];
-      bottomText = split[0];
-    } else {
-      topText = match;
-      bottomText = "";
-    }
-    var location = await message.reply_message.downloadAndSaveMediaMessage(
+    let [topText, bottomText, fontFill] = match.split(";")
+    let location = await message.reply_message.downloadAndSaveMediaMessage(
       "mem"
     );
     memeMaker(
@@ -42,15 +34,14 @@ Asena.addCommand(
         outfile: "meme.png",
         topText: topText,
         bottomText: bottomText,
-      },
-      async function (err) {
-        if (err) return await message.sendMessage(err.message);
+        fontFill: fontFill
+      }).then(async () => {
         await message.sendMessage(
           fs.readFileSync("meme.png"),
           { filename: "meme.png", mimetype: Mimetype.png },
           MessageType.image
         );
       }
-    );
+      );
   }
 );

@@ -209,7 +209,7 @@ Asena.addCommand(
       if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
       await enableAntiFake(message.jid, match);
       return await message.sendMessage(
-        Lang.A_ENABLED.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
+        Lang.A_ENABLED.format('AntiFake', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
       );
     }
     await enableAntiFake(message.jid, match);
@@ -244,7 +244,7 @@ Asena.addCommand(
       if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
       await enableAntiBad(message.jid, match);
       return await message.sendMessage(
-        Lang.A_ENABLED.format('Antilink', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
+        Lang.A_ENABLED.format('AntiBad', `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`)
       );
     }
     await enableAntiBad(message.jid, match);
