@@ -11,6 +11,7 @@ const Config = require("../config");
 const { lydia, getLydia, setLydia } = require("../Utilis/lydia");
 const { getName, readmore } = require("../Utilis/download");
 const Language = require("../language");
+const { textToStylist, addSpace } = require("../Utilis/Misc");
 const Lang = Language.getString("_asena");
 Asena.addCommand(
   { pattern: "list ?(.*)", fromMe: true, dontAddCommandList: true },
@@ -55,21 +56,22 @@ Asena.addCommand(
 
 ╭────────────────
 `;
+    let commands = [];
     Asena.commands.map(async (command, index) => {
       if (
         command.dontAddCommandList === false &&
         command.pattern !== undefined
       ) {
-        try {
-          var match = command.pattern
-            .toString()
-            .match(/(\W*)([A-Za-z0-9ğüşiöç]*)/);
-        } catch {
-          var match = [command.pattern];
-        }
-        if (index == 4) CMD_HELP += readmore;
-        CMD_HELP += `│ ▢ ${match[2]}\n`;
+        commands.push(
+          command.pattern.toString().match(/(\W*)([A-Za-z0-9ğüşiöç]*)/)[2]
+        );
       }
+    });
+    commands.forEach((command, i) => {
+      CMD_HELP += `│ ${i + 1} ${addSpace(i + 1, 3)}${textToStylist(
+        command.toUpperCase(),
+        "mono"
+      )}\n`;
     });
     CMD_HELP += `╰────────────────`;
     return await message.sendMessage("```" + CMD_HELP + "```");
