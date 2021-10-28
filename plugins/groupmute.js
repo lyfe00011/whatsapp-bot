@@ -8,8 +8,9 @@ const {
   getEachMute,
 } = require("../Utilis/groupmute");
 const Language = require("../language");
-const { isGroup } = require("../Utilis/Misc");
+const { isGroup, checkImAdmin } = require("../Utilis/Misc");
 const Lang = Language.getString("groupmute");
+const Lang1 = Language.getString("admin");
 Asena.addCommand(
   {
     pattern: "automute ?(.*)",
@@ -17,6 +18,9 @@ Asena.addCommand(
     desc: Lang.AUTOMUTE_DESC
   },
   async (message, match) => {
+    let participants = await message.groupMetadata(message.jid);
+    let im = await checkImAdmin(participants, message.client.user.jid);
+    if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
     if (match == "" && !message.reply_message) {
       return await message.sendMessage(Lang.MUTE_NEED_REPLY);
     }
@@ -49,9 +53,9 @@ Asena.addCommand(
       await setMute(user, msgs, hour, minute, hours == "on" ? true : false);
       return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) + '*Restart bot*');
     } else if (!user || !msg || !hours || !minute) {
+      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage(Lang.NEED_REPLY)
       return await message.sendMessage(Lang.SYNTAX);
     } else {
-      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage(Lang.NEED_REPLY)
       await setMute(user, msg, hours, minute, true);
       return await message.sendMessage(
         Lang.MUTE.format(user, hours, minute)
@@ -67,6 +71,9 @@ Asena.addCommand(
     desc: Lang.AUTOUMUTE_DESC
   },
   async (message, match) => {
+    let participants = await message.groupMetadata(message.jid);
+    let im = await checkImAdmin(participants, message.client.user.jid);
+    if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN);
     if (match == "" && !message.reply_message) {
       return await message.sendMessage(Lang.UNMUTE_NEED_REPLY)
     }
@@ -101,9 +108,9 @@ Asena.addCommand(
       return await message.sendMessage(Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) +
         `\n\n*Restart bot*`);
     } else if (!user || !msg || !hours || !minute) {
+      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage(Lang.NEED_REPLY)
       return await message.sendMessage(Lang.SYNTAX);
     } else {
-      if (!message.reply_message || !message.reply_message.txt) return await message.sendMessage(Lang.NEED_REPLY)
       await setUnmute(user, msg, hours, minute, true);
       return await message.sendMessage(Lang.UNMUTE.format(user, hours, minute)
       );
