@@ -106,5 +106,5 @@ This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com
 
 ## Thanks To
 
-- [CYBER LUIZ](https://github.com/cyberluiz0/whatsapp-bot)
+- [CYBER LUIZ FOR MODING DARK OWL](https://github.com/cyberluiz0/whatsapp-bot)
 
