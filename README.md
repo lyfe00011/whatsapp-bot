@@ -17,11 +17,6 @@ Project created by <a href="https://github.com/cyberluiz0">Cyber luiz</a> to mak
 
 ----
 
-  <p align="center">
-  <a href="https://github.com/cyberluiz0/whatsapp-bot">
-    <img src="https://img.shields.io/github/repo-size/cyber luiz/dark owl?color=green&label=Repo%20total%20size&style=plastic">
-
-
 ## WhatsApp User Bot MASTER LUIZ SIR
 
 This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com/cyberluiz0)
@@ -133,3 +128,4 @@ This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com
 - [CYBER LUIZ FOR MODING DARK OWL](https://github.com/cyberluiz0)
 
 THANKS TO ALL FOR MAKING MY BOT
+ITS ME CYBER LUIZ LOVE YOU ALL
