@@ -1,5 +1,5 @@
 <div align="center">
-  <img border-radius: 15px src="https://avatars.githubusercontent.com/u/b11d4de40d921f4eb016e430b1e63979?v=4" width="200" height="200"/>
+  <img border-radius: 15px src="https://avatars.githubusercontent.com/u/DARKOWLBOT.jpg" width="200" height="200"/>
   <p align="center">
 <a href="#"><img title="DARK OWL" src="https://img.shields.io/badge/DARK OWL-darkgreen?colorA=%23ff0000&colorB=%23017e40&style=for-the-badge"></a>
 </p>
@@ -20,13 +20,7 @@ Project created by <a href="https://github.com/cyberluiz0">Cyber luiz</a> to mak
   <p align="center">
   <a href="https://github.com/cyberluiz0/whatsapp-bot">
     <img src="https://img.shields.io/github/repo-size/cyber luiz/dark owl?color=green&label=Repo%20total%20size&style=plastic">
-<p align="center">
-<a href="https://github.com/cyberluiz0/followers"><img title="Followers" src="https://img.shields.io/github/followers/cyber luiz?color=blue&style=flat-square"></a>
-<a href="https://github.com/cyberluiz0/DARKOWLBOT/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/cyber luiz/DARKOWLBOT?color=blue&style=flat-square"></a>
-<a href="https://github.com/cyberluiz0/DARKOWLBOT/network/members"><img title="Forks" src="https://img.shields.io/github/forks/cyber luiz/DARKOWLBOT?color=blue&style=flat-square"></a>
-<a href="https://github.com/cyberluiz0/DARKOWLBOT/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/cyber luiz/DARKOWLBOT?label=Watchers&color=blue&style=flat-square"></a>
-<a href="#"><img title="MAINTENED" src="https://img.shields.io/badge/UNMAINTENED-YES-blue.svg"</a>
-</p>
+
 
 ## WhatsApp User Bot MASTER LUIZ SIR
 
