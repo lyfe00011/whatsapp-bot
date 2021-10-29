@@ -15,7 +15,7 @@ This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com
    <br>
    <a href="https://youtu.be/G4KknEgKWoA"><img src="https://img.shields.io/badge/-watch%20video-critical?style=for-the-badge&logo=youtube&logoColor=white">
    <br>
-   <a href="https://chat.whatsapp.com/Ear1cUkcdvW4idBD9jqmyj"><img alt="WhatsApp" src="https://img.shields.io/badge/-Whatsapp%20Group-lightgrey?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
+   <a href="http://Wa.me/+17057101174"><img alt="WhatsApp" src="https://img.shields.io/badge/-Whatsapp%20Group-lightgrey?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
 
 <a href="https://github.com/cyberluiz0/whatsapp-bot"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor%22"/></a>
 
