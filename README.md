@@ -1,10 +1,10 @@
 ## WhatsApp User Bot
 
-This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com/cyberluiz0/whatsapp-bot)
+This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com/cyberluiz0)
 
 ## What is WhatsAsena?
 
-**WhatsAsena,** is a WhatsApp bot written by [CYBER LUIZ](https://github.com/cyberluiz0/whatsapp-bot). Does not log into your account It is written on WhatsApp Web API.
+**WhatsAsena,** is a WhatsApp bot written by [CYBER LUIZ](https://github.com/cyberluiz0). Does not log into your account It is written on WhatsApp Web API.
 
 ## Setup
 
@@ -106,5 +106,5 @@ This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com
 
 ## Thanks To
 
-- [CYBER LUIZ FOR MODING DARK OWL](https://github.com/cyberluiz0/whatsapp-bot)
+- [CYBER LUIZ FOR MODING DARK OWL](https://github.com/cyberluiz0)
 
