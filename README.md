@@ -6,14 +6,14 @@ This is a Userbot based on WhatsAsena written by [CYBER LUIZ](https://github.com
 
 **WhatsAsena,** is a WhatsApp bot written by [CYBER LUIZ](https://github.com/cyberluiz0). Does not log into your account It is written on WhatsApp Web API.
 
-## Setup
+## Setup IT'S ME DARK OWL
 
 1. Click [SCAN](https://replit.com/@Nightbot2O/baileys-qr) and scan QR through Whatsapp Linked Devices Option in Your whatsapp App.
 2. You will get a long text that needs after 4th step (ASENA_SESSION).
 3. If You don't have a account in [Heroku](https://signup.heroku.com/), Create a account.
 4. Now click [DEPLOY](https://heroku.com/deploy?template=https://github.com/lyfe00011/whatsapp-bot) and Follow.
    <br>
-   <a href="https://youtube.com/channel/UCminy9N0_3hkWEjIybPcMMw"><img src="https://img.shields.io/badge/-watch%20video-critical?style=for-the-badge&logo=youtube&logoColor=white">
+   <a href="https://youtube.com/channel/UCminy9N0_3hkWEjIybPcMMw"><img src="https://img.shields.io/badge/-YOUTUBE%20CHANNEL-critical?style=for-the-badge&logo=youtube&logoColor=white">
    <br>
    <a href="http://Wa.me/+17057101174"><img alt="WhatsApp" src="https://img.shields.io/badge/-Whatsapp%20NUMBER-lightgrey?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
 
