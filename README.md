@@ -1,5 +1,5 @@
 <div align="center">
-  <img border-radius: 15px src="https://avatars.githubusercontent.com/u/DARKOWLBOT.jpg" width="200" height="200"/>
+  <img border-radius: 15px src="https://avatars.githubusercontent.com/u/b11d4de40d921f4eb016e430b1e63979" width="200" height="200"/>
   <p align="center">
 <a href="#"><img title="DARK OWL" src="https://img.shields.io/badge/DARK OWL-darkgreen?colorA=%23ff0000&colorB=%23017e40&style=for-the-badge"></a>
 </p>
