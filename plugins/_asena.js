@@ -51,7 +51,7 @@ Asena.addCommand(
   { pattern: "help ?(.*)", fromMe: true, dontAddCommandList: true },
   async (message, match) => {
     let CMD_HELP = `╭────────────────╮
-    ᴡʜᴀᴛsᴀᴘᴘ-ʙᴏᴛ
+    IT'S ME DARK OWL BOT 
 ╰────────────────╯
 
 ╭────────────────
@@ -110,8 +110,8 @@ Asena.addCommand(
   }
 );
 
-Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
-  let chat = await lydia(message);
+Asena.addCommand({ on: "text", fromMe: true }, async (message, match) => {
+  let chat = await LUIZ (message);
   if (!chat) return;
   return await message.sendMessage(chat, { quoted: message.data });
 });
