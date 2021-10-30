@@ -1,11 +1,12 @@
 const toPDF = require("custom-soffice-to-pdf");
 const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { banner, checkBroadCast, stylishTextGen } = require("../Utilis/Misc");
+const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker } = require("../Utilis/Misc");
 const Language = require("../language");
 const { forwardOrBroadCast } = require("../Utilis/groupmute");
 const { parseJid } = require("../Utilis/vote");
 const { readMore } = require("../Utilis/download");
+const { sticker } = require("../Utilis/fFmpeg");
 const Lang = Language.getString("docx");
 Asena.addCommand(
   {
@@ -159,13 +160,49 @@ Asena.addCommand(
 );
 
 Asena.addCommand(
+  { pattern: "apk ?(.*)", fromMe: true, desc: "Download apk from apkmirror" },
+  async (message, match) => {
+    let { type, buffer, name } = await apkMirror(match);
+    if (type == "list")
+      return await message.sendMessage(buffer, {}, MessageType.listMessage);
+    else if (type == "button")
+      return await message.sendMessage(buffer, {}, MessageType.buttonsMessage);
+    else if (type == "text") return await message.sendMessage(buffer)
+    else if (buffer != false)
+      return await message.sendMessage(
+        buffer,
+        { filename: name, mimetype: type, quoted: message.data },
+        MessageType.document
+      );
+    else return await message.sendMessage("*Not found!*")
+  }
+);
+
+Asena.addCommand(
+  {
+    pattern: "strs ?(.*)",
+    fromMe: true,
+    desc: "Download stickers.",
+  },
+  async (message, match) => {
+    let url = isUrl(match)
+    if (!url) return await message.sendMessage('```Give me sticker pack url\nExample``` https://getstickerpack.com/stickers/quby-pack-1')
+    let stickers = await getSticker(url)
+    if (!stickers) return await message.sendMessage('*Not found!*')
+    await message.sendMessage('```' + `Downloading ${stickers.length} stickers` + '```')
+    for (let data of stickers) {
+      await message.sendMessage(await sticker('str', data.url, (data.type == 'gif' ? 2 : 1)), {}, MessageType.sticker)
+    }
+  })
+
+Asena.addCommand(
   {
     pattern: "fancy ?(.*)",
     fromMe: true,
     desc: "Creates fancy text from given text",
   },
   async (message, match) => {
-    return await message.sendMessage("```" + stylishTextGen(match, 2) + "```");
+    return await message.sendMessage("```" + stylishTextGen(match) + "```");
   }
 );
 /*

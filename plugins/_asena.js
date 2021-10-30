@@ -68,10 +68,10 @@ Asena.addCommand(
       }
     });
     commands.forEach((command, i) => {
-      CMD_HELP += `│ ${i + 1} ${addSpace(i + 1, 3)}${textToStylist(
-        command.toUpperCase(),
-        "mono"
-      )}\n`;
+      CMD_HELP += `│ ${i + 1} ${addSpace(
+        i + 1,
+        commands.length
+      )}${textToStylist(command.toUpperCase(), "mono")}\n`;
     });
     CMD_HELP += `╰────────────────`;
     return await message.sendMessage("```" + CMD_HELP + "```");

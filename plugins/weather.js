@@ -57,18 +57,18 @@ Asena.addCommand(
       (json.wind.deg < 23
         ? "N"
         : json.wind.deg < 68
-          ? "NE"
-          : json.wind.deg < 113
-            ? "E"
-            : json.wind.deg < 158
-              ? "SE"
-              : json.wind.deg < 203
-                ? "S"
-                : json.wind.deg < 248
-                  ? "SW"
-                  : json.wind.deg < 293
-                    ? "W"
-                    : "NW") +
+        ? "NE"
+        : json.wind.deg < 113
+        ? "E"
+        : json.wind.deg < 158
+        ? "SE"
+        : json.wind.deg < 203
+        ? "S"
+        : json.wind.deg < 248
+        ? "SW"
+        : json.wind.deg < 293
+        ? "W"
+        : "NW") +
       "\n";
     weather += Lang.CLOUD + "       : " + json.clouds.all + "%\n";
     weather += Lang.VISI + "  : " + json.visibility + "m\n";
@@ -134,9 +134,9 @@ Asena.addCommand(
 
 Asena.addCommand(
   {
-    pattern: "ipl ?(.*)",
+    pattern: "score ?(.*)",
     fromMe: true,
-    desc: "Shows live ipl score ",
+    desc: "Shows live cricket score ",
   },
   async (message, match) => {
     let msg = await iplscore(match);
