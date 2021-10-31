@@ -1,10 +1,9 @@
 const toPDF = require("custom-soffice-to-pdf");
 const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker } = require("../Utilis/Misc");
+const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker, parsedJid } = require("../Utilis/Misc");
 const Language = require("../language");
 const { forwardOrBroadCast } = require("../Utilis/groupmute");
-const { parseJid } = require("../Utilis/vote");
 const { readMore } = require("../Utilis/download");
 const { sticker } = require("../Utilis/fFmpeg");
 const Lang = Language.getString("docx");
@@ -153,9 +152,9 @@ Asena.addCommand(
       Lang.BROADCASTING.format(broadcast),
       MessageType.text
     );
-    broadcast.match(parseJid).map((jid) => {
-      forwardOrBroadCast(jid, message);
-    });
+    for (let jid of parsedJid(broadcast)) {
+      await forwardOrBroadCast(jid, message);
+    }
   }
 );
 

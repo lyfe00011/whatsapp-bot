@@ -143,7 +143,8 @@ Asena.addCommand(
   {
     pattern: "antilink ?(.*)",
     fromMe: true,
-    desc: Lang.ANTILINK_DESC
+    desc: Lang.ANTILINK_DESC,
+    onlyGroup: true,
   },
   async (message, match) => {
     if (match == "")
@@ -182,7 +183,8 @@ Asena.addCommand(
   {
     pattern: "antifake ?(.*)",
     fromMe: true,
-    desc: Lang.ANTIFAKE_DESC
+    desc: Lang.ANTIFAKE_DESC,
+    onlyGroup: true,
   },
   async (message, match) => {
     if (match == "")
@@ -221,7 +223,8 @@ Asena.addCommand(
   {
     pattern: "antibad ?(.*)",
     fromMe: true,
-    desc: Lang.ANTIBAD_DESC
+    desc: Lang.ANTIBAD_DESC,
+    onlyGroup: true,
   },
   async (message, match) => {
     if (match == "")

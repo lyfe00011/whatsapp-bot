@@ -1,10 +1,9 @@
 const Asena = require("../Utilis/events");
 const { MessageType } = require("@adiwajshing/baileys");
 const { getJson, TiktokDownloader, getBuffer } = require("../Utilis/download");
-const { UploadToImgur, wallpaper } = require("../Utilis/Misc");
+const { UploadToImgur, wallpaper, parsedJid } = require("../Utilis/Misc");
 const Language = require("../language");
 const Lang = Language.getString("tiktok");
-const { parseJid } = require("../Utilis/vote");
 const { forwardOrBroadCast } = require("../Utilis/groupmute");
 
 Asena.addCommand(
@@ -65,9 +64,9 @@ Asena.addCommand(
   async (message, match) => {
     if (match == "") return await message.sendMessage(Lang.JID);
     if (!message.reply_message) return await message.sendMessage(Lang.FORWARD);
-    match.match(parseJid).map((jid) => {
-      forwardOrBroadCast(jid, message);
-    });
+    for (let jid of parsedJid(match)) {
+      await forwardOrBroadCast(jid, message);
+    }
   }
 );
 Asena.addCommand(
