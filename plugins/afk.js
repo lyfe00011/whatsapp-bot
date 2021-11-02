@@ -9,6 +9,7 @@ WhatsAsena - Yusuf Usta
 const Asena = require("../Utilis/events");
 // const { MessageType } = require('@adiwajshing/baileys');
 const Language = require("../language");
+const { ticTacToe } = require("../Utilis/Misc");
 const Lang = Language.getString("afk");
 
 global.AFK = {
@@ -38,6 +39,8 @@ function secondsToHms(d) {
 Asena.addCommand(
   { on: "text", fromMe: false, deleteCommand: false },
   async (message, match) => {
+    let { msg, mentionedJid } = await ticTacToe(message)
+    await message.sendMessage(msg, { contextInfo: { mentionedJid } })
     if (
       global.AFK.isAfk &&
       !message.fromMe &&
@@ -54,20 +57,20 @@ Asena.addCommand(
           if (message.client.user.jid.split("@")[0] === jid.split("@")[0]) {
             return await message.sendMessage(
               Lang.AFK_TEXT +
-                "\n" +
-                (global.AFK.reason !== false
-                  ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
-                  : "") +
-                (global.AFK.lastseen !== 0
-                  ? "\n*" +
-                    Lang.LAST_SEEN +
-                    "* ```" +
-                    secondsToHms(
-                      Math.round(new Date().getTime() / 1000) -
-                        global.AFK.lastseen
-                    ) +
-                    " before.```"
-                  : ""),
+              "\n" +
+              (global.AFK.reason !== false
+                ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
+                : "") +
+              (global.AFK.lastseen !== 0
+                ? "\n*" +
+                Lang.LAST_SEEN +
+                "* ```" +
+                secondsToHms(
+                  Math.round(new Date().getTime() / 1000) -
+                  global.AFK.lastseen
+                ) +
+                " before.```"
+                : ""),
               { quoted: message.data }
             );
           }
@@ -79,20 +82,20 @@ Asena.addCommand(
         ) {
           return await message.sendMessage(
             Lang.AFK_TEXT +
-              "\n" +
-              (global.AFK.reason !== false
-                ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
-                : "") +
-              (global.AFK.lastseen !== 0
-                ? "\n*" +
-                  Lang.LAST_SEEN +
-                  "* ```" +
-                  secondsToHms(
-                    Math.round(new Date().getTime() / 1000) -
-                      global.AFK.lastseen
-                  ) +
-                  " before.```"
-                : ""),
+            "\n" +
+            (global.AFK.reason !== false
+              ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
+              : "") +
+            (global.AFK.lastseen !== 0
+              ? "\n*" +
+              Lang.LAST_SEEN +
+              "* ```" +
+              secondsToHms(
+                Math.round(new Date().getTime() / 1000) -
+                global.AFK.lastseen
+              ) +
+              " before.```"
+              : ""),
             { quoted: message.data }
           );
         }
@@ -100,19 +103,19 @@ Asena.addCommand(
     } else if (global.AFK.isAfk && !message.fromMe && !message.isGroup) {
       return await message.sendMessage(
         Lang.AFK_TEXT +
-          "\n" +
-          (global.AFK.reason !== false
-            ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
-            : "") +
-          (global.AFK.lastseen !== 0
-            ? "\n*" +
-              Lang.LAST_SEEN +
-              "* ```" +
-              secondsToHms(
-                Math.round(new Date().getTime() / 1000) - global.AFK.lastseen
-              ) +
-              " before.```"
-            : ""),
+        "\n" +
+        (global.AFK.reason !== false
+          ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
+          : "") +
+        (global.AFK.lastseen !== 0
+          ? "\n*" +
+          Lang.LAST_SEEN +
+          "* ```" +
+          secondsToHms(
+            Math.round(new Date().getTime() / 1000) - global.AFK.lastseen
+          ) +
+          " before.```"
+          : ""),
         { quoted: message.data }
       );
     }
@@ -122,6 +125,9 @@ Asena.addCommand(
 Asena.addCommand(
   { on: "text", fromMe: true, deleteCommand: false },
   async (message, match) => {
+    let { msg, mentionedJid } = await ticTacToe(message)
+    await message.sendMessage(msg, { contextInfo: { mentionedJid } })
+
     if (global.AFK.isAfk && !message.id.startsWith("3EB0") && message.fromMe) {
       global.AFK.lastseen = 0;
       global.AFK.reason = false;
@@ -147,9 +153,9 @@ Asena.addCommand(
       global.AFK.isAfk = true;
       return await message.sendMessage(
         Lang.IM_AFK +
-          (global.AFK.reason !== false
-            ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
-            : "")
+        (global.AFK.reason !== false
+          ? "\n*" + Lang.REASON + ":* ```" + global.AFK.reason + "```"
+          : "")
       );
     }
   }

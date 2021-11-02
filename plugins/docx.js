@@ -1,7 +1,7 @@
 const toPDF = require("custom-soffice-to-pdf");
 const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker, parsedJid } = require("../Utilis/Misc");
+const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker, parsedJid, ticTacToe, deleteTicTacToe } = require("../Utilis/Misc");
 const Language = require("../language");
 const { forwardOrBroadCast } = require("../Utilis/groupmute");
 const { readMore } = require("../Utilis/download");
@@ -192,6 +192,23 @@ Asena.addCommand(
     for (let data of stickers) {
       await message.sendMessage(await sticker('str', data.url, (data.type == 'gif' ? 2 : 1)), {}, MessageType.sticker)
     }
+  })
+
+Asena.addCommand(
+  {
+    pattern: "tictactoe ?(.*)",
+    fromMe: true,
+    desc: "TicTacToe Game.",
+  },
+  async (message, match) => {
+    if (match == 'end') {
+      await deleteTicTacToe()
+      return await message.sendMessage('*Game ended*')
+    }
+    let opponent = message.reply_message != false ? message.reply_message.jid : message.mention != false ? message.mention[0] : ''
+    if (!opponent) return await message.sendMessage('*Choose Opponent by replying or mentioning*')
+    let { msg, mentionedJid } = await ticTacToe(message, opponent)
+    return await message.sendMessage(msg, { contextInfo: { mentionedJid } })
   })
 
 Asena.addCommand(
