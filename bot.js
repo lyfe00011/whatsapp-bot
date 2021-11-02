@@ -18,10 +18,10 @@ const { customMessageScheduler } = require("./Utilis/schedule");
 const { prepareGreetingMedia } = require("./Utilis/greetings");
 const { groupMuteSchuler, groupUnmuteSchuler } = require("./Utilis/groupmute");
 const { PluginDB } = require("./plugins/sql/plugin");
-const { updateChecker } = require("./plugins/update");
 
 // Sql
 const got = require("got");
+const { startMessage } = require("./Utilis/Misc");
 const WhatsAsenaDB = config.DATABASE.define("WhatsAsena", {
   info: {
     type: DataTypes.STRING,
@@ -147,16 +147,9 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
     console.log(chalk.green.bold("✅ Plugins installed!"));
     await conn.sendMessage(
       conn.user.jid,
-      "*Bot Started*\n\nhttps://github.com/lyfe00011/whatsapp-bot/wiki",
+      await startMessage(),
       MessageType.text
     );
-    let update = await updateChecker();
-    if (update !== false)
-      await conn.sendMessage(
-        conn.user.jid,
-        "```New updates available```\n\n" + update,
-        MessageType.text
-      );
   });
   conn.on("close", (e) => console.log(e.reason));
 
@@ -190,9 +183,9 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
 async function lastestVersion() {
   await prepareGreetingMedia();
   let { currentVersion } = await getJson(
-    "https://web.whatsapp.com/check-update?version=2.2140.12&platform=web"
+    "https://web.whatsapp.com/check-update?version=2.2142.12&platform=web"
   );
-  currentVersion = currentVersion || "2.2140.12";
+  currentVersion = currentVersion || "2.2142.12";
   currentVersion = currentVersion.split(".");
   currentVersion = [+currentVersion[0], +currentVersion[1], +currentVersion[2]];
   whatsAsena(currentVersion);

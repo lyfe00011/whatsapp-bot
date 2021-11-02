@@ -1,7 +1,7 @@
 const toPDF = require("custom-soffice-to-pdf");
 const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker, parsedJid, ticTacToe, deleteTicTacToe } = require("../Utilis/Misc");
+const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker, parsedJid, ticTacToe, deleteTicTacToe, isGameActive, genButtons } = require("../Utilis/Misc");
 const Language = require("../language");
 const { forwardOrBroadCast } = require("../Utilis/groupmute");
 const { readMore } = require("../Utilis/download");
@@ -205,6 +205,8 @@ Asena.addCommand(
       await deleteTicTacToe()
       return await message.sendMessage('*Game ended*')
     }
+    let isGame = await isGameActive()
+    if (isGame.state) return await message.sendMessage(genButtons(['END'], isGame.msg, ""), { contextInfo: { mentionedJid: isGame.mentionedJid } }, MessageType.buttonsMessage)
     let opponent = message.reply_message != false ? message.reply_message.jid : message.mention != false ? message.mention[0] : ''
     if (!opponent) return await message.sendMessage('*Choose Opponent by replying or mentioning*')
     let { msg, mentionedJid } = await ticTacToe(message, opponent)
