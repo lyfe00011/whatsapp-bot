@@ -174,7 +174,6 @@ Asena.addCommand(
   { pattern: "apk ?(.*)", fromMe: true, desc: "Download apk from apkmirror" },
   async (message, match) => {
     let { type, buffer, name } = await apkMirror(match);
-    console.log(buffer);
     if (type == "list")
       return await message.sendMessage(buffer, {}, MessageType.listMessage);
     else if (type == "button")
