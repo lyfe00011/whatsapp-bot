@@ -174,6 +174,7 @@ Asena.addCommand(
   { pattern: "apk ?(.*)", fromMe: true, desc: "Download apk from apkmirror" },
   async (message, match) => {
     let { type, buffer, name } = await apkMirror(match);
+    console.log(buffer);
     if (type == "list")
       return await message.sendMessage(buffer, {}, MessageType.listMessage);
     else if (type == "button")
@@ -244,7 +245,7 @@ Asena.addCommand(
       return await message.sendMessage(
         "*Choose Opponent by reply to a message or mention*"
       );
-    let { msg, mentionedJid } = await ticTacToe(message, opponent);
+    let { msg, mentionedJid } = await ticTacToe(match, message.jid, message.data.participant, opponent);
     return await message.sendMessage(msg, { contextInfo: { mentionedJid } });
   }
 );
