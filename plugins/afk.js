@@ -39,8 +39,8 @@ function secondsToHms(d) {
 Asena.addCommand(
   { on: "text", fromMe: false, deleteCommand: false },
   async (message, match) => {
-    let { msg, mentionedJid } = await ticTacToe(message)
-    await message.sendMessage(msg, { contextInfo: { mentionedJid } })
+    // let { msg, mentionedJid } = await ticTacToe(message)
+    // await message.sendMessage(msg, { contextInfo: { mentionedJid } })
     if (
       global.AFK.isAfk &&
       !message.fromMe &&
@@ -125,8 +125,8 @@ Asena.addCommand(
 Asena.addCommand(
   { on: "text", fromMe: true, deleteCommand: false },
   async (message, match) => {
-    let { msg, mentionedJid } = await ticTacToe(message)
-    await message.sendMessage(msg, { contextInfo: { mentionedJid } })
+    // let { msg, mentionedJid } = await ticTacToe(message)
+    // await message.sendMessage(msg, { contextInfo: { mentionedJid } })
 
     if (global.AFK.isAfk && !message.id.startsWith("3EB0") && message.fromMe) {
       global.AFK.lastseen = 0;

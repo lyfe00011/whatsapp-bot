@@ -1,7 +1,19 @@
 const toPDF = require("custom-soffice-to-pdf");
 const Asena = require("../Utilis/events");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { banner, checkBroadCast, stylishTextGen, apkMirror, isUrl, getSticker, parsedJid, ticTacToe, deleteTicTacToe, isGameActive, genButtons } = require("../Utilis/Misc");
+const {
+  banner,
+  checkBroadCast,
+  stylishTextGen,
+  apkMirror,
+  isUrl,
+  getSticker,
+  parsedJid,
+  ticTacToe,
+  deleteTicTacToe,
+  isGameActive,
+  genButtons,
+} = require("../Utilis/Misc");
 const Language = require("../language");
 const { forwardOrBroadCast } = require("../Utilis/groupmute");
 const { readMore } = require("../Utilis/download");
@@ -166,14 +178,14 @@ Asena.addCommand(
       return await message.sendMessage(buffer, {}, MessageType.listMessage);
     else if (type == "button")
       return await message.sendMessage(buffer, {}, MessageType.buttonsMessage);
-    else if (type == "text") return await message.sendMessage(buffer)
+    else if (type == "text") return await message.sendMessage(buffer);
     else if (buffer != false)
       return await message.sendMessage(
         buffer,
         { filename: name, mimetype: type, quoted: message.data },
         MessageType.document
       );
-    else return await message.sendMessage("*Not found!*")
+    else return await message.sendMessage("*Not found!*");
   }
 );
 
@@ -184,15 +196,25 @@ Asena.addCommand(
     desc: "Download stickers.",
   },
   async (message, match) => {
-    let url = isUrl(match)
-    if (!url) return await message.sendMessage('```Give me sticker pack url\nExample``` https://getstickerpack.com/stickers/quby-pack-1')
-    let stickers = await getSticker(url)
-    if (!stickers) return await message.sendMessage('*Not found!*')
-    await message.sendMessage('```' + `Downloading ${stickers.length} stickers` + '```')
+    let url = isUrl(match);
+    if (!url)
+      return await message.sendMessage(
+        "```Give me sticker pack url\nExample``` https://getstickerpack.com/stickers/quby-pack-1"
+      );
+    let stickers = await getSticker(url);
+    if (!stickers) return await message.sendMessage("*Not found!*");
+    await message.sendMessage(
+      "```" + `Downloading ${stickers.length} stickers` + "```"
+    );
     for (let data of stickers) {
-      await message.sendMessage(await sticker('str', data.url, (data.type == 'gif' ? 2 : 1)), {}, MessageType.sticker)
+      await message.sendMessage(
+        await sticker("str", data.url, data.type == "gif" ? 2 : 1),
+        {},
+        MessageType.sticker
+      );
     }
-  })
+  }
+);
 
 Asena.addCommand(
   {
@@ -201,17 +223,31 @@ Asena.addCommand(
     desc: "TicTacToe Game.",
   },
   async (message, match) => {
-    if (match == 'end') {
-      await deleteTicTacToe()
-      return await message.sendMessage('*Game ended*')
+    if (match == "end") {
+      await deleteTicTacToe();
+      return await message.sendMessage("*Game ended*");
     }
-    let isGame = await isGameActive()
-    if (isGame.state) return await message.sendMessage(genButtons(['END'], isGame.msg, ""), { contextInfo: { mentionedJid: isGame.mentionedJid } }, MessageType.buttonsMessage)
-    let opponent = message.reply_message != false ? message.reply_message.jid : message.mention != false ? message.mention[0] : ''
-    if (!opponent) return await message.sendMessage('*Choose Opponent by replying or mentioning*')
-    let { msg, mentionedJid } = await ticTacToe(message, opponent)
-    return await message.sendMessage(msg, { contextInfo: { mentionedJid } })
-  })
+    let isGame = await isGameActive();
+    if (isGame.state)
+      return await message.sendMessage(
+        genButtons(["END"], isGame.msg, ""),
+        { contextInfo: { mentionedJid: isGame.mentionedJid } },
+        MessageType.buttonsMessage
+      );
+    let opponent =
+      message.reply_message != false
+        ? message.reply_message.jid
+        : message.mention != false
+          ? message.mention[0]
+          : parsedJid(match)[0];
+    if (!opponent || opponent == message.data.participant)
+      return await message.sendMessage(
+        "*Choose Opponent by reply to a message or mention*"
+      );
+    let { msg, mentionedJid } = await ticTacToe(message, opponent);
+    return await message.sendMessage(msg, { contextInfo: { mentionedJid } });
+  }
+);
 
 Asena.addCommand(
   {
