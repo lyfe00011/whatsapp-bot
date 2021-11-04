@@ -191,4 +191,3 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
   currentVersion = [+currentVersion[0], +currentVersion[1], +currentVersion[2]];
   whatsAsena(currentVersion);
 })();
-lastestVersion();
