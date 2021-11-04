@@ -76,7 +76,7 @@ async function whatsAsena(version) {
     },
   });
   const conn = new WAConnection();
-  conn.version = version || [2, 2132, 6];
+  conn.version = version;
   const Session = new StringSession();
   conn.logger.level = config.DEBUG ? "debug" : "warn";
   var nodb;
@@ -148,7 +148,8 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
     await conn.sendMessage(
       conn.user.jid,
       await startMessage(),
-      MessageType.text
+      MessageType.text,
+      { detectLinks: false }
     );
   });
   conn.on("close", (e) => console.log(e.reason));
@@ -180,7 +181,7 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
   }
 }
 
-async function lastestVersion() {
+(async () => {
   await prepareGreetingMedia();
   let { currentVersion } = await getJson(
     "https://web.whatsapp.com/check-update?version=2.2142.12&platform=web"
@@ -189,5 +190,5 @@ async function lastestVersion() {
   currentVersion = currentVersion.split(".");
   currentVersion = [+currentVersion[0], +currentVersion[1], +currentVersion[2]];
   whatsAsena(currentVersion);
-}
+})();
 lastestVersion();
