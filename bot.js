@@ -21,7 +21,7 @@ const { PluginDB } = require("./plugins/sql/plugin");
 
 // Sql
 const got = require("got");
-const { startMessage } = require("./Utilis/Misc");
+const { startMessage, waWebVersion } = require("./Utilis/Misc");
 const WhatsAsenaDB = config.DATABASE.define("WhatsAsena", {
   info: {
     type: DataTypes.STRING,
@@ -183,11 +183,5 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`);
 
 (async () => {
   await prepareGreetingMedia();
-  let { currentVersion } = await getJson(
-    "https://web.whatsapp.com/check-update?version=2.2142.12&platform=web"
-  );
-  currentVersion = currentVersion || "2.2142.12";
-  currentVersion = currentVersion.split(".");
-  currentVersion = [+currentVersion[0], +currentVersion[1], +currentVersion[2]];
-  whatsAsena(currentVersion);
+  whatsAsena(await waWebVersion());
 })();
