@@ -55,21 +55,26 @@ Asena.addCommand(
 
 ╭────────────────
 `;
-    let commands = []
+    let commands = [];
     Asena.commands.map(async (command, index) => {
       if (
         command.dontAddCommandList === false &&
         command.pattern !== undefined
       ) {
-        commands.push(command.pattern
-          .toString()
-          .match(/(\W*)([A-Za-z0-9ğüşiöç]*)/)[2])
+        commands.push(
+          command.pattern.toString().match(/(\W*)([A-Za-z0-9ğüşiöç]*)/)[2]
+        );
       }
     });
-    let font = ['mono', 'doubleStruck', 'wideText'][Math.floor(Math.random() * 3)]
+    let font = ["mono", "doubleStruck", "wideText"][
+      Math.floor(Math.random() * 3)
+    ];
     commands.forEach((command, i) => {
-      CMD_HELP += `│ ${i + 1} ${addSpace(i + 1, commands.length)}${textToStylist(command.toUpperCase(), font)}\n`;
-    })
+      CMD_HELP += `│ ${i + 1} ${addSpace(
+        i + 1,
+        commands.length
+      )}${textToStylist(command.toUpperCase(), font)}\n`;
+    });
     CMD_HELP += `╰────────────────`;
     return await message.sendMessage("```" + CMD_HELP + "```");
   }
@@ -107,8 +112,8 @@ Asena.addCommand(
   }
 );
 
-// Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
-//   let chat = await lydia(message);
-//   if (!chat) return;
-//   return await message.sendMessage(chat, { quoted: message.data });
-// });
+Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
+  let chat = await lydia(message);
+  if (!chat) return;
+  return await message.sendMessage(chat, { quoted: message.data });
+});
