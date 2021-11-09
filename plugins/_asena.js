@@ -38,9 +38,8 @@ Asena.addCommand(
           HANDLER = "";
         }
         if (index == 4) CMD_HELP += readmore;
-        CMD_HELP += `${index} ${
-          match.length >= 3 ? HANDLER + match[2] : command.pattern
-        }\n${command.desc}\n\n`;
+        CMD_HELP += `${index} ${match.length >= 3 ? HANDLER + match[2] : command.pattern
+          }\n${command.desc}\n\n`;
       }
     });
     return await message.sendMessage("```" + CMD_HELP + "```");
@@ -56,23 +55,21 @@ Asena.addCommand(
 
 ╭────────────────
 `;
-    let commands = [];
+    let commands = []
     Asena.commands.map(async (command, index) => {
       if (
         command.dontAddCommandList === false &&
         command.pattern !== undefined
       ) {
-        commands.push(
-          command.pattern.toString().match(/(\W*)([A-Za-z0-9ğüşiöç]*)/)[2]
-        );
+        commands.push(command.pattern
+          .toString()
+          .match(/(\W*)([A-Za-z0-9ğüşiöç]*)/)[2])
       }
     });
+    let font = ['mono', 'doubleStruck', 'wideText'][Math.floor(Math.random() * 3)]
     commands.forEach((command, i) => {
-      CMD_HELP += `│ ${i + 1} ${addSpace(
-        i + 1,
-        commands.length
-      )}${textToStylist(command.toUpperCase(), "mono")}\n`;
-    });
+      CMD_HELP += `│ ${i + 1} ${addSpace(i + 1, commands.length)}${textToStylist(command.toUpperCase(), font)}\n`;
+    })
     CMD_HELP += `╰────────────────`;
     return await message.sendMessage("```" + CMD_HELP + "```");
   }
@@ -89,8 +86,8 @@ Asena.addCommand(
       ? message.reply_message == false && message.mention == false
         ? message.jid
         : !message.reply_message
-        ? message.mention[0]
-        : message.reply_message.jid
+          ? message.mention[0]
+          : message.reply_message.jid
       : message.jid;
     if (match.startsWith("stop")) {
       let chat = await getLydia(jid);
@@ -110,8 +107,8 @@ Asena.addCommand(
   }
 );
 
-Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
-  let chat = await lydia(message);
-  if (!chat) return;
-  return await message.sendMessage(chat, { quoted: message.data });
-});
+// Asena.addCommand({ on: "text", fromMe: false }, async (message, match) => {
+//   let chat = await lydia(message);
+//   if (!chat) return;
+//   return await message.sendMessage(chat, { quoted: message.data });
+// });
