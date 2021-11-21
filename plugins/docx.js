@@ -1,6 +1,6 @@
-const toPDF = require("custom-soffice-to-pdf");
-const Asena = require("../Utilis/events");
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
+const toPDF = require("custom-soffice-to-pdf")
+const Asena = require("../Utilis/events")
+const { MessageType, Mimetype } = require("@adiwajshing/baileys")
 const {
   banner,
   checkBroadCast,
@@ -13,12 +13,12 @@ const {
   deleteTicTacToe,
   isGameActive,
   genButtons,
-} = require("../Utilis/Misc");
-const Language = require("../language");
-const { forwardOrBroadCast } = require("../Utilis/groupmute");
-const { readMore } = require("../Utilis/download");
-const { sticker } = require("../Utilis/fFmpeg");
-const Lang = Language.getString("docx");
+} = require("../Utilis/Misc")
+const Language = require("../language")
+const { forwardOrBroadCast } = require("../Utilis/groupmute")
+const { readMore } = require("../Utilis/download")
+const { sticker } = require("../Utilis/fFmpeg")
+const Lang = Language.getString("docx")
 Asena.addCommand(
   {
     pattern: "topdf",
@@ -27,15 +27,14 @@ Asena.addCommand(
     usage: Lang.TOPDF_USAGE,
   },
   async (message, match) => {
-    if (!message.reply_message)
-      return await message.sendMessage(Lang.REPLY_MSG);
+    if (!message.reply_message) return await message.sendMessage(Lang.REPLY_MSG)
     if (
       message.reply_message.audio ||
       message.reply_message.video ||
       message.reply_message.sticker ||
       message.reply_message.pdf
     )
-      return message.sendMessage(Lang.NOT_SUPPORTED);
+      return message.sendMessage(Lang.NOT_SUPPORTED)
     toPDF(await message.reply_message.downloadMediaMessage()).then(
       async (pdfBuffer) => {
         return await message.sendMessage(
@@ -45,12 +44,12 @@ Asena.addCommand(
             mimetype: Mimetype.pdf,
           },
           MessageType.document
-        );
+        )
       },
       (err) => console.log(`topdf : ${err}`)
-    );
+    )
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -61,7 +60,7 @@ Asena.addCommand(
   },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
-      return await message.sendMessage(Lang.REPLY);
+      return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
       await banner(
         await message.reply_message.downloadMediaMessage(),
@@ -69,9 +68,9 @@ Asena.addCommand(
       ),
       {},
       MessageType.image
-    );
+    )
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -82,7 +81,7 @@ Asena.addCommand(
   },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
-      return await message.sendMessage(Lang.REPLY);
+      return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
       await banner(
         await message.reply_message.downloadMediaMessage(),
@@ -90,9 +89,9 @@ Asena.addCommand(
       ),
       {},
       MessageType.image
-    );
+    )
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -103,14 +102,14 @@ Asena.addCommand(
   },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
-      return await message.sendMessage(Lang.REPLY);
+      return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
       await banner(await message.reply_message.downloadMediaMessage(), "jail"),
       {},
       MessageType.image
-    );
+    )
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -121,7 +120,7 @@ Asena.addCommand(
   },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
-      return await message.sendMessage(Lang.REPLY);
+      return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
       await banner(
         await message.reply_message.downloadMediaMessage(),
@@ -129,9 +128,9 @@ Asena.addCommand(
       ),
       { mimetype: Mimetype.webp },
       MessageType.sticker
-    );
+    )
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -142,52 +141,51 @@ Asena.addCommand(
   async (message, match) => {
     await message.sendMessage(
       readMore(!message.reply_message ? match : message.reply_message.text)
-    );
+    )
   }
-);
+)
 
 Asena.addCommand(
   { pattern: "broadcast ?(.*)", fromMe: true, desc: Lang.BROADCAST_DESC },
   async (message, match) => {
-    let { msg, result, broadcast, status } = await checkBroadCast(match);
+    let { msg, result, broadcast, status } = await checkBroadCast(match)
     if (status == false)
-      return await message.sendMessage(Lang.BROADCAST_EXAMPLE);
-    if (msg) return await message.sendMessage(msg);
+      return await message.sendMessage(Lang.BROADCAST_EXAMPLE)
+    if (msg) return await message.sendMessage(msg)
     if (result)
       return await message.sendMessage(
         Lang.BROADCAST_SET.format(result, result)
-      );
-    if (!message.reply_message)
-      return await message.sendMessage(Lang.REPLY_MSG);
+      )
+    if (!message.reply_message) return await message.sendMessage(Lang.REPLY_MSG)
     await message.client.sendMessage(
       message.client.user.jid,
       Lang.BROADCASTING.format(broadcast),
       MessageType.text
-    );
+    )
     for (let jid of parsedJid(broadcast)) {
-      await forwardOrBroadCast(jid, message);
+      await forwardOrBroadCast(jid, message)
     }
   }
-);
+)
 
 Asena.addCommand(
   { pattern: "apk ?(.*)", fromMe: true, desc: "Download apk from apkmirror" },
   async (message, match) => {
-    let { type, buffer, name } = await apkMirror(match);
+    let { type, buffer, name } = await apkMirror(match)
     if (type == "list")
-      return await message.sendMessage(buffer, {}, MessageType.listMessage);
+      return await message.sendMessage(buffer, {}, MessageType.listMessage)
     else if (type == "button")
-      return await message.sendMessage(buffer, {}, MessageType.buttonsMessage);
-    else if (type == "text") return await message.sendMessage(buffer);
+      return await message.sendMessage(buffer, {}, MessageType.buttonsMessage)
+    else if (type == "text") return await message.sendMessage(buffer)
     else if (buffer != false)
       return await message.sendMessage(
         buffer,
         { filename: name, mimetype: type, quoted: message.data },
         MessageType.document
-      );
-    else return await message.sendMessage("*Not found!*");
+      )
+    else return await message.sendMessage("*Not found!*")
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -196,25 +194,25 @@ Asena.addCommand(
     desc: "Download stickers.",
   },
   async (message, match) => {
-    let url = isUrl(match);
+    let url = isUrl(match)
     if (!url)
       return await message.sendMessage(
         "```Give me sticker pack url\nExample``` https://getstickerpack.com/stickers/quby-pack-1"
-      );
-    let stickers = await getSticker(url);
-    if (!stickers) return await message.sendMessage("*Not found!*");
+      )
+    let stickers = await getSticker(url)
+    if (!stickers) return await message.sendMessage("*Not found!*")
     await message.sendMessage(
       "```" + `Downloading ${stickers.length} stickers` + "```"
-    );
+    )
     for (let data of stickers) {
       await message.sendMessage(
         await sticker("str", data.url, data.type == "gif" ? 2 : 1),
         {},
         MessageType.sticker
-      );
+      )
     }
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -224,30 +222,35 @@ Asena.addCommand(
   },
   async (message, match) => {
     if (match == "end") {
-      await deleteTicTacToe();
-      return await message.sendMessage("*Game ended*");
+      await deleteTicTacToe()
+      return await message.sendMessage("*Game ended*")
     }
-    let isGame = await isGameActive();
+    let isGame = await isGameActive()
     if (isGame.state)
       return await message.sendMessage(
         genButtons(["END"], isGame.msg, ""),
         { contextInfo: { mentionedJid: isGame.mentionedJid } },
         MessageType.buttonsMessage
-      );
+      )
     let opponent =
       message.reply_message != false
         ? message.reply_message.jid
         : message.mention != false
-          ? message.mention[0]
-          : parsedJid(match)[0];
+        ? message.mention[0]
+        : parsedJid(match)[0]
     if (!opponent || opponent == message.data.participant)
       return await message.sendMessage(
         "*Choose Opponent by reply to a message or mention*"
-      );
-    let { msg, mentionedJid } = await ticTacToe(match, message.jid, message.data.participant, opponent);
-    return await message.sendMessage(msg, { contextInfo: { mentionedJid } });
+      )
+    let { msg, mentionedJid } = await ticTacToe(
+      match,
+      message.jid,
+      message.data.participant,
+      opponent
+    )
+    return await message.sendMessage(msg, { contextInfo: { mentionedJid } })
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -256,9 +259,9 @@ Asena.addCommand(
     desc: "Creates fancy text from given text",
   },
   async (message, match) => {
-    return await message.sendMessage("```" + stylishTextGen(match) + "```");
+    return await message.sendMessage("```" + stylishTextGen(match) + "```")
   }
-);
+)
 /*
 bold
 sans-italic

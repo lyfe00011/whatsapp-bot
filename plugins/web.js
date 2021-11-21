@@ -6,46 +6,46 @@ you may not use this file except in compliance with the License.
 WhatsAsena - Yusuf Usta
 */
 
-const Asena = require("../Utilis/events");
-const Language = require("../language");
-const Lang = Language.getString("web");
-const QRReader = require("qrcode-reader");
-const jimp = require("jimp");
+const Asena = require("../Utilis/events")
+const Language = require("../language")
+const Lang = Language.getString("web")
+const QRReader = require("qrcode-reader")
+const jimp = require("jimp")
 // const config = require('../config');
 const {
   setSchedule,
   getSchedule,
   getEachSchedule,
-} = require("../Utilis/schedule");
+} = require("../Utilis/schedule")
 
 Asena.addCommand(
   { pattern: "ping", fromMe: true, desc: Lang.PING_DESC },
   async (message, match) => {
-    let start = new Date().getTime();
-    await message.reply("```Ping!```");
-    let end = new Date().getTime();
+    let start = new Date().getTime()
+    await message.reply("```Ping!```")
+    let end = new Date().getTime()
     return await message.sendMessage(
       "*Pong!*\n ```" + (end - start) + "``` *ms*"
-    );
+    )
   }
-);
+)
 
 Asena.addCommand(
   { pattern: "qr", fromMe: true, desc: "Read Qr.", owner: false },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.image)
-      return await message.sendMessage("*Reply to a qr image.*");
+      return await message.sendMessage("*Reply to a qr image.*")
 
-    let location = await message.reply_message.downloadMediaMessage();
-    let img = await jimp.read(location);
-    let qr = new QRReader();
+    let location = await message.reply_message.downloadMediaMessage()
+    let img = await jimp.read(location)
+    let qr = new QRReader()
     qr.callback = async (err, value) => {
-      if (err) return await message.sendMessage(err, { quoted: message.data });
-      return await message.sendMessage(value.result, { quoted: message.data });
-    };
-    qr.decode(img.bitmap);
+      if (err) return await message.sendMessage(err, { quoted: message.data })
+      return await message.sendMessage(value.result, { quoted: message.data })
+    }
+    qr.decode(img.bitmap)
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -121,13 +121,13 @@ To on/off
 To get all Shedules
 
 .shedule list
-`);
-    let msg = message.reply_message.text;
-    let [jid, year, dayofweek, month, date, hour, minute] = match.split(" ");
+`)
+    let msg = message.reply_message.text
+    let [jid, year, dayofweek, month, date, hour, minute] = match.split(" ")
     if (jid == "list") {
-      let all = await getEachSchedule();
-      if (!all) return await message.sendMessage("*No shedule to Display*");
-      let msg = "";
+      let all = await getEachSchedule()
+      if (!all) return await message.sendMessage("*No shedule to Display*")
+      let msg = ""
       all.forEach((jids) => {
         let {
           jid,
@@ -139,15 +139,15 @@ To get all Shedules
           minute,
           dayofweek,
           onoroff,
-        } = jids;
+        } = jids
         msg += `Jid       : ${jid}\nMessage   : ${message}\nYear      : ${year}\nMonth     : ${month}
-Hour      : ${hour}\nMinute    : ${minute}\nDate      : ${date}\nDayOfWeek : ${dayofweek}\nEnabled   : ${onoroff}\n\n`;
-      });
-      return await message.sendMessage("```" + msg + "```");
+Hour      : ${hour}\nMinute    : ${minute}\nDate      : ${date}\nDayOfWeek : ${dayofweek}\nEnabled   : ${onoroff}\n\n`
+      })
+      return await message.sendMessage("```" + msg + "```")
     }
     if (jid != undefined && !message.reply_message.txt && year == undefined) {
-      let info = await getSchedule(jid);
-      if (info == false) return await message.sendMessage("*Not Found*");
+      let info = await getSchedule(jid)
+      if (info == false) return await message.sendMessage("*Not Found*")
       let {
         jid: user,
         message: msgs,
@@ -158,7 +158,7 @@ Hour      : ${hour}\nMinute    : ${minute}\nDate      : ${date}\nDayOfWeek : ${d
         minute,
         dayofweek,
         onoroff,
-      } = info;
+      } = info
       return await message.sendMessage(`
 Jid: ${user}
 Message: ${msgs}
@@ -168,14 +168,14 @@ Date: ${date}
 Hour: ${hour}
 Minute: ${minute}
 DayOfWeek: ${dayofweek}
-Enabled: ${onoroff}`);
+Enabled: ${onoroff}`)
     } else if (
       jid != undefined &&
       year != undefined &&
       (year == "on" || year == "off")
     ) {
-      let info = await getSchedule(jid);
-      if (info == false) return await message.sendMessage("*Not Found*");
+      let info = await getSchedule(jid)
+      if (info == false) return await message.sendMessage("*Not Found*")
       let {
         jid: user,
         message: msgs,
@@ -185,7 +185,7 @@ Enabled: ${onoroff}`);
         hour,
         minute,
         dayofweek,
-      } = info;
+      } = info
       await setSchedule(
         user,
         msgs,
@@ -196,7 +196,7 @@ Enabled: ${onoroff}`);
         hour,
         minute,
         year == "on" ? true : false
-      );
+      )
       return await message.sendMessage(`Jid: ${user}
 Message: ${msgs}
 Year: ${yr}
@@ -205,7 +205,7 @@ Date: ${date}
 Hour: ${hour}
 Minute: ${minute}
 dayofweek: ${dayofweek}
-Enabled: ${year}\n\n*Restart bot*`);
+Enabled: ${year}\n\n*Restart bot*`)
     } else if (
       !jid ||
       msg == "" ||
@@ -216,7 +216,7 @@ Enabled: ${year}\n\n*Restart bot*`);
       !hour ||
       !minute
     ) {
-      return await message.sendMessage("*Syntax Error!*");
+      return await message.sendMessage("*Syntax Error!*")
     } else {
       await setSchedule(
         jid,
@@ -228,8 +228,8 @@ Enabled: ${year}\n\n*Restart bot*`);
         hour,
         minute,
         true
-      );
-      await message.sendMessage(`Sheduled ${msg} for ${jid}\n\n*Restart bot*`);
+      )
+      await message.sendMessage(`Sheduled ${msg} for ${jid}\n\n*Restart bot*`)
     }
   }
-);
+)

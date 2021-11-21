@@ -6,22 +6,22 @@ you may not use this file except in compliance with the License.
 WhatsAsena - Yusuf Usta
 */
 // const Config = require('../config');
-const Asena = require("../Utilis/events");
-const Language = require("../language");
-const Lang = Language.getString("weather");
+const Asena = require("../Utilis/events")
+const Language = require("../language")
+const Lang = Language.getString("weather")
 // const config = require('../config');
-const moment = require("moment");
+const moment = require("moment")
 const {
   getJson,
   dlY2mate,
   getY2mate,
   getBuffer,
   googleSearch,
-} = require("../Utilis/download");
-const { Mimetype, MessageType } = require("@adiwajshing/baileys");
-const { iplscore } = require("../Utilis/Misc");
+} = require("../Utilis/download")
+const { Mimetype, MessageType } = require("@adiwajshing/baileys")
+const { iplscore } = require("../Utilis/Misc")
 const ytid =
-  /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/;
+  /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/
 
 Asena.addCommand(
   {
@@ -30,25 +30,25 @@ Asena.addCommand(
     desc: Lang.WEATHER_DESC,
   },
   async (message, match) => {
-    if (match === "") return await message.sendMessage(Lang.NEED_LOCATION);
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${match}&units=metric&appid=060a6bcfa19809c2cd4d97a212b19273&language=en`;
-    const json = await getJson(url);
-    if (!json) return await message.sendMessage(Lang.NOT_FOUND);
-    let o = json.timezone;
-    let h = json.sys.sunrise;
-    h = h + o;
-    p = moment.unix(h);
-    let a = json.sys.sunset;
-    a = a + o;
-    q = moment.unix(a);
-    let i = moment.utc(p).format("h:mmA");
-    let j = moment.utc(q).format("h:mmA");
-    let weather = "```" + Lang.LOCATION + "    : " + json.name + "\n";
-    weather += Lang.COUNTRY +   " : " + json.sys.country + "\n";
-    weather += Lang.TEMP + " : " + json.main.temp + "°\n";
-    weather += Lang.FTEMP + "  : " + json.main.feels_like + "°\n";
-    weather += Lang.DESC + " : " + json.weather[0].description + "\n";
-    weather += Lang.HUMI + "    : " + json.main.humidity + "%\n";
+    if (match === "") return await message.sendMessage(Lang.NEED_LOCATION)
+    const url = `http://api.openweathermap.org/data/2.5/weather?q=${match}&units=metric&appid=060a6bcfa19809c2cd4d97a212b19273&language=en`
+    const json = await getJson(url)
+    if (!json) return await message.sendMessage(Lang.NOT_FOUND)
+    let o = json.timezone
+    let h = json.sys.sunrise
+    h = h + o
+    p = moment.unix(h)
+    let a = json.sys.sunset
+    a = a + o
+    q = moment.unix(a)
+    let i = moment.utc(p).format("h:mmA")
+    let j = moment.utc(q).format("h:mmA")
+    let weather = "```" + Lang.LOCATION + "    : " + json.name + "\n"
+    weather += Lang.COUNTRY + " : " + json.sys.country + "\n"
+    weather += Lang.TEMP + " : " + json.main.temp + "°\n"
+    weather += Lang.FTEMP + "  : " + json.main.feels_like + "°\n"
+    weather += Lang.DESC + " : " + json.weather[0].description + "\n"
+    weather += Lang.HUMI + "    : " + json.main.humidity + "%\n"
     weather +=
       Lang.WIND +
       "  : " +
@@ -69,14 +69,14 @@ Asena.addCommand(
         : json.wind.deg < 293
         ? "W"
         : "NW") +
-      "\n";
-    weather += Lang.CLOUD + "       : " + json.clouds.all + "%\n";
-    weather += Lang.VISI + "  : " + json.visibility + "m\n";
-    weather += Lang.SRISE + "     : " + i + "\n";
-    weather += Lang.SET + "      : " + j + "```";
-    return await message.sendMessage(weather);
+      "\n"
+    weather += Lang.CLOUD + "       : " + json.clouds.all + "%\n"
+    weather += Lang.VISI + "  : " + json.visibility + "m\n"
+    weather += Lang.SRISE + "     : " + i + "\n"
+    weather += Lang.SET + "      : " + j + "```"
+    return await message.sendMessage(weather)
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -85,52 +85,51 @@ Asena.addCommand(
     desc: Lang.YTV_DESC,
   },
   async (message, match) => {
-    match = match == "" ? message.repy_message.text : match;
-    let vid = ytid.exec(match);
+    match = match == "" ? message.repy_message.text : match
+    let vid = ytid.exec(match)
     if (match == "" || !vid)
-      return await message.sendMessage(Lang.YTV_NEED_REPLY);
+      return await message.sendMessage(Lang.YTV_NEED_REPLY)
     if (/^[0-9]+/.test(match)) {
-      await message.sendMessage(Lang.DOWNLOADING);
-      let url = await dlY2mate(match);
-      if (!url) return await message.sendMessage("*Failed*");
-      let { buffer, size, emessage, type } = await getBuffer(url);
+      await message.sendMessage(Lang.DOWNLOADING)
+      let url = await dlY2mate(match)
+      if (!url) return await message.sendMessage("*Failed*")
+      let { buffer, size, emessage, type } = await getBuffer(url)
       if (emessage)
-        return message.sendMessage(emessage, { quoted: message.data });
-      else if (!buffer)
-        return await message.sendMessage(Lang.SIZE.format(size));
+        return message.sendMessage(emessage, { quoted: message.data })
+      else if (!buffer) return await message.sendMessage(Lang.SIZE.format(size))
       if (type == "video")
         return await message.sendMessage(
           buffer,
           { mimetype: Mimetype.mp4 },
           MessageType.video
-        );
+        )
       return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.mp4Audio },
         MessageType.audio
-      );
+      )
     }
-    let msg = await getY2mate(match);
-    if (!msg) return await message.sendMessage("*Failed*");
-    return await message.sendMessage(msg, {}, MessageType.listMessage);
+    let msg = await getY2mate(match)
+    if (!msg) return await message.sendMessage("*Failed*")
+    return await message.sendMessage(msg, {}, MessageType.listMessage)
   }
-);
+)
 
 Asena.addCommand(
   { pattern: "google ?(.*)", fromMe: true, desc: Lang.GOOGLE_DESC },
   async (message, match) => {
     if (!message.reply_message.image)
-      return await message.sendMessage(Lang.INEED_REPLY);
-    let msg = "";
-    let location = await message.reply_message.downloadMediaMessage();
-    let result = await googleSearch(location);
-    if (result.length == 0) return await message.sendMessage(Lang.INOT_FOUND);
+      return await message.sendMessage(Lang.INEED_REPLY)
+    let msg = ""
+    let location = await message.reply_message.downloadMediaMessage()
+    let result = await googleSearch(location)
+    if (result.length == 0) return await message.sendMessage(Lang.INOT_FOUND)
     result.forEach((url) => {
-      msg += `${url}\n`;
-    });
-    return await message.sendMessage(msg, { quoted: message.data });
+      msg += `${url}\n`
+    })
+    return await message.sendMessage(msg, { quoted: message.data })
   }
-);
+)
 
 Asena.addCommand(
   {
@@ -139,7 +138,7 @@ Asena.addCommand(
     desc: "Shows live cricket score ",
   },
   async (message, match) => {
-    let msg = await iplscore(match);
-    return await message.sendMessage(msg);
+    let msg = await iplscore(match)
+    return await message.sendMessage(msg)
   }
-);
+)
