@@ -12,6 +12,7 @@ const {
   mergeVideo,
   getFfmpegBuffer,
   videoHeightWidth,
+  avm,
 } = require("../Utilis/fFmpeg")
 let fm = true
 
@@ -466,5 +467,36 @@ Asena.addCommand(
       { mimetype: Mimetype.mp4 },
       MessageType.video
     )
+  }
+)
+
+Asena.addCommand(
+  { pattern: "avm", fromMe: true, desc: "Merge audio and video" },
+  async (message, match) => {
+    if (!fs.existsSync("./media/avm")) {
+      fs.mkdirSync("./media/avm")
+    }
+    let files = fs.readdirSync("./media/avm/")
+    if ((!message.reply_message && files.length < 2) || (
+      message.reply_message &&
+      !message.reply_message.audio &&
+      !message.reply_message.video
+    ))
+      return await message.sendMessage(
+        "*add audio & video to merge*\n*Reply to a message.*"
+      )
+    if (message.reply_message.audio) {
+      await message.reply_message.downloadAndSaveMediaMessage(
+        "./media/avm/audio"
+      )
+      return await message.sendMessage('```Added audio.```')
+    }
+    if (message.reply_message.video) {
+      await message.reply_message.downloadAndSaveMediaMessage(
+        "./media/avm/video"
+      )
+      return await message.sendMessage('```Added video.```')
+    }
+    return await message.sendMessage(await avm(files), { quoted: message.data }, MessageType.video)
   }
 )

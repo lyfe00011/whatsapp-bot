@@ -10,7 +10,7 @@ const {
 } = require("../Utilis/download")
 const Language = require("../language")
 const Lang = Language.getString("updown")
-const { emoji } = require("../Utilis/Misc")
+const { emoji, getImgUrl } = require("../Utilis/Misc")
 const { audioCut } = require("../Utilis/fFmpeg")
 
 Asena.addCommand(
@@ -87,6 +87,8 @@ Asena.addCommand(
     match = !message.reply_message ? match : message.reply_message.text
     if (!/(https?):\/\/[^\s$.?#].[^\s]*$/.test(match))
       return await message.sendMessage(Lang.NEED_URL)
+    if (match.startsWith("https://images.app.goo.gl"))
+      match = await getImgUrl(match)
     await message.sendMessage(Lang.DOWNLOADING)
     let { buffer, type, name, emessage, mime } = await getBuffer(match)
     if (!buffer) return await message.sendMessage(emessage)

@@ -67,14 +67,11 @@ Asena.addCommand(
         )
       }
     })
-    let font = ["mono", "doubleStruck", "wideText"][
-      Math.floor(Math.random() * 3)
-    ]
     commands.forEach((command, i) => {
       CMD_HELP += `│ ${i + 1} ${addSpace(
         i + 1,
         commands.length
-      )}${textToStylist(command.toUpperCase(), font)}\n`
+      )}${textToStylist(command.toUpperCase(), "mono")}\n`
     })
     CMD_HELP += `╰────────────────`
     return await message.sendMessage("```" + CMD_HELP + "```")
