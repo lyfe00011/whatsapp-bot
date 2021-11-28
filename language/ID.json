@@ -15,7 +15,7 @@
             "NEED_URL": "```Masukkan link url!\n Contoh: .plugin url```",
             "INVALID_URL": "```Masukkan link url yang valid!```",
             "INVALID_PLUGIN": "*❌ Plugin Anda tidak valid!*\n*Error:*",
-            "INSTALLED": "*✅ Plugin telah berhasil diinstal!*",
+            "INSTALLED": "*✅ Plugin {} telah berhasil diinstal!*",
             "PLUGIN_DESC": "Menampilkan seluruh Plugin yang telah terinstal.",
             "INSTALLED_FROM_REMOTE": "✅*Plugin yang diinstal secara eksternal:*\n",
             "NO_PLUGIN": "*Anda belum menginstal Plugin eksternal apapun!*",

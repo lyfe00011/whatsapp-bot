@@ -15,7 +15,7 @@
             "NEED_URL": "```Please enter a URL!\n Example: .plugin url```",
             "INVALID_URL": "```Please enter a valid url!```",
             "INVALID_PLUGIN": "*❌ Your plugin is invalid!*\n*Error:*",
-            "INSTALLED": "*✅ Plugin has been successfully installed!*",
+            "INSTALLED": "*✅ Plugin {} has been successfully installed!*",
             "PLUGIN_DESC": "Shows the plugins you have installed.",
             "INSTALLED_FROM_REMOTE": "✅*Plugins you installed externally:*\n",
             "NO_PLUGIN": "*You have not installed any external plugins!*",

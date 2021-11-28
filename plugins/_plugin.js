@@ -60,7 +60,7 @@ Asena.addCommand(
         return fs.unlinkSync("./plugins/" + plugin_name + ".js")
       }
       await installPlugin(url, plugin_name)
-      await message.sendMessage(Lang.INSTALLED)
+      await message.sendMessage(Lang.INSTALLED.format(plugin_name))
     }
   }
 )
