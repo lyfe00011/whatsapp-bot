@@ -89,7 +89,7 @@ Asena.addCommand(
   },
   async (message, match) => {
     match = match || message.repy_message.text
-    let vid = ytid.exec(match) || []
+    let vid = ytid.exec(match)
     if (!match) return await message.sendMessage("*Give me a keyword.*")
     if (!vid)
       return await message.sendMessage(
