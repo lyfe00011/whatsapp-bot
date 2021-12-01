@@ -10,6 +10,7 @@ const Asena = require("../Utilis/events")
 const Language = require("../language")
 const Lang = Language.getString("weather")
 // const config = require('../config');
+const yts = require("yt-search")
 const moment = require("moment")
 const {
   getJson,
@@ -17,6 +18,8 @@ const {
   getY2mate,
   getBuffer,
   googleSearch,
+  y2mateMp3,
+  ytVidList,
 } = require("../Utilis/download")
 const { Mimetype, MessageType } = require("@adiwajshing/baileys")
 const { iplscore } = require("../Utilis/Misc")
@@ -85,28 +88,27 @@ Asena.addCommand(
     desc: Lang.YTV_DESC,
   },
   async (message, match) => {
-    match = match == "" ? message.repy_message.text : match
-    let vid = ytid.exec(match)
-    if (match == "" || !vid)
-      return await message.sendMessage(Lang.YTV_NEED_REPLY)
+    match = match || message.repy_message.text
+    let vid = ytid.exec(match) || []
+    if (!match) return await message.sendMessage("*Give me a keyword.*")
+    if (!vid)
+      return await message.sendMessage(
+        ytVidList(await yts(match)),
+        {},
+        MessageType.listMessage
+      )
     if (/^[0-9]+/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING)
       let url = await dlY2mate(match)
       if (!url) return await message.sendMessage("*Failed*")
-      let { buffer, size, emessage, type } = await getBuffer(url)
+      let { buffer, size, emessage } = await getBuffer(url)
       if (emessage)
         return message.sendMessage(emessage, { quoted: message.data })
-      else if (!buffer) return await message.sendMessage(Lang.SIZE.format(size))
-      if (type == "video")
-        return await message.sendMessage(
-          buffer,
-          { mimetype: Mimetype.mp4 },
-          MessageType.video
-        )
+      if (!buffer) return await message.sendMessage(Lang.SIZE.format(size))
       return await message.sendMessage(
         buffer,
-        { mimetype: Mimetype.mp4Audio },
-        MessageType.audio
+        { mimetype: Mimetype.mp4 },
+        MessageType.video
       )
     }
     let msg = await getY2mate(match)
@@ -115,6 +117,28 @@ Asena.addCommand(
   }
 )
 
+Asena.addCommand(
+  {
+    pattern: "yta ?(.*)",
+    fromMe: true,
+    desc: "Yt video to mp3",
+  },
+  async (message, match) => {
+    match = match || message.reply_message.text
+    if (!match) return await message.sendMessage("*Give me a keyword.*")
+    let vid = ytid.exec(match)
+    if (!vid)
+      return await message.sendMessage(
+        ytVidList(await yts(match)),
+        {},
+        MessageType.listMessage
+      )
+    let url = await y2mateMp3(vid[1])
+    if (!url) return await message.sendMessage(Lang.INOT_FOUND)
+    let { buffer } = await getBuffer(url)
+    if (buffer) return await message.sendMessage(buffer, {}, MessageType.audio)
+  }
+)
 Asena.addCommand(
   { pattern: "google ?(.*)", fromMe: true, desc: Lang.GOOGLE_DESC },
   async (message, match) => {
