@@ -103,7 +103,9 @@ Asena.addCommand(
       if (!url) return await message.sendMessage("*Failed*")
       let { buffer, size, emessage } = await getBuffer(url)
       if (emessage)
-        return message.sendMessage(emessage, { quoted: message.data })
+        return message.sendMessage(`${emessage}\n${url}`, {
+          quoted: message.data,
+        })
       if (!buffer) return await message.sendMessage(Lang.SIZE.format(size))
       return await message.sendMessage(
         buffer,
@@ -135,8 +137,17 @@ Asena.addCommand(
       )
     let url = await y2mateMp3(vid[1])
     if (!url) return await message.sendMessage(Lang.INOT_FOUND)
-    let { buffer } = await getBuffer(url)
-    if (buffer) return await message.sendMessage(buffer, {}, MessageType.audio)
+    let { buffer, mime, emessage } = await getBuffer(url)
+    if (emessage)
+      return message.sendMessage(`${emessage}\n${url}`, {
+        quoted: message.data,
+      })
+    if (buffer)
+      return await message.sendMessage(
+        buffer,
+        { mimetype: mime },
+        MessageType.audio
+      )
   }
 )
 Asena.addCommand(
