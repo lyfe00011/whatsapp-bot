@@ -31,7 +31,7 @@ Asena.addCommand(
   },
   async (message, match) => {
     match = !message.reply_message ? match : message.reply_message.text
-    if (match === "") return await message.sendMessage(LanG.NEED_REPLY)
+    if (match === "") return await message.sendMessage(Lang.NEED_REPLY)
     let urls = await pinterest(match)
     urls.forEach(async (url) => {
       if (url != undefined) {

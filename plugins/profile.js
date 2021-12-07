@@ -35,7 +35,9 @@ Asena.addCommand(
           ["GROUP", "PERSONAL"],
           "Shows Group or Personal Jids",
           "Choose"
-        )
+        ),
+        {},
+        MessageType.buttonsMessage
       )
     let msg = ""
     let chats = message.client.chats.all()

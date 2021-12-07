@@ -24,7 +24,7 @@ Asena.addCommand(
     if (match == "" && !message.reply_message) {
       return await message.sendMessage(Lang.MUTE_NEED_REPLY)
     }
-    let msg = message.reply_message.text
+    let msg = message.reply_message.text || "false"
     let [user, hours, minute] = match.split(" ")
     if (user == "list") {
       let all = await getEachMute()
@@ -57,7 +57,7 @@ Asena.addCommand(
         Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) +
           "*Restart bot*"
       )
-    } else if (!user || !msg || !hours || !minute) {
+    } else if (!user || !hours || !minute) {
       if (!message.reply_message || !message.reply_message.txt)
         return await message.sendMessage(Lang.NEED_REPLY)
       return await message.sendMessage(Lang.SYNTAX)
@@ -81,7 +81,7 @@ Asena.addCommand(
     if (match == "" && !message.reply_message) {
       return await message.sendMessage(Lang.UNMUTE_NEED_REPLY)
     }
-    let msg = message.reply_message.text
+    let msg = message.reply_message.text || "false"
     let [user, hours, minute] = match.split(" ")
     if (user == "list") {
       let all = await getEachUnmute()
@@ -114,7 +114,7 @@ Asena.addCommand(
         Lang.SCHEDULE_MSG.format(jid, msgs, hour, minute, onoroff) +
           `\n\n*Restart bot*`
       )
-    } else if (!user || !msg || !hours || !minute) {
+    } else if (!user || !hours || !minute) {
       if (!message.reply_message || !message.reply_message.txt)
         return await message.sendMessage(Lang.NEED_REPLY)
       return await message.sendMessage(Lang.SYNTAX)
