@@ -68,7 +68,7 @@ Asena.addCommand(
     return await message.sendMessage(
       await addExif(
         await message.reply_message.downloadAndSaveMediaMessage("take"),
-        match
+        match.split(",")
       ),
       {
         mimetype: Mimetype.webp,
