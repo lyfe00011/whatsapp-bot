@@ -200,12 +200,12 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "attp ?(.*)", fromMe: true, desc: Lang.ATTP_DESC },
   async (message, match) => {
-    if (match === "") return await message.sendMessage(Lang.ATTP_NEED_REPLY)
-    let { buffer } = await getBuffer(
-      `https://api.xteam.xyz/attp?file&text=${encodeURIComponent(match)}`
+    if (!match) return await message.sendMessage(Lang.ATTP_NEED_REPLY)
+    const { buffer } = await getBuffer(
+      `https://api.xteam.xyz/attp?file&text=${match}`
     )
-    if (buffer !== false)
-      await message.sendMessage(
+    if (buffer)
+      return await message.sendMessage(
         buffer,
         { mimetype: Mimetype.webp },
         MessageType.sticker
