@@ -11,21 +11,22 @@ Asena.addCommand(
     desc: Lang.INSTA_DESC,
   },
   async (message, match) => {
-    match = !message.reply_message ? match : message.reply_message.text
-    if (match === "" || !/instagram.com/.test(match))
+    match = match || message.reply_message.text
+    if (!match || !/instagram.com/.test(match))
       return await message.sendMessage(Lang.NEED_REPLY)
     await message.sendMessage(Lang.DOWNLOADING)
-    let urls = await instagram(match)
+    const urls = await instagram(match)
     if (!urls) return await message.sendMessage(Lang.NOT_FOUND)
     urls.forEach(async (url) => {
-      let { buffer, type } = await getBuffer(url.url || url.data)
-      if (type == "image")
+      let { buffer, type } = await getBuffer(url)
+      if (!buffer) await message.sendMessage(url)
+      else if (type == "image")
         await message.sendMessage(
           buffer,
           { mimetype: Mimetype.jpeg },
           MessageType.image
         )
-      if (buffer !== false)
+      else if (type == "video")
         await message.sendMessage(
           buffer,
           { mimetype: Mimetype.mp4 },

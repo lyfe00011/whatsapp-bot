@@ -88,7 +88,7 @@ Asena.addCommand(
     desc: Lang.YTV_DESC,
   },
   async (message, match) => {
-    match = match || message.repy_message.text
+    match = match || message.reply_message.text
     let vid = ytid.exec(match)
     if (!match) return await message.sendMessage("*Give me a keyword.*")
     if (!vid)
