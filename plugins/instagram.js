@@ -26,7 +26,7 @@ Asena.addCommand(
           { mimetype: Mimetype.jpeg },
           MessageType.image
         )
-      else if (type == "video")
+      else
         await message.sendMessage(
           buffer,
           { mimetype: Mimetype.mp4 },
