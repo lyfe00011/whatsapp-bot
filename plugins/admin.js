@@ -84,10 +84,11 @@ Asena.addCommand(
             )
             return await message.sendMessage(Lang.FAILED)
           }
-          if (code == "200")
+           if (code == "200")
             return await message.sendMessage(Lang.ADDED.format(user), {
               contextInfo: { mentionedJid: [user + "@s.whatsapp.net"] },
             })
+            else return await message.sendMessage('*Please Check Given number*')
         })
       })
     } else {
