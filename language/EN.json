@@ -207,7 +207,7 @@
             "DISABLE": "Disabled.",
             "BANBYE_DESC": "Sets the banbye message. If you leave blank, it show's the banbye message.",
             "NOT_SET_BANBYE": "*You didn't set a banbye message!*\n*To set:* ```.banbye Your banbye Message```",
-            "BANBYE_ALREADY_SETTED": "*✅ Goodbye message has been set!*\n*Message:* ```",
+            "BANBYE_ALREADY_SETTED": "*✅ Banbye message has been set!*\n*Message:* ```",
             "NEED_BANBYE_TEXT": "*You must write a message to set up the banbye message.*\n*Example:* ```.banbye Goodbye!```",
             "BANBYE_DELETED": "*✅ Banbye message has been deleted successfully!*",
             "BANBYE_SETTED": "*✅ Banbye message has been setted successfully!*",
