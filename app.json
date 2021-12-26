@@ -43,11 +43,6 @@
             "required": false,
             "value": "false"
         },
-        "EXT": {
-            "description": "Enter xteam api",
-            "required": false,
-            "value": "false"
-        },
         "CLR_SESSION": {
             "description": "Enter true to delete old session.",
             "required": false,
@@ -71,7 +66,7 @@
         "REMOVEBG_KEY": {
             "description": "Get your key from remove.bg",
             "required": false,
-            "value": "false"
+            "value": "null"
         },
         "LANGUAGE": {
             "description": "Enter bot language, example EN for English, ID for Bahasa Indonesia, TR for Turkish",

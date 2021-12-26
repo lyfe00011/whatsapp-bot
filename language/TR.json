@@ -100,6 +100,7 @@
             "CHOOSE": "*Sağdan , soldan veya çevir seçeneklerinden birini seçin.*",
             "WRONG": "*Yanlış seçenek*",
             "NEED_REPLY": "*Bir videoyu yanıtlayın!*",
+            "MP3_NEED_REPLY":"*Reply to a video or audio!*",
             "INEED_REPLY": "*Bir resmi yanıtlayın!*",
             "NEED_CUT_REPLY": "*Sesi yanıtlayın!*",
             "DOWNLOADING": "```Video indiriliyor ve düzenleniyor...```",

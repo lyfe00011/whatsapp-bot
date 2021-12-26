@@ -100,6 +100,7 @@
             "CHOOSE": "*Memilih salah satu opsi dari right, left, atau flip.*",
             "WRONG": "*Pilihan yang salah*",
             "NEED_REPLY": "*Balas sebuah Video!*",
+            "MP3_NEED_REPLY":"*Balas sebuah video or audio!*",
             "INEED_REPLY": "*Balas sebuah Foto!*",
             "NEED_CUT_REPLY": "*Balas sebuah Audio!*",
             "DOWNLOADING": "```Mengunduh video & mulai mengedit...```",

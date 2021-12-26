@@ -17,7 +17,7 @@ let fm = true
 Asena.addCommand(
   { pattern: "removebg", fromMe: fm, desc: Lang.REMOVEBG_DESC },
   async (message, match) => {
-    if (config.REMOVEBG == "false")
+    if (config.REMOVEBG == "null")
       return await message.sendMessage(Lang.NO_API_KEY)
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_PHOTO)

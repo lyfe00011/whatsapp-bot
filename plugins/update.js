@@ -38,7 +38,7 @@ Asena.addCommand(
     let isupdate = await updateChecker()
     if (!isupdate)
       return await message.sendMessage(
-        "*Bot is up-todate.*\n*Nothing to Update."
+        "*Bot is up-todate.*\n*Nothing to Update.*"
       )
     if (Config.HEROKU.HEROKU) {
       await message.reply("```Updating...```")

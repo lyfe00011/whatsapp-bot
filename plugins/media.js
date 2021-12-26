@@ -53,15 +53,15 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "mp3", fromMe: fm, desc: Lang.MP3_DESC },
   async (message, match) => {
-    if (!message.reply_message || !message.reply_message.video)
-      return await message.sendMessage(Lang.NEED_REPLY)
+    if (!message.reply_message || (!message.reply_message.video && !message.reply_message.audio))
+      return await message.sendMessage(Lang.MP3_NEED_REPLY)
     return await message.sendMessage(
       await getFfmpegBuffer(
         await message.reply_message.downloadAndSaveMediaMessage("mp3"),
         "mp3.mp3",
         "mp3"
       ),
-      { filename: "mp3.mp3", mimetype: Mimetype.mp3, ptt: false },
+      { filename: "mp3.mp3", mimetype: Mimetype.mp3, ptt: !message.reply_message.ptt },
       MessageType.audio
     )
   }
@@ -320,23 +320,6 @@ Asena.addCommand(
 )
 
 Asena.addCommand(
-  { pattern: "unvoice", fromMe: true, desc: Lang.UNVOICE_DESC },
-  async (message, match) => {
-    if (!message.reply_message || !message.reply_message.audio)
-      return await message.sendMessage(Lang.NEED_CUT_REPLY)
-    return await message.sendMessage(
-      await getFfmpegBuffer(
-        await message.reply_message.downloadAndSaveMediaMessage("unvoice"),
-        "mp3.mp3",
-        "mp3"
-      ),
-      { filename: "unvoice.mp3", ptt: true, mimetype: Mimetype.mp3 },
-      MessageType.audio
-    )
-  }
-)
-
-Asena.addCommand(
   { pattern: "histo", fromMe: true, desc: Lang.UNVOICE_DESC },
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.audio)
@@ -405,22 +388,7 @@ Asena.addCommand(
     )
   }
 )
-Asena.addCommand(
-  { pattern: "voice", fromMe: true, desc: Lang.VOICE_DESC },
-  async (message, match) => {
-    if (!message.reply_message || !message.reply_message.audio)
-      return await message.sendMessage(Lang.NEED_CUT_REPLY)
-    return await message.sendMessage(
-      await getFfmpegBuffer(
-        await message.reply_message.downloadAndSaveMediaMessage("voice"),
-        "mp3.mp3",
-        "mp3"
-      ),
-      { filename: "voice.mp3", ptt: false, mimetype: Mimetype.mp3 },
-      MessageType.audio
-    )
-  }
-)
+
 Asena.addCommand(
   { pattern: "low", fromMe: true, desc: Lang.LOW_DESC },
   async (message, match) => {

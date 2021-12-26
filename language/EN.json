@@ -100,6 +100,7 @@
             "CHOOSE": "*Choose an option from right , left or flip.*",
             "WRONG": "*Wrong option*",
             "NEED_REPLY": "*Reply to a video!*",
+            "MP3_NEED_REPLY":"*Reply to a video or audio!*",
             "INEED_REPLY": "*Reply to a image!*",
             "NEED_CUT_REPLY": "*Reply to a audio!*",
             "DOWNLOADING": "```Downloading video & editing...```",
