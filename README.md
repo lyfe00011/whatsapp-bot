@@ -6,7 +6,7 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
 
 **WhatsAsena,** is a WhatsApp bot written by [Yusuf Usta](https://github.com/Quiec). Does not log into your account It is written on WhatsApp Web API.
 
-## Setup
+## Setup (ON REPLIT/HEROKU)
 
 1. Click [SCAN](https://replit.com/@Nightbot2O/baileys-qr) or [SCAN](https://early-pie-production.up.railway.app/qr) and scan QR through Whatsapp Linked Devices Option in Your whatsapp App.
 2. You will get a long text that needs after 4th step (ASENA_SESSION).
@@ -23,6 +23,20 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
 [![Run on Repl.it](https://replit.com/badge/github/lyfe00011/whatsapp-bot)](https://replit.com/@Nightbot2O/baileys-qr)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/lyfe00011/whatsapp-bot) -->
+   
+## SETUP ON VPS
+```bash
+sudo apt update && sudo apt upgrade
+sudo apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
+   
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt install nodejs && sudo apt install npm
+   
+git clone https://github.com/lyfe00011/whatsapp-bot.git
+cd whatsapp-bot
+npm install
+node .
+```
 
 | Active | Group commands |
 | :----: | :------------- |
