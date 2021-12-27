@@ -44,5 +44,6 @@ module.exports = {
     WARN_MSG: process.env.WARN_MSG === undefined ? "Ok bie" : process.env.WARN_MSG,
     ANTIJID: process.env.ANTIJID === undefined ? '' : process.env.ANTIJID,
     STICKER_PACKNAME: process.env.STICKER_PACKNAME === undefined ? '🥰,lyfe00011' : process.env.STICKER_PACKNAME,
-    BRAINSHOP: process.env.BRAINSHOP === undefined ? "159501,6pq8dPiYt7PdqHz3" : process.env.BRAINSHOP
+    BRAINSHOP: process.env.BRAINSHOP === undefined ? "159501,6pq8dPiYt7PdqHz3" : process.env.BRAINSHOP,
+    DIS_BOT: process.env.DISABLE_BOT === undefined ? "null" : process.env.DISABLE_BOT
 };

@@ -75,6 +75,10 @@
         "STICKER_PACKNAME": {
             "description": "Sticker pack name,author",
             "value": "🥰,lyfe00011"
+        },
+        "DISABLE_BOT":{
+         "description": "Disable or Block bot in group/chat.Enter required chat jid separated by ,",
+            "value": "null"
         }
     },
     "addons": [

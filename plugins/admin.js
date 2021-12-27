@@ -227,14 +227,29 @@ Asena.addCommand(
     desc: Lang.INVITE_DESC,
   },
   async (message, match) => {
-    let participants = await message.groupMetadata(message.jid)
-    let im = await checkImAdmin(participants, message.client.user.jid)
-    if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN)
+    match = match || message.reply_message.text || 'invite'
+    const linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/i;
+    const [_, code] = match.match(linkRegex) || [];
+    if (code) {
+      const { size, owner, subject, creation, desc, id } = await message.inviteCodeInfo(code)
+      const invite_info = '```' + `
+Name    : ${subject}
+Jid     : ${id}
+Owner   : ${owner.split('@')[0]}
+Members : ${size}
+Created : ${creation}
+Desc    : ${desc}` + '```';
+      return await message.sendMessage(invite_info);
+    }
+    const participants = await message.groupMetadata(message.jid);
+    const im = await checkImAdmin(participants, message.client.user.jid);
+    if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
     return await message.sendMessage(
       Lang.INVITE.format(await message.client.groupInviteCode(message.jid))
-    )
+    );
   }
 )
+
 Asena.addCommand(
   {
     pattern: "common ?(.*)",
