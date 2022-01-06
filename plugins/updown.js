@@ -10,7 +10,7 @@ const {
 } = require("../Utilis/download")
 const Language = require("../language")
 const Lang = Language.getString("updown")
-const { emoji, getImgUrl } = require("../Utilis/Misc")
+const { emoji, getImgUrl, isUrl } = require("../Utilis/Misc")
 const { audioCut } = require("../Utilis/fFmpeg")
 
 Asena.addCommand(
@@ -84,9 +84,10 @@ Status : ${status.status}` +
 Asena.addCommand(
   { pattern: "upload ?(.*)", fromMe: true, desc: "Download from link." },
   async (message, match) => {
-    match = !message.reply_message ? match : message.reply_message.text
+    match = match || message.reply_message.text
     if (!/(https?):\/\/[^\s$.?#].[^\s]*$/.test(match))
       return await message.sendMessage(Lang.NEED_URL)
+      match = isUrl(match)
     if (match.startsWith("https://images.app.goo.gl"))
       match = await getImgUrl(match)
     await message.sendMessage(Lang.DOWNLOADING)
