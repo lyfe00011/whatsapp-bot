@@ -17,8 +17,24 @@ let fm = true
 Asena.addCommand(
   { pattern: "removebg", fromMe: fm, desc: Lang.REMOVEBG_DESC },
   async (message, match) => {
-    if (config.REMOVEBG == "null")
-      return await message.sendMessage(Lang.NO_API_KEY)
+    if (config.REMOVEBG == "null" || config.REMOVEBG == "false")
+      return await message.sendMessage('```' +
+      `1. Create a account in remove.bg
+2. Verify your account.
+3. Copy your Key.
+4. .setvar REMOVEBG_KEY:copied_key
+.......................
+
+Example => .setvar REMOVEBG_KEY:GWQ6jVy9MBpfYF9SnyG8jz8P
+      
+For making this steps easy 
+Click SIGNUP LINK and Choose Google a/c
+after completing signup
+Click KEY LINK and copy your KEY.(Press show BUTTON)
+
+SIGNUP LINK : https://accounts.kaleido.ai/users/sign_up 
+
+KEY LINK : https://www.remove.bg/dashboard#api-key` + '```')
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_PHOTO)
     let location = await message.reply_message.downloadMediaMessage()
