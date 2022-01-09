@@ -105,13 +105,10 @@ Asena.addCommand(
       match = match.replace(matched[0], "").trim()
     }
     try {
-      let vid = ytid.exec(match)[1]
+      let arama = ytid.exec(match)
       await message.sendMessage(Lang.DOWNLOADING_SONG)
-      let stream = ytdl(vid, {
-        quality: "highestaudio",
-      })
       let songname = new Date().getTime() + ".mp3"
-      let buffer = await song(songname, stream, bit)
+      let buffer = await song(songname, arama[1], bit)
       if (!buffer)
         return await message.sendMessage(
           "*Downloading failed*\n```Restart BOT```"
