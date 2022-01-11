@@ -416,7 +416,7 @@
             "delete": "*Voted deleted*",
             "new": "*Delete current vote, To set new.*",
             "error": "*Not found any vote.*",
-            "syntax": "*Syntax error*"
+            "syntax": "*Syntax error*\nhttps://github.com/lyfe00011/whatsapp-bot/wiki/vote"
         }
     }
 }

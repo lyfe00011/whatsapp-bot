@@ -84,10 +84,8 @@ Status : ${status.status}` +
 Asena.addCommand(
   { pattern: "upload ?(.*)", fromMe: true, desc: "Download from link." },
   async (message, match) => {
-    match = match || message.reply_message.text
-    if (!/(https?):\/\/[^\s$.?#].[^\s]*$/.test(match))
-      return await message.sendMessage(Lang.NEED_URL)
-      match = isUrl(match)
+    match = isUrl(match || message.reply_message.text || "upload")
+    if (!match) return await message.sendMessage(Lang.NEED_URL)
     if (match.startsWith("https://images.app.goo.gl"))
       match = await getImgUrl(match)
     await message.sendMessage(Lang.DOWNLOADING)
