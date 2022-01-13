@@ -6,7 +6,13 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
 
 **WhatsAsena,** is a WhatsApp bot written by [Yusuf Usta](https://github.com/Quiec). Does not log into your account It is written on WhatsApp Web API.
 
-## Setup
+## Easy Setup
+
+[![Run on Repl.it](https://replit.com/badge/github/lyfe00011/whatsapp-bot)](https://replit.com/@Nightbot2O/baileys-qr)
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/alien-omega/lyfe00011B1)
+
+## Setup (If Easy Setup show error)
 
 1. Click [SCAN](https://replit.com/@Nightbot2O/baileys-qr) or [SCAN](https://early-pie-production.up.railway.app/qr) and scan QR through Whatsapp Linked Devices Option in Your whatsapp App.
 2. You will get a long text that needs after 4th step (ASENA_SESSION).
@@ -20,10 +26,6 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
    <br>
    <a href="https://github.com/lyfe00011/whatsapp-bot/wiki/"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor%22"/></a>
 
-<!--
-[![Run on Repl.it](https://replit.com/badge/github/lyfe00011/whatsapp-bot)](https://replit.com/@Nightbot2O/baileys-qr)
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/lyfe00011/whatsapp-bot) -->
 
 | Active | Group commands |
 | :----: | :------------- |
