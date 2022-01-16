@@ -94,7 +94,7 @@ Asena.addCommand(
   { pattern: "setvar ?(.*)", fromMe: true, desc: Lang.SETVAR_DESC },
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.KEY_VAL_MISSING)
-    if ((varKey = match.split(":")[0]) && (varValue = match.split(":")[1])) {
+    if ((varKey = match.split(":")[0].toUpperCase()) && (varValue = match.split(":")[1].trim())) {
       await heroku
         .patch(baseURI + "/config-vars", {
           body: {
@@ -120,7 +120,7 @@ Asena.addCommand(
     await heroku
       .get(baseURI + "/config-vars")
       .then(async (vars) => {
-        key = match.trim()
+        key = match.trim().toUpperCase()
         for (vr in vars) {
           if (key == vr) {
             await heroku.patch(baseURI + "/config-vars", {
@@ -147,7 +147,7 @@ Asena.addCommand(
       .get(baseURI + "/config-vars")
       .then(async (vars) => {
         for (vr in vars) {
-          if (match.trim() == vr)
+          if (match.trim().toUpperCase() == vr)
             return await message.sendMessage(
               "```{} - {}```".format(vr, vars[vr])
             )

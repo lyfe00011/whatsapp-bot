@@ -28,26 +28,14 @@ Asena.addCommand(
       }
       return
     }
-    let user = await checkImAdmin(
-      participants,
-      !message.reply_message ? message.mention[0] : message.reply_message.jid
-    )
-    if (user) return await message.sendMessage(Lang.IS_ADMIN)
-    if (message.reply_message != false) {
-      await message.sendMessage(
-        Lang.BANNED.format(message.reply_message.jid.split("@")[0]),
-        { contextInfo: { mentionedJid: [message.reply_message.jid] } }
-      )
-      return await message.groupRemove(message.jid, message.reply_message.jid)
-    } else if (message.reply_message === false && message.mention !== false) {
-      await message.sendMessage(
-        Lang.BANNED.format(message.mention[0].split("@")[0]),
-        { contextInfo: { mentionedJid: message.mention } }
-      )
-      return await message.groupRemove(message.jid, message.mention[0])
-    } else {
-      return await message.sendMessage(Lang.GIVE_ME_USER)
-    }
+    const user = message.mention[0] || message.reply_message.jid
+    if (!user) return await message.sendMessage(Lang.GIVE_ME_USER)
+    const isUserAdmin = await checkImAdmin(participants, user)
+    if (isUserAdmin) return await message.sendMessage(Lang.IS_ADMIN)
+    await message.sendMessage(Lang.BANNED.format(user.split("@")[0]), {
+      contextInfo: { mentionedJid: [user] },
+    })
+    return await message.groupRemove(message.jid, user)
   }
 )
 
@@ -62,7 +50,7 @@ Asena.addCommand(
     let participant = await message.groupMetadata(message.jid)
     let im = await checkImAdmin(participant, message.client.user.jid)
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN)
-    if (match !== "") {
+    if (match && !match.includes("+")) {
       match.split(" ").map(async (user) => {
         let { participants } = await message.client.groupAdd(message.jid, [
           user + "@c.us",
@@ -84,11 +72,11 @@ Asena.addCommand(
             )
             return await message.sendMessage(Lang.FAILED)
           }
-           if (code == "200")
+          if (code == "200")
             return await message.sendMessage(Lang.ADDED.format(user), {
               contextInfo: { mentionedJid: [user + "@s.whatsapp.net"] },
             })
-            else return await message.sendMessage('*Please Check Given number*')
+          else return await message.sendMessage("*Please Check Given number*")
         })
       })
     } else {
@@ -108,32 +96,14 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid)
     let im = await checkImAdmin(participants, message.client.user.jid)
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN)
-    if (message.reply_message !== false) {
-      let checkAlready = await checkImAdmin(
-        participants,
-        message.reply_message.jid
-      )
-      if (checkAlready) return await message.sendMessage(Lang.ALREADY_PROMOTED)
-      await message.client.groupMakeAdmin(message.jid, [
-        message.reply_message.jid,
-      ])
-      return await message.sendMessage(
-        Lang.PROMOTED.format(message.reply_message.jid.split("@")[0]),
-        { contextInfo: { mentionedJid: [message.reply_message.jid] } }
-      )
-    } else if (message.reply_message === false && message.mention !== false) {
-      let checkAlready = await checkImAdmin(participants, message.mention[0])
-      if (checkAlready) return await message.sendMessage(Lang.ALREADY_PROMOTED)
-      await message.client.groupMakeAdmin(message.jid, message.mention)
-      return await message.sendMessage(
-        Lang.PROMOTED.format(message.mention[0].split("@")[0]),
-        {
-          contextInfo: { mentionedJid: message.mention },
-        }
-      )
-    } else {
-      return await message.sendMessage(Lang.GIVE_ME_USER)
-    }
+    const user = message.mention[0] || message.reply_message.jid
+    if (!user) return await message.sendMessage(Lang.GIVE_ME_USER)
+    const checkAlready = await checkImAdmin(participants, user)
+    if (checkAlready) return await message.sendMessage(Lang.ALREADY_PROMOTED)
+    await message.client.groupMakeAdmin(message.jid, [user])
+    return await message.sendMessage(Lang.PROMOTED.format(user.split("@")[0]), {
+      contextInfo: { mentionedJid: [user] },
+    })
   }
 )
 
@@ -148,34 +118,14 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid)
     let im = await checkImAdmin(participants, message.client.user.jid)
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN)
-    if (message.reply_message !== false) {
-      let checkAlready = await checkImAdmin(
-        participants,
-        message.reply_message.jid
-      )
-      if (!checkAlready)
-        return await message.sendMessage(Lang.ALREADY_NOT_ADMIN)
-      await message.sendMessage(
-        Lang.DEMOTED.format(message.reply_message.jid.split("@")[0]),
-        { contextInfo: { mentionedJid: [message.reply_message.jid] } }
-      )
-      return await message.client.groupDemoteAdmin(message.jid, [
-        message.reply_message.jid,
-      ])
-    } else if (message.reply_message === false && message.mention !== false) {
-      let checkAlready = await checkImAdmin(participants, message.mention[0])
-      if (!checkAlready)
-        return await message.sendMessage(Lang.ALREADY_NOT_ADMIN)
-      await message.sendMessage(
-        Lang.DEMOTED.format(message.mention[0].split("@")[0]),
-        {
-          contextInfo: { mentionedJid: message.mention },
-        }
-      )
-      return await message.client.groupDemoteAdmin(message.jid, message.mention)
-    } else {
-      return await message.sendMessage(Lang.GIVE_ME_USER)
-    }
+    const user = message.mention[0] || message.reply_message.jid
+    if (!user) return await message.sendMessage(Lang.GIVE_ME_USER)
+    const checkAlready = await checkImAdmin(participants, user)
+    if (!checkAlready) return await message.sendMessage(Lang.ALREADY_NOT_ADMIN)
+    await message.client.groupDemoteAdmin(message.jid, [user])
+    return await message.sendMessage(Lang.DEMOTED.format(user.split("@")[0]), {
+      contextInfo: { mentionedJid: [user] },
+    })
   }
 )
 
@@ -227,26 +177,30 @@ Asena.addCommand(
     desc: Lang.INVITE_DESC,
   },
   async (message, match) => {
-    match = match || message.reply_message.text || 'invite'
-    const linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/i;
-    const [_, code] = match.match(linkRegex) || [];
+    match = match || message.reply_message.text || "invite"
+    const linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/i
+    const [_, code] = match.match(linkRegex) || []
     if (code) {
-      const { size, owner, subject, creation, desc, id } = await message.inviteCodeInfo(code)
-      const invite_info = '```' + `
+      const { size, owner, subject, creation, desc, id } =
+        await message.inviteCodeInfo(code)
+      const invite_info =
+        "```" +
+        `
 Name    : ${subject}
 Jid     : ${id}
-Owner   : ${owner.split('@')[0]}
+Owner   : ${owner.split("@")[0]}
 Members : ${size}
 Created : ${creation}
-Desc    : ${desc}` + '```';
-      return await message.sendMessage(invite_info);
+Desc    : ${desc}` +
+        "```"
+      return await message.sendMessage(invite_info)
     }
-    const participants = await message.groupMetadata(message.jid);
-    const im = await checkImAdmin(participants, message.client.user.jid);
-    if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN);
+    const participants = await message.groupMetadata(message.jid)
+    const im = await checkImAdmin(participants, message.client.user.jid)
+    if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN)
     return await message.sendMessage(
       Lang.INVITE.format(await message.client.groupInviteCode(message.jid))
-    );
+    )
   }
 )
 
