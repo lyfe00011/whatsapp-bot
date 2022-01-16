@@ -199,11 +199,14 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "img ?(.*)", fromMe: true, desc: Lang.IMG_DESC },
   async (message, match) => {
-    if (match === "") return await message.sendMessage(Lang.NEED_WORDS)
+    if (!match) return await message.sendMessage(Lang.NEED_WORDS)
+    let count = /\d+/.exec(match)[0] || 5
     gis(match, async (error, result) => {
-      for (let i = 0; i < (result.length < 10 ? result.length : 10); i++) {
-        let { buffer } = await getBuffer(result[i].url)
-        if (buffer != false)
+      count = result.length < count ? result.length : count
+      await message.sendMessage(`_Downloading ${count} images..._`)
+      for (let i = 0; i < count; i++) {
+        const { buffer } = await getBuffer(result[i].url)
+        if (buffer)
           await message
             .sendMessage(buffer, { quoted: message.data }, MessageType.image)
             .catch((e) => console.log(e.message))
