@@ -200,7 +200,7 @@ Asena.addCommand(
   { pattern: "img ?(.*)", fromMe: true, desc: Lang.IMG_DESC },
   async (message, match) => {
     if (!match) return await message.sendMessage(Lang.NEED_WORDS)
-    let count = /\d+/.exec(match)[0] || 5
+    let count = (/\d+/.exec(match) || [5])[0]
     gis(match, async (error, result) => {
       count = result.length < count ? result.length : count
       await message.sendMessage(`_Downloading ${count} images..._`)

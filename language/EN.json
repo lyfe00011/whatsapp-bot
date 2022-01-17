@@ -12,7 +12,7 @@
         },
         "_plugin": {
             "INSTALL_DESC": "Install external plugins.",
-            "NEED_URL": "```Please enter a URL!\n Example: .plugin url```",
+            "NEED_URL": "```Please enter a URL!\nExample: .plugin url```",
             "INVALID_URL": "```Please enter a valid url!```",
             "INVALID_PLUGIN": "*❌ Your plugin is invalid!*\n*Error:*",
             "INSTALLED": "*✅ Plugin {} has been successfully installed!*",
@@ -20,8 +20,8 @@
             "INSTALLED_FROM_REMOTE": "✅*Plugins you installed externally:*\n",
             "NO_PLUGIN": "*You have not installed any external plugins!*",
             "REMOVE_DESC": "Removes the plugin.",
-            "NEED_PLUGIN": "```Please enter a Plugin! Example: .plugin test```",
-            "NOT_FOUND_PLUGIN": "```Maybe you have installed such a plugin.```",
+            "NEED_PLUGIN": "```Please enter a Plugin! Example: .plugin utl```",
+            "NOT_FOUND_PLUGIN": "```Maybe you have not installed such a plugin.```",
             "DELETED": "*✅ Module successfully deleted! You must restart for the changes to take effect.*"
         },
         "admin": {
