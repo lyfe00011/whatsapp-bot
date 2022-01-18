@@ -9,73 +9,55 @@ WhatsAsena - Yusuf Usta
 const Asena = require("../Utilis/events")
 const got = require("got")
 const fs = require("fs")
-const { installPlugin, PluginDB } = require("./sql/plugin")
+const { parseGistUrls } = require("../Utilis/Misc")
+const { installPlugin, getPlugin, deletePlugin } = require("../Utilis/plugins")
 const Language = require("../language")
 const Lang = Language.getString("_plugin")
 
 Asena.addCommand(
-    { pattern: "plugin ?(.*)", fromMe: true, desc: Lang.INSTALL_DESC },
-    async (message, match) => {
-        if (match === "" && match !== "list")
-            return await message.sendMessage(Lang.NEED_URL)
-        if (match == "list") {
-            let mesaj = Lang.INSTALLED_FROM_REMOTE
-            let plugins = await PluginDB.findAll()
-            if (plugins.length < 1) {
-                return await message.sendMessage(Lang.NO_PLUGIN)
-            } else {
-                plugins.map((plugin) => {
-                    mesaj +=
-                        "*" + plugin.dataValues.name + "*: " + plugin.dataValues.url + "\n"
-                })
-                return await message.sendMessage(mesaj)
-            }
-        }
+  { pattern: "plugin ?(.*)", fromMe: true, desc: Lang.INSTALL_DESC },
+  async (message, match) => {
+    match = match || message.reply_message.text
+    if (!match && match !== "list")
+      return await message.sendMessage(Lang.NEED_URL)
+    if (match == "list") {
+      const plugins = await getPlugin()
+      if (!plugins) return await message.sendMessage(Lang.NO_PLUGIN)
+      return await message.sendMessage(
+        `${Lang.INSTALLED_FROM_REMOTE}\n${plugins}`
+      )
+    }
+    const isValidUrl = parseGistUrls(match)
+    if (!isValidUrl) return await message.sendMessage(Lang.INVALID_URL)
+    for (const url of isValidUrl) {
+      const res = await got(url)
+      if (res.statusCode == 200) {
+        let plugin_name = /pattern: ["'](.*)["'],/g.exec(res.body)
+        plugin_name = plugin_name[1].split(" ")[0]
+        fs.writeFileSync("./plugins/" + plugin_name + ".js", res.body)
         try {
-            var url = new URL(match)
-        } catch {
-            return await message.sendMessage(Lang.INVALID_URL)
+          require("./" + plugin_name)
+        } catch (e) {
+          await message.sendMessage(
+            Lang.INVALID_PLUGIN + "```\n" + e.stack + "```"
+          )
+          return fs.unlinkSync("./plugins/" + plugin_name + ".js")
         }
-
-        if (url.host === "gist.github.com") {
-            url.host = "gist.githubusercontent.com"
-            url = url.toString() + "/raw"
-        } else {
-            url = url.toString()
-        }
-
-        let response = await got(url)
-        if (response.statusCode == 200) {
-            let plugin_name = /pattern: ["'](.*)["'],/g.exec(response.body)
-            if (plugin_name.length >= 1) {
-                plugin_name = plugin_name[1].split(" ")[0]
-            } else {
-                plugin_name = Math.random().toString(36).substring(8)
-            }
-            fs.writeFileSync("./plugins/" + plugin_name + ".js", response.body)
-            try {
-                require("./" + plugin_name)
-            } catch (e) {
-                await message.sendMessage(Lang.INVALID_PLUGIN + "```" + e + "```")
-                return fs.unlinkSync("./plugins/" + plugin_name + ".js")
-            }
-            await installPlugin(url, plugin_name)
-            await message.sendMessage(Lang.INSTALLED.format(plugin_name))
-        }
+        await installPlugin(url, plugin_name)
+        await message.sendMessage(Lang.INSTALLED.format(plugin_name))
+      }
     }
+  }
 )
+
 Asena.addCommand(
-    { pattern: "remove (.*)", fromMe: true, desc: Lang.REMOVE_DESC },
-    async (message, match) => {
-        if (match === "") return await message.sendMessage(Lang.NEED_PLUGIN)
-        let plugin = await PluginDB.findAll({ where: { name: match } })
-        if (plugin.length < 1) {
-            return await message.sendMessage(Lang.NOT_FOUND_PLUGIN)
-        } else {
-            await plugin[0].destroy()
-            delete require.cache[require.resolve("./" + match + ".js")]
-            fs.unlinkSync("./plugins/" + match + ".js")
-            return await message.sendMessage(Lang.DELETED)
-        }
-    }
+  { pattern: "remove (.*)", fromMe: true, desc: Lang.REMOVE_DESC },
+  async (message, match) => {
+    if (!match) return await message.sendMessage(Lang.NEED_PLUGIN)
+    const isDeleted = await deletePlugin(match)
+    if (!isDeleted) return await message.sendMessage(Lang.NOT_FOUND_PLUGIN)
+    delete require.cache[require.resolve("./" + match + ".js")]
+    fs.unlinkSync("./plugins/" + match + ".js")
+    return await message.sendMessage(Lang.DELETED)
+  }
 )
