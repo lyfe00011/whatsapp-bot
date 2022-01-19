@@ -201,6 +201,7 @@ Asena.addCommand(
   async (message, match) => {
     if (!match) return await message.sendMessage(Lang.NEED_WORDS)
     let count = (/\d+/.exec(match) || [5])[0]
+    match = match.replace(count,'').trim()
     gis(match, async (error, result) => {
       count = result.length < count ? result.length : count
       await message.sendMessage(`_Downloading ${count} images..._`)

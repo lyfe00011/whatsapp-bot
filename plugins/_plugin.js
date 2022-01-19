@@ -30,21 +30,25 @@ Asena.addCommand(
     const isValidUrl = parseGistUrls(match)
     if (!isValidUrl) return await message.sendMessage(Lang.INVALID_URL)
     for (const url of isValidUrl) {
-      const res = await got(url)
-      if (res.statusCode == 200) {
-        let plugin_name = /pattern: ["'](.*)["'],/g.exec(res.body)
-        plugin_name = plugin_name[1].split(" ")[0]
-        fs.writeFileSync("./plugins/" + plugin_name + ".js", res.body)
-        try {
-          require("./" + plugin_name)
-        } catch (e) {
-          await message.sendMessage(
-            Lang.INVALID_PLUGIN + "```\n" + e.stack + "```"
-          )
-          return fs.unlinkSync("./plugins/" + plugin_name + ".js")
+      try {
+        const res = await got(url)
+        if (res.statusCode == 200) {
+          let plugin_name = /pattern: ["'](.*)["'],/g.exec(res.body)
+          plugin_name = plugin_name[1].split(" ")[0]
+          fs.writeFileSync("./plugins/" + plugin_name + ".js", res.body)
+          try {
+            require("./" + plugin_name)
+          } catch (e) {
+            await message.sendMessage(
+              Lang.INVALID_PLUGIN + "```\n" + e.stack + "```"
+            )
+            return fs.unlinkSync("./plugins/" + plugin_name + ".js")
+          }
+          await installPlugin(url, plugin_name)
+          await message.sendMessage(Lang.INSTALLED.format(plugin_name))
         }
-        await installPlugin(url, plugin_name)
-        await message.sendMessage(Lang.INSTALLED.format(plugin_name))
+      } catch (error) {
+        await message.sendMessage(`${error}\n${url}`)
       }
     }
   }
