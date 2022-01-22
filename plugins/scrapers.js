@@ -12,8 +12,12 @@ const translatte = require("translatte")
 const config = require("../config")
 //============================== TTS ==================================================
 const fs = require("fs")
-const { getBuffer } = require("../Utilis/download")
-const { SpeachToText, generateListMessage } = require("../Utilis/Misc")
+const { getBuffer, getJson } = require("../Utilis/download")
+const {
+  SpeachToText,
+  generateListMessage,
+  newsListMessage,
+} = require("../Utilis/Misc")
 //=====================================================================================
 //============================== YOUTUBE ==============================================
 const ytdl = require("ytdl-core")
@@ -201,7 +205,7 @@ Asena.addCommand(
   async (message, match) => {
     if (!match) return await message.sendMessage(Lang.NEED_WORDS)
     let count = (/\d+/.exec(match) || [5])[0]
-    match = match.replace(count,'').trim()
+    match = match.replace(count, "").trim()
     gis(match, async (error, result) => {
       count = result.length < count ? result.length : count
       await message.sendMessage(`_Downloading ${count} images..._`)
@@ -213,5 +217,25 @@ Asena.addCommand(
             .catch((e) => console.log(e.message))
       }
     })
+  }
+)
+
+Asena.addCommand(
+  { pattern: "news ?(.*)", fromMe: true, desc: "Kerala News" },
+  async (message, match) => {
+    if (!match) {
+      const { result } = await getJson(
+        "https://early-pie-production.up.railway.app/news"
+      )
+      return await message.sendMessage(
+        newsListMessage(result),
+        {},
+        MessageType.listMessage
+      )
+    }
+    const { result } = await getJson(
+      `https://early-pie-production.up.railway.app/news?url=${match}`
+    )
+    return await message.sendMessage(result)
   }
 )
