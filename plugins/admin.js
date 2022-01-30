@@ -275,11 +275,13 @@ Asena.addCommand(
     desc: Lang.JOIN_DESC,
   },
   async (message, match) => {
-    match = !message.reply_message ? match : message.reply_message.text
-    if (match == "") return await message.sendMessage(Lang.JOIN_ERR)
-    let wa = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/
-    let [_, code] = message.message.match(wa) || []
+    match = match || message.reply_message.text
+    if (!match) return await message.sendMessage(Lang.JOIN_ERR)
+    const wa = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/
+    const [_, code] = match.match(wa) || []
     if (!code) return await message.sendMessage(Lang.JOIN_ERR)
+    const { size } = await message.inviteCodeInfo(code)
+    if (size > 256) return await message.sendMessage("*Group is full!*")
     await message.client.acceptInvite(code)
     return await message.sendMessage(Lang.JOINED)
   }
