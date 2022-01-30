@@ -28,6 +28,10 @@ Asena.addCommand(
       )
     }
     const isValidUrl = parseGistUrls(match)
+    if (!isValidUrl) {
+      const { url } = await getPlugin(match)
+      if (url) return await message.sendMessage(url, { quoted: message.data })
+    }
     if (!isValidUrl) return await message.sendMessage(Lang.INVALID_URL)
     for (const url of isValidUrl) {
       try {
