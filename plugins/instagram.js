@@ -23,13 +23,13 @@ Asena.addCommand(
       else if (type == "image")
         await message.sendMessage(
           buffer,
-          { mimetype: Mimetype.jpeg },
+          { mimetype: Mimetype.jpeg, quoted: message.quoted },
           MessageType.image
         )
       else
         await message.sendMessage(
           buffer,
-          { mimetype: Mimetype.mp4 },
+          { mimetype: Mimetype.mp4, quoted: message.quoted },
           MessageType.video
         )
     })
@@ -61,13 +61,13 @@ Asena.addCommand(
         if (type == "video")
           await message.sendMessage(
             buffer,
-            { mimetype: Mimetype.mp4 },
+            { mimetype: Mimetype.mp4, quoted: message.quoted },
             MessageType.video
           )
         else if (type == "image")
           await message.sendMessage(
             buffer,
-            { mimetype: Mimetype.jpeg },
+            { mimetype: Mimetype.jpeg, quoted: message.quoted },
             MessageType.image
           )
       }

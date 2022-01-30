@@ -9,7 +9,7 @@ const { forwardOrBroadCast } = require("../Utilis/groupmute")
 Asena.addCommand(
   { pattern: "tiktok ?(.*)", fromMe: true, desc: Lang.TIKTOK_DESC },
   async (message, match) => {
-    match = !message.reply_message ? match : message.reply_message.text
+    match = match || message.reply_message.text
     if (match == "")
       return await message.sendMessage(Lang.NEED_REPLY, {
         quoted: message.data,
@@ -20,7 +20,11 @@ Asena.addCommand(
         quoted: message.data,
       })
     let { buffer } = await getBuffer(link)
-    return await message.sendMessage(buffer, {}, MessageType.video)
+    return await message.sendMessage(
+      buffer,
+      { quoted: message.quoted },
+      MessageType.video
+    )
   }
 )
 

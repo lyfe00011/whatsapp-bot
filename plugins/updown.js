@@ -94,25 +94,25 @@ Asena.addCommand(
     if (type == "video")
       return await message.sendMessage(
         buffer,
-        { filename: name, mimetype: mime },
+        { filename: name, mimetype: mime, quoted: message.quoted },
         MessageType.video
       )
     else if (type == "image")
       return await message.sendMessage(
         buffer,
-        { filename: name, mimetype: mime },
+        { filename: name, mimetype: mime, quoted: message.quoted },
         MessageType.image
       )
     else if (type == "audio")
       return await message.sendMessage(
         buffer,
-        { filename: name, mimetype: mime },
+        { filename: name, mimetype: mime, quoted: message.quoted },
         MessageType.audio
       )
     else
       return await message.sendMessage(
         buffer,
-        { filename: name, mimetype: mime },
+        { filename: name, mimetype: mime, quoted: message.quoted },
         MessageType.document
       )
   }

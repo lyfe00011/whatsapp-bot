@@ -139,9 +139,7 @@ Asena.addCommand(
     desc: Lang.READMORE_DESC,
   },
   async (message, match) => {
-    await message.sendMessage(
-      readMore(!message.reply_message ? match : message.reply_message.text)
-    )
+    await message.sendMessage(readMore(match || message.reply_message.text))
   }
 )
 
@@ -259,7 +257,8 @@ Asena.addCommand(
     desc: "Creates fancy text from given text",
   },
   async (message, match) => {
-    return await message.sendMessage("```" + stylishTextGen(match) + "```")
+    if (match)
+      return await message.sendMessage("```" + stylishTextGen(match) + "```")
   }
 )
 /*

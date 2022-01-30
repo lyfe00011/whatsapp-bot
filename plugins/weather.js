@@ -109,12 +109,12 @@ Asena.addCommand(
       if (!buffer) return await message.sendMessage(Lang.SIZE.format(size))
       return await message.sendMessage(
         buffer,
-        { mimetype: Mimetype.mp4 },
+        { mimetype: Mimetype.mp4, quoted: message.quoted },
         MessageType.video
       )
     }
     let msg = await getY2mate(match)
-    if (!msg) return await message.sendMessage("*Failed*")
+    if (!msg) return await message.sendMessage("*Not Found*")
     return await message.sendMessage(msg, {}, MessageType.listMessage)
   }
 )
@@ -145,7 +145,7 @@ Asena.addCommand(
     if (buffer)
       return await message.sendMessage(
         buffer,
-        { mimetype: mime },
+        { mimetype: mime, quoted: message.quoted },
         MessageType.audio
       )
   }
