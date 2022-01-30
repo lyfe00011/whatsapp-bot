@@ -64,6 +64,10 @@ Asena.addCommand(
   { pattern: "remove (.*)", fromMe: true, desc: Lang.REMOVE_DESC },
   async (message, match) => {
     if (!match) return await message.sendMessage(Lang.NEED_PLUGIN)
+    if (match == "all") {
+      await deletePlugin()
+      return await message.sendMessage("_All plugins deleted Successfully_")
+    }
     const isDeleted = await deletePlugin(match)
     if (!isDeleted) return await message.sendMessage(Lang.NOT_FOUND_PLUGIN)
     delete require.cache[require.resolve("./" + match + ".js")]
