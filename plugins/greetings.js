@@ -21,6 +21,7 @@ const {
   clearGreetings,
   mentionMessage,
   enableMention,
+  clearFiles,
 } = require("../Utilis/Misc")
 const { MessageType } = require("@adiwajshing/baileys")
 const { getMessage, deleteMessage } = require("../Utilis/warn")
@@ -299,6 +300,7 @@ Asena.addCommand(
       )
     }
     await enableMention(match)
+    clearFiles()
     return await message.sendMessage(Lang.A_UPDATED.format("Mention"))
   }
 )
