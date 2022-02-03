@@ -51,7 +51,7 @@ Asena.addCommand(
   {
     pattern: "schedule ?(.*)",
     fromMe: true,
-    desc: "Shedule Message.",
+    desc: "Schedule Message.",
     owner: false,
   },
   async (message, match) => {
@@ -111,22 +111,22 @@ Hour 0-23
 Minute 0-59
 DayOfWeek 0-6 (0 is Sunday, for multiple 0,1,2...,6)
 
-To get Shedule
-.shedule 89237489-46723@g.us
+To get Schedule
+.Schedule 89237489-46723@g.us
 
 To on/off
-.shedule 89237489-46723@g.us on
-.shedule 89237489-46723@g.us off
+.Schedule 89237489-46723@g.us on
+.Schedule 89237489-46723@g.us off
 
-To get all Shedules
+To get all Schedules
 
-.shedule list
+.Schedule list
 `)
     let msg = message.reply_message.text
     let [jid, year, dayofweek, month, date, hour, minute] = match.split(" ")
     if (jid == "list") {
       let all = await getEachSchedule()
-      if (!all) return await message.sendMessage("*No shedule to Display*")
+      if (!all) return await message.sendMessage("*No Schedule to Display*")
       let msg = ""
       all.forEach((jids) => {
         let {
@@ -229,7 +229,7 @@ Enabled: ${year}\n\n*Restart bot*`)
         minute,
         true
       )
-      await message.sendMessage(`Sheduled ${msg} for ${jid}\n\n*Restart bot*`)
+      await message.sendMessage(`Scheduled ${msg} for ${jid}\n\n*Restart bot*`)
     }
   }
 )
