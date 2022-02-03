@@ -1,5 +1,5 @@
 {
-    "name": "Bottus",
+    "name": "WA-BOT",
     "description": " Whatsapp bot.",
     "keywords": [
         "whatsapp",
@@ -7,7 +7,7 @@
     ],
     "stack": "container",
     "env": {
-        "ASENA_SESSION": {
+        "WA_CODE": {
             "description": "Enter whatsapp web session.",
             "required": true
         },
