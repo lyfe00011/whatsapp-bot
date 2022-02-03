@@ -29,21 +29,21 @@ Asena.addCommand(
       await message.sendMessage(Lang.DOWNLOADING)
       return await message.sendMessage(
         await getFfmpegBuffer(location, "orotate.mp4", "right"),
-        { mimetype: Mimetype.mp4 },
+        { mimetype: Mimetype.mp4, quoted: message.data },
         MessageType.video
       )
     } else if (/left/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING)
       return await message.sendMessage(
         await getFfmpegBuffer(location, "orotate.mp4", "left"),
-        { mimetype: Mimetype.mp4 },
+        { mimetype: Mimetype.mp4, quoted: message.data },
         MessageType.video
       )
     } else if (/flip/.test(match)) {
       await message.sendMessage(Lang.DOWNLOADING)
       return await message.sendMessage(
         await getFfmpegBuffer(location, "orotate.mp4", "flip"),
-        { mimetype: Mimetype.mp4 },
+        { mimetype: Mimetype.mp4, quoted: message.data },
         MessageType.video
       )
     } else await message.sendMessage(Lang.WRONG)
@@ -53,7 +53,10 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "mp3", fromMe: fm, desc: Lang.MP3_DESC },
   async (message, match) => {
-    if (!message.reply_message || (!message.reply_message.video && !message.reply_message.audio))
+    if (
+      !message.reply_message ||
+      (!message.reply_message.video && !message.reply_message.audio)
+    )
       return await message.sendMessage(Lang.MP3_NEED_REPLY)
     return await message.sendMessage(
       await getFfmpegBuffer(
@@ -61,7 +64,12 @@ Asena.addCommand(
         "mp3.mp3",
         "mp3"
       ),
-      { filename: "mp3.mp3", mimetype: Mimetype.mp3, ptt: !message.reply_message.ptt },
+      {
+        filename: "mp3.mp3",
+        mimetype: Mimetype.mp3,
+        ptt: !message.reply_message.ptt,
+        quoted: message.data,
+      },
       MessageType.audio
     )
   }
@@ -109,7 +117,12 @@ Asena.addCommand(
     } else if (message.reply_message.audio == true) {
       return await message.sendMessage(
         await getFfmpegBuffer(location, "revered.mp3", "audior"),
-        { filename: "revered.mp3", mimetype: Mimetype.mp3, ptt: false },
+        {
+          filename: "revered.mp3",
+          mimetype: Mimetype.mp3,
+          ptt: false,
+          quoted: message.data,
+        },
         MessageType.audio
       )
     }
@@ -139,7 +152,12 @@ Asena.addCommand(
         start.trim(),
         duration.trim()
       ),
-      { filename: "cut.mp3", mimetype: Mimetype.mp3, ptt: false },
+      {
+        filename: "cut.mp3",
+        mimetype: Mimetype.mp3,
+        ptt: false,
+        quoted: message.data,
+      },
       MessageType.audio
     )
   }
@@ -168,7 +186,7 @@ Asena.addCommand(
         start,
         duration
       ),
-      { mimetype: Mimetype.mp4 },
+      { mimetype: Mimetype.mp4, quoted: message.data },
       MessageType.video
     )
   }
@@ -224,6 +242,7 @@ Asena.addCommand(
           {
             filename: Math.floor(Math.random() * 999999),
             mimetype: Mimetype.pdf,
+            quoted: message.data,
           },
           MessageType.document
         )
@@ -261,7 +280,7 @@ Asena.addCommand(
       await message.sendMessage("```Merging " + length + " videos...```")
       return await message.sendMessage(
         await mergeVideo(length),
-        { mimetype: Mimetype.mp4 },
+        { mimetype: Mimetype.mp4, quoted: message.data },
         MessageType.video
       )
     }
@@ -279,7 +298,7 @@ Asena.addCommand(
         "ocompress.mp4",
         "compress"
       ),
-      {},
+      { quoted: message.data },
       MessageType.video
     )
   }
@@ -296,7 +315,7 @@ Asena.addCommand(
         "bass.mp3",
         `bass,${match == "" ? 10 : match}`
       ),
-      { mimetype: Mimetype.mp4Audio },
+      { mimetype: Mimetype.mp4Audio, quoted: message.data },
       MessageType.audio
     )
   }
@@ -313,7 +332,7 @@ Asena.addCommand(
         "treble.mp3",
         `treble,${match == "" ? 10 : match}`
       ),
-      { mimetype: Mimetype.mp4Audio },
+      { mimetype: Mimetype.mp4Audio, quoted: message.data },
       MessageType.audio
     )
   }
@@ -330,7 +349,7 @@ Asena.addCommand(
         "histo.mp4",
         "histo"
       ),
-      { mimetype: Mimetype.mp4 },
+      { mimetype: Mimetype.mp4, quoted: message.data },
       MessageType.video
     )
   }
@@ -347,7 +366,7 @@ Asena.addCommand(
         "vector.mp4",
         "vector"
       ),
-      { mimetype: Mimetype.mp4 },
+      { mimetype: Mimetype.mp4, quoted: message.data },
       MessageType.video
     )
   }
@@ -383,7 +402,7 @@ Asena.addCommand(
       )
     return await message.sendMessage(
       await getFfmpegBuffer(location, "crop.mp4", "crop", match),
-      { mimetype: Mimetype.mp4 },
+      { mimetype: Mimetype.mp4, quoted: message.data },
       MessageType.video
     )
   }
@@ -400,7 +419,7 @@ Asena.addCommand(
         "lowmp3.mp3",
         "pitch"
       ),
-      { filename: "lowmp3.mp3", mimetype: Mimetype.mp3 },
+      { filename: "lowmp3.mp3", mimetype: Mimetype.mp3, quoted: message.data },
       MessageType.audio
     )
   }
@@ -416,7 +435,7 @@ Asena.addCommand(
         "lowmp3.mp3",
         "lowmp3"
       ),
-      { filename: "lowmp3.mp3", mimetype: Mimetype.mp3 },
+      { filename: "lowmp3.mp3", mimetype: Mimetype.mp3, quoted: message.data },
       MessageType.audio
     )
   }
@@ -432,7 +451,7 @@ Asena.addCommand(
         "avec.mp4",
         "avec"
       ),
-      { mimetype: Mimetype.mp4 },
+      { mimetype: Mimetype.mp4, quoted: message.data },
       MessageType.video
     )
   }
@@ -445,11 +464,12 @@ Asena.addCommand(
       fs.mkdirSync("./media/avm")
     }
     let files = fs.readdirSync("./media/avm/")
-    if ((!message.reply_message && files.length < 2) || (
-      message.reply_message &&
-      !message.reply_message.audio &&
-      !message.reply_message.video
-    ))
+    if (
+      (!message.reply_message && files.length < 2) ||
+      (message.reply_message &&
+        !message.reply_message.audio &&
+        !message.reply_message.video)
+    )
       return await message.sendMessage(
         "*add audio & video to merge*\n*Reply to a message.*"
       )
@@ -457,14 +477,18 @@ Asena.addCommand(
       await message.reply_message.downloadAndSaveMediaMessage(
         "./media/avm/audio"
       )
-      return await message.sendMessage('```Added audio.```')
+      return await message.sendMessage("```Added audio.```")
     }
     if (message.reply_message.video) {
       await message.reply_message.downloadAndSaveMediaMessage(
         "./media/avm/video"
       )
-      return await message.sendMessage('```Added video.```')
+      return await message.sendMessage("```Added video.```")
     }
-    return await message.sendMessage(await avm(files), { quoted: message.data }, MessageType.video)
+    return await message.sendMessage(
+      await avm(files),
+      { quoted: message.data },
+      MessageType.video
+    )
   }
 )
