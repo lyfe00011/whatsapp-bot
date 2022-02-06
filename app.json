@@ -16,9 +16,9 @@
             "required": false
         },
         "HANDLERS": {
-            "description": "enter prefix.",
+            "description": "enter prefix. Example . or ^[.,!/] for using multiple prefix like .,!/ or LyFE. Using keyword like LyFE will broke list and help command",
             "required": true,
-            "value": "^[.]"
+            "value": "."
         },
         "SEND_READ": {
             "description": "send read receipt.",
@@ -76,8 +76,8 @@
             "description": "Sticker pack name,author",
             "value": "🥰,lyfe00011"
         },
-        "DISABLE_BOT":{
-         "description": "Disable or Block bot in group/chat.Enter required chat jid separated by ,",
+        "DISABLE_BOT": {
+            "description": "Disable or Block bot in group/chat.Enter required chat jid separated by ,",
             "value": "null"
         }
     },
