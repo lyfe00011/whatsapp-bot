@@ -13,6 +13,7 @@ const {
   getFfmpegBuffer,
   videoHeightWidth,
   avm,
+  blackVideo,
 } = require("../Utilis/fFmpeg")
 let fm = true
 
@@ -487,6 +488,21 @@ Asena.addCommand(
     }
     return await message.sendMessage(
       await avm(files),
+      { quoted: message.data },
+      MessageType.video
+    )
+  }
+)
+
+Asena.addCommand(
+  { pattern: "black", fromMe: true, desc: "Audio to video." },
+  async (message, match) => {
+    if (!message.reply_message || !message.reply_message.audio)
+      return await message.sendMessage("*Reply to a audio!*")
+    await message.sendMessage(
+      await blackVideo(
+        await message.reply_message.downloadAndSaveMediaMessage("black")
+      ),
       { quoted: message.data },
       MessageType.video
     )
