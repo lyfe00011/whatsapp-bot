@@ -10,7 +10,8 @@ const Asena = require("../Utilis/events")
 const Language = require("../language")
 const { participateInVote, parseVote } = require("../Utilis/vote")
 const { forwardOrBroadCast } = require("../Utilis/groupmute")
-const { addSpace } = require("../Utilis/Misc")
+const { addSpace, getAllMessageCount, utt } = require("../Utilis/Misc")
+const { getName } = require("../Utilis/download")
 const Lang = Language.getString("tagall")
 const s = "```"
 // const config = require('../config');
@@ -35,7 +36,7 @@ Asena.addCommand(
       return await message.sendMessage(s + mesaj + s, {
         contextInfo: { mentionedJid },
       })
-    } else if (match == "admin") {
+    } else if (match == "admin" || match == "admins") {
       let mesaj = ""
       let mentionedJid = participants
         .filter((user) => user.isAdmin == true)
@@ -44,7 +45,7 @@ Asena.addCommand(
       return await message.sendMessage(mesaj, {
         contextInfo: { mentionedJid },
       })
-    } else if (match == "notadmin") {
+    } else if (match == "notadmin" || match == "not admins") {
       let mesaj = ""
       let mentionedJid = participants
         .filter((user) => user.isAdmin != true)
@@ -61,14 +62,40 @@ Asena.addCommand(
 )
 
 Asena.addCommand(
+  {
+    pattern: "msgs ?(.*)",
+    fromMe: true,
+    desc: "Shows all members Msg count",
+    onlyGroup: true,
+  },
+  async (message, match) => {
+    const m = message.mention[0] || message.reply_message.jid
+    const users = await getAllMessageCount(message.jid, m)
+    if (!users) return await message.sendMessage("*No data found!*")
+    let msg = ""
+    for (const user in users) {
+      const { total, type, time } = users[user]
+      let types = ""
+      for (const item in type) {
+        types += `${item}${addSpace(item, "msgscount")} : ${type[item]}\n`
+      }
+      msg += `Number    : ${user.split("@")[0]}\nName      : ${getName(
+        user,
+        message.client
+      )}\nTotal Msg : ${total}\n${types.trim()}\nLastMsg   : ${utt(time)}\n\n`
+    }
+    await message.sendMessage("```" + msg.trim() + "```")
+  }
+)
+
+Asena.addCommand(
   { pattern: "vote ?(.*)", fromMe: true, desc: Lang.VOTE_DESC },
   async (message, match) => {
-    let { msg, options, type } = await parseVote(message, match)
+    const { msg, options, type } = await parseVote(message, match)
     return await message.sendMessage(msg, options, type)
   }
 )
 Asena.addCommand({ on: "vote", fromMe: false }, async (message, match) => {
-  let msg = await participateInVote(message)
-  if (!msg) return
-  return await message.sendMessage(msg, { quoted: message.data })
+  const msg = await participateInVote(message)
+  if (msg) return await message.sendMessage(msg, { quoted: message.data })
 })
