@@ -1,6 +1,6 @@
 ## WhatsApp User Bot
 
-This is a Userbot based on WhatsAsena written by JUGGRUSER](https://github.com/JUGGRUSERZ)
+This is a Userbot based on WhatsAsena written by [JUGGRUSER](https://github.com/JUGGRUSERZ)
 
 ## What is WhatsAsena?
 
@@ -11,7 +11,7 @@ This is a Userbot based on WhatsAsena written by JUGGRUSER](https://github.com/J
 1. Click [SCAN](https://replit.com/@Nightbot2O/baileys-qr) or [SCAN](https://early-pie-production.up.railway.app/qr) and scan QR through Whatsapp Linked Devices Option in Your whatsapp App.
 2. You will get a long text that needs after 4th step (ASENA_SESSION).
 3. If You don't have a account in [Heroku](https://signup.heroku.com/), Create a account.
-4. Click [FORK](https://github.com/JUGGRUSERZ/JENI-SECHI/fork)
+4. Click [FORK](https://github.com/lyfe00011/whatsapp-bot/fork)
 5. Now https://heroku.com/deploy?template=https://github.com/JUGGRUSERZ/JENI-SECHI copy this url and change JUGGRUSERZ with your github username and click GO<br>
    <br>
    <a href="https://youtu.be/N5Hi8IDWH9M"><img src="https://img.shields.io/badge/-watch%20video-critical?style=for-the-badge&logo=youtube&logoColor=white">
@@ -21,9 +21,9 @@ This is a Userbot based on WhatsAsena written by JUGGRUSER](https://github.com/J
    <a href="https://github.com/JUGGRUSERZ/JENI-SECHI/wiki/"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor%22"/></a>
 
 <!--
-[![Run on Repl.it](https://replit.com/badge/github/JUGGRUSERZ/JENI-SECHI)](https://replit.com/@Nightbot2O/baileys-qr)
+[![Run on Repl.it](https://replit.com/badge/github/lyfe00011/whatsapp-bot)](https://replit.com/@Nightbot2O/baileys-qr)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/JUGGRUSERZ/JENI-SECHI) -->
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/lyfe00011/whatsapp-bot) -->
 
 | Active | Group commands |
 | :----: | :------------- |
@@ -82,7 +82,7 @@ This is a Userbot based on WhatsAsena written by JUGGRUSER](https://github.com/J
 |   ✔️   | Whois             | Group or individual data     |
 |   ✔️   | Movie             | Shows Movie Info             |
 |   ✔️   | Merge             | It merge a videos            |
-|   ✔️   | Voice Jeni        | Voice to mp3                 |
+|   ✔️   | Voice             | Voice to mp3                 |
 |   ✔️   | Topdf             | Documnet ot pdf              |
 |   ✔️   | Emoji             | Emoji to sticker             |
 |   ✔️   | Lydia             | Auto AI chat                 |
@@ -93,7 +93,7 @@ This is a Userbot based on WhatsAsena written by JUGGRUSER](https://github.com/J
 |   ✔️   | Trigged           | Triggered effect             |
 |   ✔️   | Forward           | Forwarding msg using jid     |
 |   ✔️   | Compress          | Compresses video             |
-|   ✔️   | Google Jeni       | Google reverse image search  |
+|   ✔️   | Google            | Google reverse image search  |
 |   ✔️   | Upload            | Download from Url            |
 |   ✔️   | Weather           | Shows weather                |
 |   ✔️   | Getjids           | Gets jids of chats           |
@@ -107,5 +107,6 @@ This is a Userbot based on WhatsAsena written by JUGGRUSER](https://github.com/J
 
 ## Thanks To
 
-- [JUGGRUSER](https://github.com/JUGGRUSERZ) for [WhatsAsena](https://github.com/JUGGRUSERZ/JENI-SECHI)
+- [JUGGRUSER](https://github.com/Quiec) for [WhatsAsena](https://github.com/JUGGRUSERZ/JENI-SECHI)
 - [@adiwajshing](https://github.com/adiwajshing) for [Baileys](https://github.com/adiwajshing/Baileys)
+
