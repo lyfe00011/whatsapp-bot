@@ -1,6 +1,6 @@
 {
-    "name": "Bottus",
-    "description": " Whatsapp bot.",
+    "name": "JENI-SECHI",
+    "description": " JUGGRUSER'S WA BOT.",
     "keywords": [
         "whatsapp",
         "bot"
@@ -12,7 +12,7 @@
             "required": true
         },
         "SUDO": {
-            "description": "Sudo mode, Your number must be an international number. So you should have your number after the country code. Example: 919656813724 (IN)",
+            "description": "Sudo mode, Your number must be an international number. So you should have your number after the country code. Example: 91******** (IN)",
             "required": false
         },
         "HANDLERS": {
