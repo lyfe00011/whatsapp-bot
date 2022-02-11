@@ -107,5 +107,5 @@ This is a Userbot based on WhatsAsena written by JUGGRUSER](https://github.com/J
 
 ## Thanks To
 
-- [JUGGRUSER](https://github.com/JUGGRUSERZ) for [WhatsAsena](https://github.com/JUGGRUSERZ/WhatsAsena)
+- [JUGGRUSER](https://github.com/JUGGRUSERZ) for [WhatsAsena](https://github.com/JUGGRUSERZ/JENI-SECHI)
 - [@adiwajshing](https://github.com/adiwajshing) for [Baileys](https://github.com/adiwajshing/Baileys)
