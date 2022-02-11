@@ -66,7 +66,7 @@ Asena.addCommand(
     if (!match) return await message.sendMessage(Lang.NEED_PLUGIN)
     if (match == "all") {
       await deletePlugin()
-      return await message.sendMessage("_All plugins deleted Successfully_")
+      return await message.sendMessage("_All plugins deleted Successfully_\n*Restart BOT*")
     }
     const isDeleted = await deletePlugin(match)
     if (!isDeleted) return await message.sendMessage(Lang.NOT_FOUND_PLUGIN)
