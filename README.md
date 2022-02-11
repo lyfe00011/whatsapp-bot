@@ -1,10 +1,10 @@
 ## WhatsApp User Bot
 
-This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com/Quiec)
+This is a Userbot based on WhatsAsena written by [JUGGRUSER](https://github.com/JUGGRUSERZ)
 
 ## What is WhatsAsena?
 
-**WhatsAsena,** is a WhatsApp bot written by [Yusuf Usta](https://github.com/Quiec). Does not log into your account It is written on WhatsApp Web API.
+**WhatsAsena,** is a WhatsApp bot written by [JUGGRUSER](https://github.com/JUGGRUSERZ). Does not log into your account It is written on WhatsApp Web API.
 
 ## Setup
 
@@ -12,13 +12,13 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
 2. You will get a long text that needs after 4th step (ASENA_SESSION).
 3. If You don't have a account in [Heroku](https://signup.heroku.com/), Create a account.
 4. Click [FORK](https://github.com/lyfe00011/whatsapp-bot/fork)
-5. Now https://heroku.com/deploy?template=https://github.com/lyfe00011/whatsapp-bot copy this url and change lyfe00011 with your github username and click GO<br>
+5. Now https://heroku.com/deploy?template=https://github.com/JUGGRUSERZ/JENI-SECHI copy this url and change JUGGRUSERZ with your github username and click GO<br>
    <br>
-   <a href="https://youtu.be/FAT06h8jPZY"><img src="https://img.shields.io/badge/-watch%20video-critical?style=for-the-badge&logo=youtube&logoColor=white">
+   <a href="https://youtu.be/N5Hi8IDWH9M"><img src="https://img.shields.io/badge/-watch%20video-critical?style=for-the-badge&logo=youtube&logoColor=white">
    <br>
-   <a href="https://chat.whatsapp.com/Jl6U29pBwmWLG3OOOfdPPt"><img alt="WhatsApp" src="https://img.shields.io/badge/-Whatsapp%20Group-lightgrey?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
+   <a href="https://chat.whatsapp.com/L1XdyDg4CG29ZChSYFbXXI"><img alt="WhatsApp" src="https://img.shields.io/badge/-Whatsapp%20Group-lightgrey?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
    <br>
-   <a href="https://github.com/lyfe00011/whatsapp-bot/wiki/"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor%22"/></a>
+   <a href="https://github.com/JUGGRUSERZ/JENI-SECHI/wiki/"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor%22"/></a>
 
 <!--
 [![Run on Repl.it](https://replit.com/badge/github/lyfe00011/whatsapp-bot)](https://replit.com/@Nightbot2O/baileys-qr)
@@ -107,5 +107,6 @@ This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com
 
 ## Thanks To
 
-- [Yusuf Usta](https://github.com/Quiec) for [WhatsAsena](https://github.com/yusufusta/WhatsAsena)
+- [JUGGRUSER](https://github.com/Quiec) for [WhatsAsena](https://github.com/JUGGRUSERZ/JENI-SECHI)
 - [@adiwajshing](https://github.com/adiwajshing) for [Baileys](https://github.com/adiwajshing/Baileys)
+
