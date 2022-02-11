@@ -13,7 +13,7 @@ const {
   getFfmpegBuffer,
   videoHeightWidth,
   avm,
-  blackVideo,
+  JUGGRUVIDEO,
 } = require("../Utilis/fFmpeg")
 let fm = true
 
