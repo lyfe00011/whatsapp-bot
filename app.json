@@ -12,7 +12,7 @@
             "required": true
         },
         "SUDO": {
-            "description": "Sudo mode, Your number must be an international number. So you should have your number after the country code. Example: 919876543210 (IN)",
+            "description": "Sudo mode, Your number must be an international number. So you should have your number after the country code. Example: 919656813724 (IN)",
             "required": false
         },
         "HANDLERS": {
@@ -61,7 +61,7 @@
         "WARN_MSG": {
             "description": "Message send while kicking.",
             "required": false,
-            "value": "OK bie"
+            "value": "SHERI ENNA BEI"
         },
         "REMOVEBG_KEY": {
             "description": "Get your key from remove.bg",
@@ -74,7 +74,7 @@
         },
         "STICKER_PACKNAME": {
             "description": "Sticker pack name,author",
-            "value": "🥰,lyfe00011"
+            "value": "🥰,JUGGRUSER"
         },
         "DISABLE_BOT": {
             "description": "Disable or Block bot in group/chat.Enter required chat jid separated by ,",
