@@ -115,7 +115,10 @@ Asena.addCommand(
       return await message.sendMessage(
         "*Example :*\n*.inactive day 10 //show those not message for last 10 days.*\n\n*.inactive total 100 // show those have total msg count less than 100.*\n\n*.inactive total 100 kick //to kick inactive ones*"
       )
-    let msg = ""
+    let msg =
+      dayOrTotal == "day"
+        ? `Not msg for last ${c} day(s).\n\n`
+        : `Msg count less than ${c}\n\n`
     const toKick = []
     const today = new Date().getTime()
     for (const { jid } of participants) {
@@ -126,15 +129,15 @@ Asena.addCommand(
       else if (dayOrTotal == "day") {
         const diffDay = (today - time) / (1000 * 60 * 60 * 24)
         if (diffDay > c) {
-          if (kick) toKick.push(jid)
-          msg += `${jid.split("@")[0]} last msg ${Math.floor(
+          toKick.push(jid)
+          msg += `@${jid.split("@")[0]} last msg ${Math.floor(
             diffDay
           )} day ago\n`
         }
       } else if (dayOrTotal == "total") {
         if (total < c) {
-          if (kick) toKick.push(jid)
-          msg += `${jid.split("@")[0]} : ${total} msgs\n`
+          toKick.push(jid)
+          msg += `@${jid.split("@")[0]} : ${total} msgs\n`
         }
       }
     }
@@ -142,6 +145,7 @@ Asena.addCommand(
       await message.sendMessage(
         `_Removing ${toKick.length} inactive members..._`
       )
+      await new Promise((r) => setTimeout(r, 10 * 1000))
       for (const jid of toKick) {
         await new Promise((r) => setTimeout(r, 1000))
         await message.groupRemove(message.jid, jid)
@@ -152,13 +156,14 @@ Asena.addCommand(
           `${msg.trim()}${
             toKick.length < 1
               ? ""
-              : "\n\nwith 0 messages\n" +
+              : `\n\nwith 0 messages : ${toKick.length}\n` +
                 toKick
-                  .map((jid) => jid.split("@")[0])
+                  .map((jid) => `@${jid.split("@")[0]}`)
                   .join("\n")
                   .trim()
           }` +
-          "```"
+          "```",
+        { contextInfo: { mentionedJid: toKick } }
       )
   }
 )
