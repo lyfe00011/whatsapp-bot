@@ -10,7 +10,12 @@ const Asena = require("../Utilis/events")
 const Language = require("../language")
 const { participateInVote, parseVote } = require("../Utilis/vote")
 const { forwardOrBroadCast } = require("../Utilis/groupmute")
-const { addSpace, getAllMessageCount, utt } = require("../Utilis/Misc")
+const {
+  addSpace,
+  getAllMessageCount,
+  utt,
+  checkImAdmin,
+} = require("../Utilis/Misc")
 const { getName } = require("../Utilis/download")
 const Lang = Language.getString("tagall")
 const s = "```"
@@ -85,6 +90,76 @@ Asena.addCommand(
       )}\nTotal Msg : ${total}\n${types.trim()}\nLastMsg   : ${utt(time)}\n\n`
     }
     await message.sendMessage("```" + msg.trim() + "```")
+  }
+)
+
+Asena.addCommand(
+  {
+    pattern: "inactive ?(.*)",
+    fromMe: true,
+    desc: "Kick or Show inactive members",
+    onlyGroup: true,
+  },
+  async (message, match) => {
+    const participants = await message.groupMetadata(message.jid)
+    const im = await checkImAdmin(participants, message.client.user.jid)
+    if (!im) return await message.sendMessage("*I'am not admin.*")
+    const [dayOrTotal, c, kick] = match.split(" ") || []
+    if (
+      !dayOrTotal ||
+      !c ||
+      (dayOrTotal != "day" && dayOrTotal != "total") ||
+      isNaN(c) ||
+      (kick && kick != "kick")
+    )
+      return await message.sendMessage(
+        "*Example :*\n*.inactive day 10 //show those not message for last 10 days.*\n\n*.inactive total 100 // show those have total msg count less than 100.*\n\n*.inactive total 100 kick //to kick inactive ones*"
+      )
+    let msg = ""
+    const toKick = []
+    const today = new Date().getTime()
+    for (const { jid } of participants) {
+      const { type, time, total } = (
+        await getAllMessageCount(message.jid, jid)
+      )[jid]
+      if (!type) toKick.push(jid)
+      else if (dayOrTotal == "day") {
+        const diffDay = (today - time) / (1000 * 60 * 60 * 24)
+        if (diffDay > c) {
+          if (kick) toKick.push(jid)
+          msg += `${jid.split("@")[0]} last msg ${Math.floor(
+            diffDay
+          )} day ago\n`
+        }
+      } else if (dayOrTotal == "total") {
+        if (total < c) {
+          if (kick) toKick.push(jid)
+          msg += `${jid.split("@")[0]} : ${total} msgs\n`
+        }
+      }
+    }
+    if (kick) {
+      await message.sendMessage(
+        `_Removing ${toKick.length} inactive members..._`
+      )
+      for (const jid of toKick) {
+        await new Promise((r) => setTimeout(r, 1000))
+        await message.groupRemove(message.jid, jid)
+      }
+    } else
+      return await message.sendMessage(
+        "```" +
+          `${msg.trim()}${
+            toKick.length < 1
+              ? ""
+              : "\n\nwith 0 messages\n" +
+                toKick
+                  .map((jid) => jid.split("@")[0])
+                  .join("\n")
+                  .trim()
+          }` +
+          "```"
+      )
   }
 )
 
