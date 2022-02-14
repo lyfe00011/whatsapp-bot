@@ -15,6 +15,7 @@ const {
   getAllMessageCount,
   utt,
   checkImAdmin,
+  arrRm,
 } = require("../Utilis/Misc")
 const { getName } = require("../Utilis/download")
 const Lang = Language.getString("tagall")
@@ -74,8 +75,10 @@ Asena.addCommand(
     onlyGroup: true,
   },
   async (message, match) => {
-    const m = message.mention[0] || message.reply_message.jid
-    const users = await getAllMessageCount(message.jid, m)
+    const users = await getAllMessageCount(
+      message.jid,
+      message.mention[0] || message.reply_message.jid
+    )
     if (!users) return await message.sendMessage("*No data found!*")
     let msg = ""
     for (const user in users) {
@@ -119,34 +122,33 @@ Asena.addCommand(
       dayOrTotal == "day"
         ? `Not msg for last ${c} day(s).\n\n`
         : `Msg count less than ${c}\n\n`
-    const toKick = []
+    let Z = participants.map(({ jid }) => jid)
+    const inactive = []
     const today = new Date().getTime()
-    for (const { jid } of participants) {
-      const { type, time, total } = (
-        await getAllMessageCount(message.jid, jid)
-      )[jid]
-      if (!type) toKick.push(jid)
-      else if (dayOrTotal == "day") {
+    const users = await getAllMessageCount(message.jid)
+    for (const user in users) {
+      Z = arrRm(Z, user)
+      const { time, total } = users[user]
+      if (dayOrTotal == "day") {
         const diffDay = (today - time) / (1000 * 60 * 60 * 24)
         if (diffDay > c) {
-          toKick.push(jid)
-          msg += `@${jid.split("@")[0]} last msg ${Math.floor(
+          inactive.push(user)
+          msg += `@${user.split("@")[0]} last msg ${Math.floor(
             diffDay
           )} day ago\n`
         }
       } else if (dayOrTotal == "total") {
         if (total < c) {
-          toKick.push(jid)
-          msg += `@${jid.split("@")[0]} : ${total} msgs\n`
+          inactive.push(user)
+          msg += `@${user.split("@")[0]} : ${total} msgs\n`
         }
       }
     }
+    const jids = [...inactive, ...Z]
     if (kick) {
-      await message.sendMessage(
-        `_Removing ${toKick.length} inactive members..._`
-      )
+      await message.sendMessage(`_Removing ${jids.length} inactive members..._`)
       await new Promise((r) => setTimeout(r, 10 * 1000))
-      for (const jid of toKick) {
+      for (const jid of jids) {
         await new Promise((r) => setTimeout(r, 1000))
         await message.groupRemove(message.jid, jid)
       }
@@ -154,16 +156,15 @@ Asena.addCommand(
       return await message.sendMessage(
         "```" +
           `${msg.trim()}${
-            toKick.length < 1
+            Z.length < 1
               ? ""
-              : `\n\nwith 0 messages : ${toKick.length}\n` +
-                toKick
-                  .map((jid) => `@${jid.split("@")[0]}`)
+              : `\n\nwith 0 messages : ${Z.length}\n` +
+                Z.map((jid) => `@${jid.split("@")[0]}`)
                   .join("\n")
                   .trim()
           }` +
           "```",
-        { contextInfo: { mentionedJid: toKick } }
+        { contextInfo: { mentionedJid: jids } }
       )
   }
 )
@@ -175,6 +176,7 @@ Asena.addCommand(
     return await message.sendMessage(msg, options, type)
   }
 )
+
 Asena.addCommand({ on: "vote", fromMe: false }, async (message, match) => {
   const msg = await participateInVote(message)
   if (msg) return await message.sendMessage(msg, { quoted: message.data })
