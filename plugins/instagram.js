@@ -17,8 +17,8 @@ Asena.addCommand(
     await message.sendMessage(Lang.DOWNLOADING)
     const urls = await instagram(match)
     if (!urls) return await message.sendMessage(Lang.NOT_FOUND)
-    urls.forEach(async (url) => {
-      let { buffer, type } = await getBuffer(url)
+    for (const url of urls) {
+      const { buffer, type } = await getBuffer(url)
       if (!buffer) await message.sendMessage(url)
       else if (type == "image")
         await message.sendMessage(
@@ -32,7 +32,7 @@ Asena.addCommand(
           { mimetype: Mimetype.mp4, quoted: message.quoted },
           MessageType.video
         )
-    })
+    }
   }
 )
 
@@ -46,31 +46,27 @@ Asena.addCommand(
     )
       return await message.sendMessage(Lang.USERNAME)
     if (match.includes("/stories/")) {
-      let s = match.indexOf("/stories/") + 9
-      let e = match.lastIndexOf("/")
+      const s = match.indexOf("/stories/") + 9
+      const e = match.lastIndexOf("/")
       match = match.substring(s, e)
     }
-    let json = await igStory(match)
-    if (json.error) return await message.sendMessage(json.error)
-    if (json.medias.length > 0) {
-      await message.sendMessage(
-        Lang.DOWNLOADING_STORY.format(json.medias.length)
-      )
-      for (let media of json.medias) {
-        let { buffer, type } = await getBuffer(media.url)
-        if (type == "video")
-          await message.sendMessage(
-            buffer,
-            { mimetype: Mimetype.mp4, quoted: message.quoted },
-            MessageType.video
-          )
-        else if (type == "image")
-          await message.sendMessage(
-            buffer,
-            { mimetype: Mimetype.jpeg, quoted: message.quoted },
-            MessageType.image
-          )
-      }
+    const json = await igStory(match)
+    if (!json) return await message.sendMessage(json.error)
+    await message.sendMessage(Lang.DOWNLOADING_STORY.format(json.length))
+    for (const url of json) {
+      const { buffer, type } = await getBuffer(url)
+      if (type == "video")
+        await message.sendMessage(
+          buffer,
+          { mimetype: Mimetype.mp4, quoted: message.quoted },
+          MessageType.video
+        )
+      else if (type == "image")
+        await message.sendMessage(
+          buffer,
+          { mimetype: Mimetype.jpeg, quoted: message.quoted },
+          MessageType.image
+        )
     }
   }
 )

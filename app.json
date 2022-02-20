@@ -64,7 +64,7 @@
             "value": "OK bie"
         },
         "REMOVEBG_KEY": {
-            "description": "Get your key from remove.bg",
+            "description": "key from remove.bg",
             "required": false,
             "value": "null"
         },
@@ -78,6 +78,10 @@
         },
         "DISABLE_BOT": {
             "description": "Disable or Block bot in group/chat.Enter required chat jid separated by ,",
+            "value": "null"
+        },
+        "FIND_API_KEY": {
+            "description": "key from https://dashboard.audd.io/",
             "value": "null"
         }
     },

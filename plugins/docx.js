@@ -35,7 +35,7 @@ Asena.addCommand(
       message.reply_message.pdf
     )
       return message.sendMessage(Lang.NOT_SUPPORTED)
-    toPDF(await message.reply_message.downloadMediaMessage()).then(
+    toPDF(await message.reply_message.downloadAndSaveMediaMessage()).then(
       async (pdfBuffer) => {
         return await message.sendMessage(
           pdfBuffer,
@@ -63,7 +63,7 @@ Asena.addCommand(
       return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
       await banner(
-        await message.reply_message.downloadMediaMessage(),
+        await message.reply_message.downloadAndSaveMediaMessage(),
         "wasted"
       ),
       {},
@@ -84,7 +84,7 @@ Asena.addCommand(
       return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
       await banner(
-        await message.reply_message.downloadMediaMessage(),
+        await message.reply_message.downloadAndSaveMediaMessage(),
         "passed"
       ),
       {},
@@ -104,7 +104,10 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
-      await banner(await message.reply_message.downloadMediaMessage(), "jail"),
+      await banner(
+        await message.reply_message.downloadAndSaveMediaMessage(),
+        "jail"
+      ),
       {},
       MessageType.image
     )
@@ -123,7 +126,7 @@ Asena.addCommand(
       return await message.sendMessage(Lang.REPLY)
     return await message.sendMessage(
       await banner(
-        await message.reply_message.downloadMediaMessage(),
+        await message.reply_message.downloadAndSaveMediaMessage(),
         "triggered"
       ),
       { mimetype: Mimetype.webp },

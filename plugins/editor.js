@@ -17,7 +17,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "skull"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -36,7 +36,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "sketch"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -56,7 +56,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "pencil"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -76,7 +76,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "color"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -96,7 +96,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "kiss"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -116,7 +116,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "bokeh"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -136,7 +136,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "wanted"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -156,7 +156,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "look"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -176,7 +176,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "gandm"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -196,7 +196,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "dark"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -216,7 +216,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "makeup"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
@@ -236,7 +236,7 @@ Asena.addCommand(
     if (!message.reply_message || !message.reply_message.image)
       return await message.sendMessage(Lang.NEED_REPLY)
     const { status, result } = await photoEditor(
-      await message.reply_message.downloadMediaMessage(),
+      await message.reply_message.downloadAndSaveMediaMessage(),
       "cartoon"
     )
     if (!status) return await message.sendMessage(`*${result}*`)
