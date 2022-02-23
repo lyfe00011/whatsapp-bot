@@ -22,7 +22,7 @@ Asena.addCommand(
     onlyGroup: true,
   },
   async (message, match) => {
-    await message.sendMessage(Lang.KICKME)
+    if (match) await message.sendMessage(match)
     await message.client.groupLeave(message.jid)
   }
 )

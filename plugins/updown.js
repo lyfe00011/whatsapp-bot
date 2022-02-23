@@ -180,8 +180,8 @@ Asena.addCommand(
     return await message.sendMessage(
       Lang.FIND_MSG.format(
         data.data.title,
-        data.data.artists,
-        data.data.genre,
+        data.data.artists || data.data.artist,
+        data.data.genre || data.data.label,
         data.data.album,
         data.data.release_date
       ),
