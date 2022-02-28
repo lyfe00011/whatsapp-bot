@@ -82,15 +82,20 @@ Asena.addCommand(
         },
         MessageType.sticker
       )
-    if (!match) return await message.sendMessage(`*Give me title,artists*`)
-    const [title, artists] = match.split(",")
+    if (!match)
+      return await message.sendMessage(
+        `*Give me title,artists,url*\n*aritists or url is optional*`
+      )
+    const [title, artists, url] = match.split(",")
     return await message.sendMessage(
       await addAudioMetaData(
         await message.reply_message.downloadMediaMessage(),
         title,
-        artists
+        artists,
+        "",
+        url
       ),
-      { quoted: message.quoted },
+      { quoted: message.quoted, mimetype: Mimetype.mp4Audio },
       MessageType.audio
     )
   }
