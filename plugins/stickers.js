@@ -10,6 +10,7 @@ const { MessageType, Mimetype } = require("@adiwajshing/baileys")
 const Language = require("../language")
 const { webpToMp4 } = require("../Utilis/download")
 const { sticker, addExif } = require("../Utilis/fFmpeg")
+const { addAudioMetaData } = require("../Utilis/Misc")
 const Lang = Language.getString("sticker")
 
 Asena.addCommand(
@@ -63,19 +64,34 @@ Asena.addCommand(
 Asena.addCommand(
   { pattern: "take ?(.*)", fromMe: true, desc: Lang.TAKE_DESC },
   async (message, match) => {
-    if (!message.reply_message.sticker || !message.reply_message)
-      return await message.sendMessage(Lang.TAKE_NEED_REPLY)
+    if (
+      !message.reply_message ||
+      (!message.reply_message.sticker && !message.reply_message.audio)
+    )
+      return await message.sendMessage("*Reply to a sticker or audio!*")
+    if (message.reply_message.sticker)
+      return await message.sendMessage(
+        await addExif(
+          await message.reply_message.downloadAndSaveMediaMessage("take"),
+          match
+        ),
+        {
+          mimetype: Mimetype.webp,
+          isAnimated: message.reply_message.animated,
+          quoted: message.quoted,
+        },
+        MessageType.sticker
+      )
+    if (!match) return await message.sendMessage(`*Give me title,artists*`)
+    const [title, artists] = match.split(",")
     return await message.sendMessage(
-      await addExif(
-        await message.reply_message.downloadAndSaveMediaMessage("take"),
-        match
+      await addAudioMetaData(
+        await message.reply_message.downloadMediaMessage(),
+        title,
+        artists
       ),
-      {
-        mimetype: Mimetype.webp,
-        isAnimated: message.reply_message.animated,
-        quoted: message.quoted,
-      },
-      MessageType.sticker
+      { quoted: message.quoted },
+      MessageType.audio
     )
   }
 )

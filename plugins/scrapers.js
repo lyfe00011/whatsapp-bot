@@ -17,6 +17,7 @@ const {
   SpeachToText,
   generateListMessage,
   newsListMessage,
+  addAudioMetaData,
 } = require("../Utilis/Misc")
 //=====================================================================================
 //============================== YOUTUBE ==============================================
@@ -117,8 +118,9 @@ Asena.addCommand(
         return await message.sendMessage(
           "*Downloading failed*\n```Restart BOT```"
         )
+      const { title, image, author, description } = (await yts(match)).all[0]
       return await message.sendMessage(
-        buffer,
+        await addAudioMetaData(buffer, title, author.name, description, image),
         {
           mimetype: Mimetype.mp4Audio,
           quoted: message.data,

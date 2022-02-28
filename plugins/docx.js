@@ -35,7 +35,7 @@ Asena.addCommand(
       message.reply_message.pdf
     )
       return message.sendMessage(Lang.NOT_SUPPORTED)
-    toPDF(await message.reply_message.downloadAndSaveMediaMessage()).then(
+    toPDF(await message.reply_message.downloadMediaMessage()).then(
       async (pdfBuffer) => {
         return await message.sendMessage(
           pdfBuffer,
@@ -142,7 +142,8 @@ Asena.addCommand(
     desc: Lang.READMORE_DESC,
   },
   async (message, match) => {
-    await message.sendMessage(readMore(match || message.reply_message.text))
+    if (match || message.reply_message.text)
+      await message.sendMessage(readMore(match || message.reply_message.text))
   }
 )
 
