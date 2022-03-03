@@ -156,8 +156,7 @@ Asena.addCommand(
     if (!message.reply_message.image)
       return await message.sendMessage(Lang.INEED_REPLY)
     let msg = ""
-    let location = await message.reply_message.downloadMediaMessage()
-    let result = await googleSearch(location)
+    const result = await googleSearch(await message.reply_message.downloadAndSaveMediaMessage())
     if (result.length == 0) return await message.sendMessage(Lang.INOT_FOUND)
     result.forEach((url) => {
       msg += `${url}\n`

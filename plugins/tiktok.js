@@ -1,7 +1,7 @@
 const Asena = require("../Utilis/events")
 const { MessageType } = require("@adiwajshing/baileys")
 const { getJson, TiktokDownloader, getBuffer } = require("../Utilis/download")
-const { UploadToImgur, wallpaper, parsedJid } = require("../Utilis/Misc")
+const { UploadToImgur, parsedJid, getOneWallpaper } = require("../Utilis/Misc")
 const Language = require("../language")
 const Lang = Language.getString("tiktok")
 const { forwardOrBroadCast } = require("../Utilis/groupmute")
@@ -19,7 +19,7 @@ Asena.addCommand(
       return await message.sendMessage(Lang.INVALID, {
         quoted: message.data,
       })
-    let { buffer } = await getBuffer(link)
+    const { buffer } = await getBuffer(link)
     return await message.sendMessage(
       buffer,
       { quoted: message.quoted },
@@ -81,12 +81,12 @@ Asena.addCommand(
   },
   async (message, match) => {
     if (match == "") return message.sendMessage(Lang.NEED_NAME)
-    let buffer = await wallpaper(match)
+    const buffer = await getOneWallpaper(match, message)
     if (!buffer) return await message.sendMessage(Lang.NOT_FOUND)
     return await message.sendMessage(
       buffer,
       { quoted: message.data },
-      MessageType.image
+      MessageType.buttonsMessage
     )
   }
 )
