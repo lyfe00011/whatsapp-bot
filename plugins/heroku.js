@@ -94,11 +94,11 @@ Asena.addCommand(
   { pattern: "setvar ?(.*)", fromMe: true, desc: Lang.SETVAR_DESC },
   async (message, match) => {
     if (match === "") return await message.sendMessage(Lang.KEY_VAL_MISSING)
-    if ((varKey = match.split(":")[0].toUpperCase()) && (varValue = match.split(":")[1].trim())) {
+    if ((varKey = match.split(":")[0]) && (varValue = match.split(":")[1])) {
       await heroku
         .patch(baseURI + "/config-vars", {
           body: {
-            [varKey]: varValue,
+            [varKey.toUpperCase()]: varValue.trim(),
           },
         })
         .then(async (app) => {
