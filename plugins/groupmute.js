@@ -15,6 +15,7 @@ Asena.addCommand(
   {
     pattern: "automute ?(.*)",
     fromMe: true,
+    onlyGroup: true,
     desc: Lang.AUTOMUTE_DESC,
   },
   async (message, match) => {
@@ -72,6 +73,7 @@ Asena.addCommand(
   {
     pattern: "autoumute ?(.*)",
     fromMe: true,
+    onlyGroup: true,
     desc: Lang.AUTOUMUTE_DESC,
   },
   async (message, match) => {

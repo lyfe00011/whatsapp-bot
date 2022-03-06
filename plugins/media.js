@@ -14,6 +14,7 @@ const {
   videoHeightWidth,
   avm,
   blackVideo,
+  cropVideo,
 } = require("../Utilis/fFmpeg")
 let fm = true
 
@@ -112,7 +113,7 @@ Asena.addCommand(
     if (message.reply_message.video == true) {
       return await message.sendMessage(
         await getFfmpegBuffer(location, "revered.mp4", "videor"),
-        { mimetype: Mimetype.mp4 },
+        { mimetype: Mimetype.mp4, quoted: message.data },
         MessageType.video
       )
     } else if (message.reply_message.audio == true) {
@@ -381,7 +382,7 @@ Asena.addCommand(
   async (message, match) => {
     if (!message.reply_message || !message.reply_message.video)
       return await message.sendMessage(Lang.NEED_REPLY)
-    let [vw, vh, w, h] = match.split(",")
+    const [vw, vh, w, h] = match.split(",")
     if (
       !vh ||
       !vw ||
@@ -392,17 +393,19 @@ Asena.addCommand(
       typeof +h !== "number" ||
       typeof +vw !== "number"
     )
-      return await message.sendMessage(Lang.SYNTAX)
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
+      return await message.sendMessage(
+        `*Example :*\ncrop out_w,out_h,x,y\nx and y are top left where to start croping`
+      )
+    const location = await message.reply_message.downloadAndSaveMediaMessage(
       "plain"
     )
-    let { height, width } = await videoHeightWidth(location)
+    const { height, width } = await videoHeightWidth(location)
     if (vw > width || vh > height)
       return await message.sendMessage(
         `*Video width: ${width}, height: ${height}*\n*Choose output size in between.*`
       )
     return await message.sendMessage(
-      await getFfmpegBuffer(location, "crop.mp4", "crop", match),
+      await cropVideo(location, vw, vh, w, h),
       { mimetype: Mimetype.mp4, quoted: message.data },
       MessageType.video
     )

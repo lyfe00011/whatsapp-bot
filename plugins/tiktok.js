@@ -14,7 +14,7 @@ Asena.addCommand(
       return await message.sendMessage(Lang.NEED_REPLY, {
         quoted: message.data,
       })
-    let link = await TiktokDownloader(match)
+    const link = await TiktokDownloader(match)
     if (!link)
       return await message.sendMessage(Lang.INVALID, {
         quoted: message.data,
@@ -99,12 +99,13 @@ Asena.addCommand(
       (!message.reply_message.image && !message.reply_message.video)
     )
       return await message.sendMessage(Lang.URL_NEED_REPLY)
-    if (message.reply_message.length > 10)
-      return await message.sendMessage("*Only accept below 10 MB*")
-    let location = await message.reply_message.downloadAndSaveMediaMessage(
-      "url"
+    if (message.reply_message.video && message.reply_message.seconds > 60)
+      return await message.sendMessage("*Only accept below 1min*")
+    return await message.sendMessage(
+      await UploadToImgur(
+        await message.reply_message.downloadAndSaveMediaMessage("url")
+      ),
+      { quoted: message.data }
     )
-    let url = await UploadToImgur(location)
-    return await message.sendMessage(url, { quoted: message.data })
   }
 )
