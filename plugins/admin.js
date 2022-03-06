@@ -8,7 +8,7 @@ WhatsAsena - Yusuf Usta
 
 const Asena = require("../Utilis/events")
 const Language = require("../language")
-const { checkImAdmin } = require("../Utilis/Misc")
+const { checkImAdmin, promoteDemote, genButtons } = require("../Utilis/Misc")
 const { MessageType } = require("@adiwajshing/baileys")
 const { getName } = require("../Utilis/download")
 const Lang = Language.getString("admin")
@@ -300,5 +300,29 @@ Asena.addCommand(
     if (!im) return await message.sendMessage(Lang.IM_NOT_ADMIN)
     await message.client.revokeInvite(message.jid)
     return await message.sendMessage(Lang.REVOKE)
+  }
+)
+
+
+Asena.addCommand(
+  {
+    pattern: "pdm ?(.*)",
+    fromMe: true,
+    onlyGroup: true,
+    desc: "disable or enabled Group promote demote info",
+  },
+  async (message, match) => {
+    if (!match)
+      return await message.sendMessage(
+        genButtons(["ON", "OFF"], "Enable Promote and Demote Message"),
+        {},
+        MessageType.buttonsMessage
+      )
+    await promoteDemote(message.jid, match == "on")
+    await message.sendMessage(
+      "```" +
+        `Promoted Demoted Message ${match == "on" ? "Enabled" : "Disabled"}✅` +
+        "```"
+    )
   }
 )
