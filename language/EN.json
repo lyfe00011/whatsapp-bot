@@ -200,7 +200,7 @@
             "NEED_GOODBYE_TEXT": "*You must write a message to set up the goodbye message.*\n*Example:* ```.goodbye Goodbye!```",
             "GOODBYE_DELETED": "*✅ Goodbye message has been deleted successfully!*",
             "GOODBYE_SETTED": "*✅ Goodbye message has been setted successfully!*",
-            "ON_OFF": "To ON or OFF ${} Message",
+            "ON_OFF": "To ON or OFF {} Message",
             "W_ENABLED": "*✅Welcome Message {}*",
             "G_ENABLED": "*✅GOODBYE Message {}*",
             "B_ENABLED": "*✅BANBYE Message {}*",
