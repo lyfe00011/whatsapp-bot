@@ -15,7 +15,8 @@ const { emoji, getImgUrl, isUrl } = require("../Utilis/Misc")
 Asena.addCommand(
   { pattern: "whois ?(.*)", fromMe: true, desc: "Show Group or person info." },
   async (message, match) => {
-    if (message.isGroup && !message.reply_message) {
+    const u = message.mention[0] || message.reply_message.jid
+    if (message.isGroup && !u) {
       let pp
       try {
         pp = await message.client.getProfilePicture(message.jid)
@@ -23,8 +24,8 @@ Asena.addCommand(
         pp =
           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
       }
-      let group = await message.client.groupMetadata(message.jid)
-      let msg =
+      const group = await message.client.groupMetadata(message.jid)
+      const msg =
         "```" +
         `Name    : ${group.subject}
 Id      : ${group.id}
@@ -38,45 +39,45 @@ Desc    : ${group.desc}` +
         { caption: msg },
         MessageType.image
       )
-    } else if (message.isGroup && message.reply_message !== false) {
-      let status = await message.client.getStatus(message.reply_message.jid)
+    }
+    if (message.isGroup && u) {
+      const status = await message.client.getStatus(u)
       let pp
       try {
-        pp = await message.client.getProfilePicture(message.reply_message.jid)
+        pp = await message.client.getProfilePicture(u)
       } catch (error) {
         pp =
           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
       }
-      let msg =
+      const msg =
         "```" +
-        `Name   : ${await getName(message.reply_message.jid, message.client)}
-Id     : ${message.reply_message.jid}
+        `Name   : ${await getName(u, message.client)}
+Id     : ${u}
 Status : ${status.status}` +
         "```"
-      let { buffer } = await getBuffer(pp)
+      const { buffer } = await getBuffer(pp)
       return await message.sendMessage(
         buffer,
         { caption: msg },
         MessageType.image
       )
-    } else {
-      let status = await message.client.getStatus(message.jid)
-      let pp
-      try {
-        pp = await message.client.getProfilePicture(message.jid)
-      } catch (error) {
-        pp =
-          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-      }
-      let msg =
-        "```" +
-        `Name   : ${await getName(message.jid, message.client)}
-Id     : ${message.jid}
-Status : ${status.status}` +
-        "```"
-      let { buffer } = await getBuffer(pp)
-      await message.sendMessage(buffer, { caption: msg }, MessageType.image)
     }
+    const status = await message.client.getStatus(u || message.jid)
+    let pp
+    try {
+      pp = await message.client.getProfilePicture(u || message.jid)
+    } catch (error) {
+      pp =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+    }
+    const msg =
+      "```" +
+      `Name   : ${await getName(u || message.jid, message.client)}
+Id     : ${u || message.jid}
+Status : ${status.status}` +
+      "```"
+    const { buffer } = await getBuffer(pp)
+    await message.sendMessage(buffer, { caption: msg }, MessageType.image)
   }
 )
 
