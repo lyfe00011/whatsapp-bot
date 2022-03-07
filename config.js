@@ -24,7 +24,7 @@ DEBUG =
   process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBUG)
 
 module.exports = {
-  VERSION: "v1.2.7",
+  VERSION: "v1.2.8",
   SESSION:
     process.env.ASENA_SESSION === undefined ? "" : process.env.ASENA_SESSION,
   EXT: process.env.EXT === undefined ? undefined : process.env.EXT,

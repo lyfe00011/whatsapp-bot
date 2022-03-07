@@ -303,7 +303,6 @@ Asena.addCommand(
   }
 )
 
-
 Asena.addCommand(
   {
     pattern: "pdm ?(.*)",
@@ -318,11 +317,15 @@ Asena.addCommand(
         {},
         MessageType.buttonsMessage
       )
-    await promoteDemote(message.jid, match == "on")
-    await message.sendMessage(
-      "```" +
-        `Promoted Demoted Message ${match == "on" ? "Enabled" : "Disabled"}✅` +
-        "```"
-    )
+    if (match == "on" || match == "off") {
+      await promoteDemote(message.jid, match == "on")
+      await message.sendMessage(
+        "```" +
+          `Promoted Demoted Message ${
+            match == "on" ? "Enabled" : "Disabled"
+          }✅` +
+          "```"
+      )
+    }
   }
 )
