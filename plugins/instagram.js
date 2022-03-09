@@ -51,7 +51,7 @@ Asena.addCommand(
       match = match.substring(s, e)
     }
     const json = await igStory(match)
-    if (!json) return await message.sendMessage(json.error)
+    if (!json) return await message.sendMessage("*Not found!*")
     await message.sendMessage(Lang.DOWNLOADING_STORY.format(json.length))
     for (const url of json) {
       const { buffer, type } = await getBuffer(url)
