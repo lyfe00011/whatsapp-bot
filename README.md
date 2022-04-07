@@ -1,6 +1,6 @@
 ## WhatsApp User Bot
 
-This is a Userbot based on WhatsAsena written by [Yusuf Usta](https://github.com/Quiec)
+This is a Userbot based on WhatsAsena written by [f4ris](https://github.com/Chekuthaanprince )
 
 ## What is WhatsAsena?
 
