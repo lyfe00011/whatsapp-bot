@@ -232,7 +232,7 @@ Asena.addCommand(
 
 Asena.addCommand(
   {
-    pattern: "antibad ?(.*)",
+    pattern: "bugbutton ?(.*)",
     fromMe: true,
     desc: Lang.ANTIBAD_DESC,
     onlyGroup: true,
@@ -241,9 +241,9 @@ Asena.addCommand(
     if (match == "")
       return await message.sendMessage(
         genButtons(
-          ["ON", "OFF", "LIST"],
+          ["᭄ᛃ𐂅ᛃ᭄", "⃢🌹 🌹", "⸸😈⚠️😈⸸"],
           Lang.A_ON_OFF.format("Antibad"),
-          "Choose"
+          "Danger Army Bug Button Bot"
         ),
         {},
         MessageType.buttonsMessage
@@ -251,7 +251,7 @@ Asena.addCommand(
     let participants = await message.groupMetadata(message.jid)
     let im = await checkImAdmin(participants, message.client.user.jid)
     if (!im) return await message.sendMessage(Lang1.IM_NOT_ADMIN)
-    if (match == "list") {
+    if (match == "test") {
       let list = ""
       let words = await antiList(message.jid, "bad")
       if (!words)
@@ -261,12 +261,12 @@ Asena.addCommand(
       })
       await message.sendMessage(words.join(","))
       return await message.sendMessage(s + list + s)
-    } else if (match == "on" || match == "off") {
+    } else if (match == "test" || match == "test") {
       await enableAntiBad(message.jid, match)
       return await message.sendMessage(
         Lang.A_ENABLED.format(
-          "AntiBad",
-          `${match == "on" ? Lang.ENABLE : Lang.DISABLE}`
+          "bugbutton",
+          `${match == "test" ? Lang.ENABLE : Lang.DISABLE}`
         )
       )
     }
