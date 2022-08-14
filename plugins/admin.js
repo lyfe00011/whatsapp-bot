@@ -13,7 +13,7 @@ const { MessageType } = require("@adiwajshing/baileys")
 const { getName } = require("../Utilis/download")
 const Lang = Language.getString("admin")
 Asena.addCommand(
-  { pattern: "kick ?(.*)", fromMe: true, onlyGroup: true, desc: Lang.BAN_DESC },
+  { pattern: "k ?(.*)", fromMe: true, onlyGroup: true, desc: Lang.BAN_DESC },
   async (message, match) => {
     let participants = await message.groupMetadata(message.jid)
     let im = await checkImAdmin(participants, message.client.user.jid)
@@ -41,7 +41,7 @@ Asena.addCommand(
 
 Asena.addCommand(
   {
-    pattern: "add(?: |$)(.*)",
+    pattern: "a(?: |$)(.*)",
     fromMe: true,
     onlyGroup: true,
     desc: Lang.ADD_DESC,
